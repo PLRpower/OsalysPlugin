@@ -18,7 +18,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        System.out.println("§2Exolia §f» §aActivation du plgin en cours ...");
+        System.out.println("§2Exolia §f» §aActivation du plugin en cours ...");
         instance = this;
         registerEvents();
         mysql.connect("45.76.45.183", 3306, "site", "PLR", "!Rcpmoz&5002!");
