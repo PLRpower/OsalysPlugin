@@ -1,0 +1,15 @@
+name: ExoliaPlugin
+version: 1.0
+author: PLR_Power
+main: fr.plrpower.exolia.plugin.Main
+commands:
+  site:
+    aliases: website
+  vote:
+  reglement:
+  discord:
+  hub:
+    alisases: lobby
+  hoteldevente:
+  end:
+  nether:
