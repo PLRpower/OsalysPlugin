@@ -21,7 +21,7 @@ public class Main extends JavaPlugin {
         System.out.println("§2Exolia §f» §aActivation du plugin en cours ...");
         instance = this;
         registerEvents();
-        mysql.connect("45.76.45.183", 3306, "site", "PLR", "!Rcpmoz&5002!");
+        mysql.connect("45.76.45.183", 3306, "site", "PLR", "@4qkVi06&");
         getCommand("site").setExecutor(new PublicCommands());
         getCommand("vote").setExecutor(new PublicCommands());
         getCommand("reglement").setExecutor(new PublicCommands());
