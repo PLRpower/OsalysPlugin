@@ -1,5 +1,6 @@
 package fr.exolia.plugin.commands;
 
+import fr.exolia.plugin.managers.PlayerManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,21 +20,29 @@ public class StaffCommands implements CommandExecutor {
 
         Player player = (Player)sender;
 
-        if (label.equalsIgnoreCase("mod")) {
-            if (!player.hasPermission("exolia.mod")) {
-                player.sendMessage("§4Exolia §f §cVous n'avez pas la permission d'executer cette commande.");
+        if(label.equalsIgnoreCase("mod")){
+            if(!player.hasPermission("moderation.mod")){
+                player.sendMessage("§cVous n'avez pas la permission d'éxecuter cette commande !");
                 return false;
             }
-            if (Main.getInstance().moderateurs.contains(player.getUniqueId())) {
+
+            if(Main.getInstance().moderateurs.contains(player.getUniqueId())){
+                PlayerManager pm = PlayerManager.getFromPlayer(player);
+
                 Main.getInstance().moderateurs.remove(player.getUniqueId());
                 player.getInventory().clear();
-                player.sendMessage("§4Exolia §f §cVous avez désactivé le mode modération.");
+                player.sendMessage("§cVous n'êtes maintenant plus en mode modération");
+                pm.giveInventory();
+                pm.destroy();
                 return false;
-
             }
 
+            PlayerManager pm = new PlayerManager(player);
+            pm.init();
+
             Main.getInstance().moderateurs.add(player.getUniqueId());
-            player.sendMessage("§2Exolia §f §aVous avez activé le mode modération.");
+            player.sendMessage("§aVous êtes à présent en mode modération");
+            pm.saveInventory();
         }
 
         return false;
