@@ -1,15 +1,25 @@
 name: ExoliaPlugin
 version: 1.0
 author: PLR_Power
-main: fr.plrpower.exolia.plugin.Main
+main: fr.exolia.plugin.Main
 commands:
   site:
     aliases: website
   vote:
+    description: Permet d'ouvrir le site d'Exolia
   reglement:
+    description: Permet d'afficher le règlement du serveur
   discord:
+    description: Permet de rejoindre le discord d'Exolia
   hub:
     alisases: lobby
   hoteldevente:
+    description: Aliase de la commande /ah
   end:
+    description: Aliase de la commande /warp end
   nether:
+    description: Aliase de la commande /warp nether
+  mod:
+    description: Permet d'activer le mode modérateur
+  report:
+    description: Permet de signaler un joueur

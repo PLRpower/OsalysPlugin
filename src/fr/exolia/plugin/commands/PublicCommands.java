@@ -1,5 +1,8 @@
 package fr.exolia.plugin.commands;
 
+import fr.exolia.plugin.util.ItemBuilder;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,6 +12,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.inventory.Inventory;
 
 public class PublicCommands implements CommandExecutor {
 
