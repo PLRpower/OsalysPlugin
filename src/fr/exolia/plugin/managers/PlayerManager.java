@@ -9,25 +9,21 @@ public class PlayerManager {
     private Player player;
     private ItemStack[] items = new ItemStack[40];
 
-    public PlayerManager(Player player) {
-        this.player = player;
-    }
+    public PlayerManager(Player player) { this.player = player;}
 
-    public void init() {
-        Main.getInstance().players.put(player.getUniqueId(), this);
-    }
+    public void init() { Main.getInstance().players.put(player.getUniqueId(), this); }
 
-    public void destroy() {
-        Main.getInstance().players.remove(player.getUniqueId());
-    }
+    public void destroy() { Main.getInstance().players.remove(player.getUniqueId()); }
 
     public static PlayerManager getFromPlayer(Player player) {
         return Main.getInstance().players.get(player.getUniqueId());
     }
 
-    public ItemStack[] getItems() {
-        return items;
+    public static boolean isInModerationMod(Player player) {
+        return Main.getInstance().moderateurs.contains(player.getUniqueId());
     }
+
+    public ItemStack[] getItems() { return items; }
 
     public void SaveInventory() {
         for (int slot = 0; slot < 36; slot++) {

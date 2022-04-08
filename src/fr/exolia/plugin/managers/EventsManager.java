@@ -2,6 +2,7 @@ package fr.exolia.plugin.managers;
 
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.listeners.InventoryClick;
+import fr.exolia.plugin.listeners.ModCancels;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
@@ -11,5 +12,6 @@ public class EventsManager {
         PluginManager pm = Bukkit.getPluginManager();
 
         pm.registerEvents(new InventoryClick(), Main.getInstance());
+        pm.registerEvents(new ModCancels(), Main.getInstance());
     }
 }
