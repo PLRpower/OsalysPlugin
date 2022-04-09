@@ -16,7 +16,7 @@ public class PublicCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§4Exolia §f>> §cSeul un joueur peut executer cette commande.");
+            sender.sendMessage("§4Exolia §f» §cSeul un joueur peut executer cette commande.");
             return false;
         }
 
