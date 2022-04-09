@@ -1,5 +1,6 @@
 package fr.exolia.plugin.listeners;
 
+import fr.exolia.plugin.Main;
 import fr.exolia.plugin.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public class ModItemsInteract implements Listener {
             case FEATHER:
                 PlayerManager mod = PlayerManager.getFromPlayer(player);
                 mod.setVanished(!mod.isVanished());
-                player.sendMessage(mod.isVanished() ? "§aVous êtes à présent invisible." : "§cVous êtes à présent visible");
+                player.sendMessage(mod.isVanished() ? Main.PrefixInfo + "Vous êtes à présent invisible." : Main.PrefixInfo + "Vous êtes à présent visible");
                 break;
 
             default:
