@@ -11,7 +11,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.enchantments.Enchantment;
 
 public class Commands implements CommandExecutor {
 
@@ -43,13 +42,12 @@ public class Commands implements CommandExecutor {
             PlayerManager pm = new PlayerManager(player);
             pm.init();
             Main.getInstance().moderateurs.add(player.getUniqueId());
-            player.sendMessage("§aVous êtes à présent en mode modération");
+            player.sendMessage( "§aVous êtes à présent en mode modération");
             pm.SaveInventory();
-            player.setGameMode(GameMode.SURVIVAL);
+            player.setGameMode(GameMode.CREATIVE);
 
             ItemBuilder invSee = new ItemBuilder(Material.PAPER).setName("§aVoir l'inventaire").setLore("§7Clique droit sur un joueur", "§7pour voir son inventaire");
-            ItemBuilder reports = new ItemBuilder(Material.BOOK).setName("§aVoir les signalements");
-
+            ItemBuilder reports = new ItemBuilder(Material.FEATHER).setName("§aVanish");
             player.getInventory().setItem(0, invSee.toItemStack());
             player.getInventory().setItem(1, reports.toItemStack());
         }

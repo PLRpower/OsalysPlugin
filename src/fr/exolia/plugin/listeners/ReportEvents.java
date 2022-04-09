@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class InventoryClick implements Listener {
+public class ReportEvents implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e){
@@ -40,8 +40,8 @@ public class InventoryClick implements Listener {
 
     private void sendToMods(String reason, String targetName) {
         for(Player players : Bukkit.getOnlinePlayers()){
-            if(players.hasPermission("mod.receive")){
-                players.sendMessage("§bLe joueur §a" + targetName + " §ba été signalé pour : " + reason);
+            if(players.hasPermission("exolia.guide")){
+                players.sendMessage("§cLe joueur §6" + targetName + " §ca été signalé pour : §6" + reason);
             }
         }
     }

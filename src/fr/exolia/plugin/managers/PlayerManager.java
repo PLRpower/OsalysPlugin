@@ -1,6 +1,7 @@
 package fr.exolia.plugin.managers;
 
 import fr.exolia.plugin.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -8,8 +9,12 @@ public class PlayerManager {
 
     private Player player;
     private ItemStack[] items = new ItemStack[40];
+    private boolean vanished;
 
-    public PlayerManager(Player player) { this.player = player;}
+    public PlayerManager(Player player) {
+        this.player = player;
+        vanished = false;
+    }
 
     public void init() { Main.getInstance().players.put(player.getUniqueId(), this); }
 
@@ -21,6 +26,19 @@ public class PlayerManager {
 
     public static boolean isInModerationMod(Player player) {
         return Main.getInstance().moderateurs.contains(player.getUniqueId());
+    }
+
+    public boolean isVanished() {
+        return vanished;
+    }
+
+    public void setVanished(boolean vanished) {
+        this.vanished = vanished;
+        if(vanished) {
+            Bukkit.getOnlinePlayers().forEach(players -> players.hidePlayer(player));
+        } else {
+            Bukkit.getOnlinePlayers().forEach(players -> players.showPlayer(player));
+        }
     }
 
     public ItemStack[] getItems() { return items; }

@@ -1,8 +1,5 @@
 package fr.exolia.plugin.commands;
 
-import fr.exolia.plugin.util.ItemBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +9,6 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.inventory.Inventory;
 
 public class PublicCommands implements CommandExecutor {
 
@@ -26,30 +22,6 @@ public class PublicCommands implements CommandExecutor {
 
         Player player = (Player)sender;
         TextComponent bar = new TextComponent("§7§m---------------------");
-
-        if(label.equalsIgnoreCase("report")){
-            if(args.length != 1){
-                player.sendMessage("§cVeuillez saisir le pseudo d'un joueur !");
-                return false;
-            }
-
-            String targetName = args[0];
-
-            if(Bukkit.getPlayer(targetName) == null){
-                player.sendMessage("§cCe joueur n'est pas connecté ou n'existe pas !");
-                return false;
-            }
-
-            Player target = Bukkit.getPlayer(targetName);
-
-            Inventory inv = Bukkit.createInventory(null, 18, "§2Report §f» §a" + target.getName());
-
-            inv.setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§cForceField").toItemStack());
-            inv.setItem(1, new ItemBuilder(Material.BOW).setName("§cSpamBow").toItemStack());
-
-            player.openInventory(inv);
-        }
-
 
         if (label.equalsIgnoreCase("site")) {
             TextComponent weblink = new TextComponent("\n§aSite Web §2§l➤ §bexolia.site\n");
