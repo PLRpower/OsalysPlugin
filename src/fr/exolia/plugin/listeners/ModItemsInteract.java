@@ -25,7 +25,7 @@ public class ModItemsInteract implements Listener {
 
         switch(player.getInventory().getItemInMainHand().getType()) {
             case PAPER:
-                player.performCommand("invsee " + target.getName());
+                player.performCommand("invse " + target.getName());
                 break;
 
             default: break;

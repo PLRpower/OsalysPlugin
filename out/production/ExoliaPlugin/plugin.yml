@@ -23,3 +23,5 @@ commands:
     description: Permet d'activer le mode modérateur
   report:
     description: Permet de signaler un joueur
+  sc:
+    alisases: staffchat
