@@ -1,0 +1,29 @@
+name: ExoliaPlugin
+version: '${project.version}'
+main: fr.exolia.plugin.exoliaplugin.ExoliaPlugin
+authors: [ PLR_Power, SkyScube, Ketchua_, Omikrone ]
+description: Plugin officiel d'Exolia
+website: htpps://exolia.site/
+commands:
+  site:
+    aliases: website
+  vote:
+    description: Permet d'ouvrir le site d'Exolia
+  reglement:
+    description: Permet d'afficher le règlement du serveur
+  discord:
+    description: Permet de rejoindre le discord d'Exolia
+  hub:
+    alisases: lobby
+  hoteldevente:
+    description: Aliase de la commande /ah
+  end:
+    description: Aliase de la commande /warp end
+  nether:
+    description: Aliase de la commande /warp nether
+  mod:
+    description: Permet d'activer le mode modérateur
+  report:
+    description: Permet de signaler un joueur
+  sc:
+    alisases: staffchat
