@@ -56,6 +56,7 @@ public class StaffCommands implements CommandExecutor {
             }
             // commande : /jm ******************************************************************************************
             if(label.equalsIgnoreCase("jm")){
+                if(!player.hasPermission("exolia.staff")) {
 
                 if(args.length != 1){
                     player.sendMessage(Main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
@@ -75,9 +76,9 @@ public class StaffCommands implements CommandExecutor {
 
                 Bukkit.getOnlinePlayers().stream()
                         .filter(players -> players.hasPermission("exolia.staff"))
-                        .forEach(players -> players.sendMessage(player.getName()+"s'occupe de modérer de" + targetName);
+                        .forEach(players -> players.sendMessage(player.getName()+"s'occupe de modérer de" + targetName));
 
-            }
+            }}
             // *********************************************************************************************************
 
 

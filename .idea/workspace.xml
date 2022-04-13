@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8e4a9f2-88f8-4dc9-acb8-e57912f0779e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExoliaPlugin.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/Main.java" afterDir="false" />
+    <list default="true" id="e8e4a9f2-88f8-4dc9-acb8-e57912f0779e" name="Changes" comment="Ajout du /jm pseudo">
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/commands/StaffCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/commands/StaffCommands.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -83,8 +80,16 @@
       <updated>1649771630690</updated>
       <workItem from="1649797830372" duration="3824000" />
       <workItem from="1649862276028" duration="261000" />
-      <workItem from="1649863482293" duration="1271000" />
+      <workItem from="1649863482293" duration="1653000" />
     </task>
+    <task id="LOCAL-00001" summary="Ajout du /jm pseudo">
+      <created>1649864826858</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1649864826858</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -104,7 +109,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="Ketchua_" />
+                        <option value="origin/Ketchua_" />
                       </list>
                     </value>
                   </entry>
@@ -115,5 +120,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Ajout du /jm pseudo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ajout du /jm pseudo" />
   </component>
 </project>
