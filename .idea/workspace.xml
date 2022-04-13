@@ -5,91 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8e4a9f2-88f8-4dc9-acb8-e57912f0779e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ExoliaPlugin_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/groovy_4_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-ant-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-ant-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-astbuilder-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-astbuilder-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-cli-commons-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-cli-commons-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-cli-picocli-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-cli-picocli-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-console-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-console-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-contracts-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-contracts-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-datetime-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-datetime-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-dateutil-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-dateutil-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-docgenerator-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-docgenerator-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-ginq-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-ginq-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-groovydoc-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-groovydoc-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-groovysh-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-groovysh-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-jmx-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-jmx-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-json-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-json-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-jsr223-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-jsr223-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-macro-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-macro-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-macro-library-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-macro-library-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-nio-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-nio-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-servlet-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-servlet-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-sql-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-sql-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-swing-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-swing-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-templates-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-templates-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-test-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-test-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-test-junit5-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-test-junit5-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-testng-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-testng-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-toml-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-toml-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-typecheckers-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-typecheckers-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-xml-4.0.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/groovy-xml-4.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExoliaPlugin/fr/exolia/plugin/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExoliaPlugin/fr/exolia/plugin/commands/PublicCommands.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExoliaPlugin/fr/exolia/plugin/commands/StaffCommands.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExoliaPlugin/fr/exolia/plugin/listeners/ModCancels.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExoliaPlugin/fr/exolia/plugin/managers/PlayerManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExoliaPlugin/fr/exolia/plugin/mysql/MySQL.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExoliaPlugin/fr/exolia/plugin/util/ItemBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExoliaPlugin/plugin.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spigot-1.12.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/exolia/plugin/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/exolia/plugin/commands/PublicCommands.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/exolia/plugin/commands/StaffCommands.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/exolia/plugin/listeners/ModCancels.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/exolia/plugin/listeners/ModItemsInteract.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/exolia/plugin/listeners/ReportEvents.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/exolia/plugin/managers/PlayerManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/exolia/plugin/mysql/MySQL.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/exolia/plugin/util/ItemBuilder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugin.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExoliaPlugin.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/commands/StaffCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/commands/StaffCommands.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,6 +16,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -110,6 +34,7 @@
     </option>
   </component>
   <component name="ProjectId" id="27hU5oDZavEeuYvwXhtu3t9EYPC" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -117,6 +42,11 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RunManager">
     <configuration name="ExoliaPlugin" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
@@ -151,15 +81,36 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1649771630690</updated>
+      <workItem from="1649797830372" duration="3824000" />
+      <workItem from="1649862276028" duration="261000" />
+      <workItem from="1649863482293" duration="1271000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.spigotmc:spigot-api" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="Ketchua_" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
