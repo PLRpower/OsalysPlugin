@@ -27,3 +27,5 @@ commands:
     description: Permet de signaler un joueur
   sc:
     alisases: staffchat
+  jm:
+    description: Permet de prévenir les membres du staff que vous vous occupez d'un joueur
