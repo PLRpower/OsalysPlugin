@@ -67,6 +67,7 @@ public class Main extends JavaPlugin {
         getCommand("mod").setExecutor(new StaffCommands());
         getCommand("sc").setExecutor(new StaffCommands());
         getCommand("jm").setExecutor(new StaffCommands());
+        getCommand("").setExecutor(new StaffCommands());
     }
 
     public List<UUID> getModerators() {return moderators;}

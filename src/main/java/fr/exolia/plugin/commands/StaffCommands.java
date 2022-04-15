@@ -1,17 +1,14 @@
 package fr.exolia.plugin.commands;
 
 import fr.exolia.plugin.managers.PlayerManager;
-import fr.exolia.plugin.util.ItemBuilder;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.exolia.plugin.Main;
-import org.bukkit.inventory.Inventory;
+
 
 public class StaffCommands implements CommandExecutor {
 
@@ -86,7 +83,21 @@ public class StaffCommands implements CommandExecutor {
                     .forEach(players -> players.sendMessage(player.getName()+"s'occupe de modérer de" + targetName));
         }
 
-        // *********************************************************************************************************
+        if(label.equalsIgnoreCase("clearchat")) {
+
+            if (!player.hasPermission("exolia.moderateur")) {
+                for (int x = 0; x <= 100; x++) {
+                    Bukkit.broadcastMessage("");
+                    if (x == 100)
+                        Bukkit.broadcastMessage("Le chat a bien été supprimé");
+                }
+            else {
+                    player.sendMessage("Tu n'as pas la permission de faire cette commande");
+                }
+            }
+        }
+
+    // *********************************************************************************************************
 
         return false;
 
