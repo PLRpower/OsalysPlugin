@@ -29,3 +29,5 @@ commands:
     alisases: staffchat
   jm:
     description: Permet de prévenir les membres du staff que vous vous occupez d'un joueur
+  clearchat:
+    description: Permet de clear le chat

@@ -53,8 +53,6 @@ public class StaffCommands implements CommandExecutor {
             }
         }
 
-        // commande : /jm ******************************************************************************************
-
         if(label.equalsIgnoreCase("jm")){
 
             if(!player.hasPermission("exolia.moderateur")) {
@@ -84,20 +82,14 @@ public class StaffCommands implements CommandExecutor {
         }
 
         if(label.equalsIgnoreCase("clearchat")) {
-
-            if (!player.hasPermission("exolia.moderateur")) {
-                for (int x = 0; x <= 100; x++) {
-                    Bukkit.broadcastMessage("");
-                    if (x == 100)
-                        Bukkit.broadcastMessage("Le chat a bien été supprimé");
-                }
-            else {
-                    player.sendMessage("Tu n'as pas la permission de faire cette commande");
-                }
+            if(!player.hasPermission("exolia.moderateur")) {
+                player.sendMessage(Main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
+                return false;
+            }
+            for (int x = 0; x <= 100; x++) {
+                Bukkit.broadcastMessage("");
             }
         }
-
-    // *********************************************************************************************************
 
         return false;
 
