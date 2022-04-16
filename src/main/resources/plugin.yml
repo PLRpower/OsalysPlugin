@@ -1,6 +1,6 @@
 name: ExoliaPlugin
 version: '${project.version}'
-main: fr.exolia.plugin.exoliaplugin.ExoliaPlugin
+main: fr.exolia.plugin.Main
 authors: [ PLR_Power, SkyScube, Ketchua_, Omikrone ]
 description: Plugin officiel d'Exolia
 website: htpps://exolia.site/
