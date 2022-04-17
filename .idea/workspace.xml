@@ -10,12 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8e4a9f2-88f8-4dc9-acb8-e57912f0779e" name="Changes" comment="Modification de la connexion à la base de donnée, avec une librairie plus rapide.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/database/Reports.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/managers/Report.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExoliaPlugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ExoliaPlugin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExoliaPlugin.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/mysql/MySQL.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +29,39 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="PLR" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="Ketchua_" />
@@ -56,7 +88,9 @@
     </option>
   </component>
   <component name="ProjectId" id="27hU5oDZavEeuYvwXhtu3t9EYPC" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -73,6 +107,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15039062" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
@@ -80,6 +115,17 @@
     </option>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ExoliaPlugin" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -121,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650068363150</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Modification de la connexion à la base de donnée, avec une librairie plus rapide.">
+      <created>1650120367543</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1650120367543</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -138,7 +191,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="PLR" />
+                        <option value="origin/Ketchua_" />
                       </list>
                     </value>
                   </entry>
@@ -154,5 +207,9 @@
     <MESSAGE value="Petite modification" />
     <MESSAGE value="Modification de la connexion à la base de donnée, avec une librairie plus rapide." />
     <option name="LAST_COMMIT_MESSAGE" value="Modification de la connexion à la base de donnée, avec une librairie plus rapide." />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

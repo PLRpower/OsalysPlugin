@@ -4,11 +4,13 @@ import com.zaxxer.hikari.HikariDataSource;
 import fr.exolia.plugin.commands.PublicCommands;
 import fr.exolia.plugin.commands.StaffCommands;
 import fr.exolia.plugin.database.MySQL;
+import fr.exolia.plugin.database.Reports;
 import fr.exolia.plugin.listeners.ModCancels;
 import fr.exolia.plugin.listeners.ModItemsInteract;
 import fr.exolia.plugin.listeners.PlayerChat;
 import fr.exolia.plugin.listeners.ReportEvents;
 import fr.exolia.plugin.managers.PlayerManager;
+import fr.exolia.plugin.managers.Report;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -23,25 +25,22 @@ public class Main extends JavaPlugin {
 
     private HikariDataSource connectionPool;
     private MySQL mysql;
+    private Reports reports;
 
     public ArrayList<UUID> moderators = new ArrayList<>();
     public ArrayList<UUID> staffchat = new ArrayList<>();
     public HashMap<UUID, PlayerManager> players = new HashMap<>();
     private Map<UUID, Location> freezedPlayers = new HashMap<>();
+
     public static String PrefixInfo = "§a§lExolia §f§l» §7";
     public static String PrefixError = "§4§lExolia §f§l» §c";
     public static String PrefixAnnounce = "§2§lExolia §f§l» §a";
-
-    public static Main getInstance() {return instance;}
-
-    public MySQL getMySQL() {
-        return mysql;
-    }
 
     @Override
     public void onEnable() {
         System.out.println(PrefixInfo + "Activation du plugin en cours ...");
         instance = this;
+        reports = new Reports();
         initConnection();
         registerCommands();
         registerEvents();
@@ -53,14 +52,13 @@ public class Main extends JavaPlugin {
         connectionPool.setDriverClassName("com.mysql.jdbc.Driver");
         connectionPool.setUsername("PLR");
         connectionPool.setPassword("@4qkVi06&");
-        connectionPool.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/site?autoReconnect=true");
+        connectionPool.setJdbcUrl("jdbc:mysql://45.76.45.183:33ç06/site?autoReconnect=true");
         connectionPool.setMaxLifetime(600000L);
         connectionPool.setIdleTimeout(300000L);
         connectionPool.setLeakDetectionThreshold(300000L);
         connectionPool.setConnectionTimeout(1000L);
         mysql = new MySQL(connectionPool);
         mysql.createTables();
-
     }
 
     @Override
@@ -89,10 +87,11 @@ public class Main extends JavaPlugin {
         getCommand("sc").setExecutor(new StaffCommands());
     }
 
+    public static Main getInstance() {return instance;}
+    public Reports getReports() {return reports;}
+    public MySQL getMySQL() {return mysql;}
     public List<UUID> getModerators() {return moderators;}
     public Map<UUID, PlayerManager> getPlayers() {return players;}
     public Map<UUID, Location> getFrozenPlayers() {return freezedPlayers;}
-    public boolean isFreeze(Player player) {
-        return getFrozenPlayers().containsKey(player.getUniqueId());
-    }
+    public boolean isFreeze(Player player) {return getFrozenPlayers().containsKey(player.getUniqueId());}
 }
