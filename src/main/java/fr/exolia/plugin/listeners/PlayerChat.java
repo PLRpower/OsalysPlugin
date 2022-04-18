@@ -12,6 +12,7 @@ public class PlayerChat implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();
+
         if(e.getMessage().startsWith("$") && player.hasPermission("exolia.staff")) {
             e.setCancelled(true);
             Bukkit.getOnlinePlayers().stream()

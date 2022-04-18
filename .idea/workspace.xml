@@ -9,12 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8e4a9f2-88f8-4dc9-acb8-e57912f0779e" name="Changes" comment="Modification de la connexion à la base de donnée, avec une librairie plus rapide.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/database/Reports.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/managers/Report.java" afterDir="false" />
+    <list default="true" id="e8e4a9f2-88f8-4dc9-acb8-e57912f0779e" name="Changes" comment="Avancement dans le /report avec la base de donnée 2/4">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/database/MySQL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExoliaPlugin.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/PlayerChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/PlayerChat.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650120367543</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Avancement dans le /report avec la base de donnée 2/4">
+      <created>1650223600558</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1650223600558</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,7 +196,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/Ketchua_" />
+                        <option value="PLR" />
                       </list>
                     </value>
                   </entry>
@@ -206,7 +211,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Petite modification" />
     <MESSAGE value="Modification de la connexion à la base de donnée, avec une librairie plus rapide." />
-    <option name="LAST_COMMIT_MESSAGE" value="Modification de la connexion à la base de donnée, avec une librairie plus rapide." />
+    <MESSAGE value="Avancement dans le /report avec la base de donnée 2/4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Avancement dans le /report avec la base de donnée 2/4" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
