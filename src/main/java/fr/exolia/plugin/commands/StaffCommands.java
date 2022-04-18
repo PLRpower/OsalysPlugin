@@ -35,6 +35,7 @@ public class StaffCommands implements CommandExecutor {
             } else {
                 new PlayerManager(player).init();
             }
+            return true;
         }
 
         if(label.equalsIgnoreCase("sc")) {
@@ -63,6 +64,7 @@ public class StaffCommands implements CommandExecutor {
             Bukkit.getOnlinePlayers().stream()
                     .filter(players -> players.hasPermission("exolia.staff"))
                     .forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + combinedArgs));
+            return true;
         }
 
         return false;

@@ -1,41 +1,54 @@
 package fr.exolia.plugin.listeners;
 
+import fr.exolia.plugin.Main;
+import fr.exolia.plugin.managers.Report;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ReportEvents implements Listener {
 
+    private Map<Player, Long> reportCooldown = new HashMap<>();
     @EventHandler
     public void onClick(InventoryClickEvent e){
         if(e.getCurrentItem() == null) return;
+        if(!e.getCurrentItem().hasItemMeta()) return;
+        if(!e.getInventory().getTitle().contains("Report")) return;
 
         Player player = (Player) e.getWhoClicked();
+        Player target = Bukkit.getPlayer(e.getInventory().getName().substring(12));
+        String reason = e.getCurrentItem().getItemMeta().getDisplayName();
 
-        switch(e.getCurrentItem().getType()){
+        if(reportCooldown.containsKey(player)) {
+            long time = (System.currentTimeMillis() - reportCooldown.get(player)) / 1000;
 
-            case IRON_SWORD:
-                if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§cForceField")){
-                    e.setCancelled(true);
-                    player.closeInventory();
-                    sendToMods(e.getCurrentItem().getItemMeta().getDisplayName(), e.getInventory().getName().substring(12));
-                    player.sendMessage("§aVous avez bien signalé ce joueur !");
-                }
-                break;
-
-            case BOW:
-                if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§cSpamBow")){
-                    e.setCancelled(true);
-                    player.closeInventory();
-                    sendToMods(e.getCurrentItem().getItemMeta().getDisplayName(), e.getInventory().getName().substring(12));
-                    player.sendMessage("§aVous avez bien signalé ce joueur !");
-                }
-                break;
-
-            default: break;
+            if(time < 120) {
+                player.sendMessage(Main.PrefixError + "Merci de patienter entre chaque signalement !");
+                player.closeInventory();
+                return;
+            } else {
+                reportCooldown.remove(player);
+            }
         }
+
+        if(target == null) {
+            player.closeInventory();
+            player.sendMessage(Main.PrefixError + "Vous ne pouvez pas signaler ce joueur car il s'est déconnecté");
+        }
+
+        e.setCancelled(true);
+
+        player.closeInventory();
+        player.sendMessage("§aVous avez bien signalé ce joueur !");
+
+        Main.getInstance().getReports().add(new Report(target.getUniqueId().toString(), player.getName(), reason.substring(2)));
+        sendToMods(reason, target.getName());
+        reportCooldown.put(player, System.currentTimeMillis());
     }
 
     private void sendToMods(String reason, String targetName) {

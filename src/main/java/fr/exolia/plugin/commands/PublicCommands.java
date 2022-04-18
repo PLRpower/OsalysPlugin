@@ -15,6 +15,9 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.inventory.Inventory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PublicCommands implements CommandExecutor {
 
     @Override
@@ -100,6 +103,7 @@ public class PublicCommands implements CommandExecutor {
             inv.setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§cForceField").toItemStack());
             inv.setItem(1, new ItemBuilder(Material.BOW).setName("§cSpamBow").toItemStack());
             player.openInventory(inv);
+            return true;
         }
 
         return false;

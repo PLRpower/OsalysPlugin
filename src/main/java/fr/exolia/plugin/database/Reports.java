@@ -21,7 +21,7 @@ public class Reports {
     }
 
     public void remove(int id) {
-        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE `#`='" + id + "'", rs -> {
+        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE id='" + id + "'", rs -> {
             try {
                 if(rs.next()) {
                     rs.deleteRow();
@@ -33,10 +33,10 @@ public class Reports {
     }
 
     public Report getReport(int id) {
-        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE `#`='" + id + "'", rs -> {
+        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE id='" + id + "'", rs -> {
             try {
                 if(rs.next()) {
-                    return new Report(UUID.fromString(rs.getString("uuid")), rs.getString("date"),rs.getString("auteur"), rs.getString("raison") );
+                    return new Report(rs.getString("uuid"), rs.getString("date"),rs.getString("auteur"), rs.getString("raison") );
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -46,18 +46,34 @@ public class Reports {
         return null;
     }
 
-    public List<Integer> getFromUUID(UUID uuid) {
+    public List<Integer> getIds(String uuid) {
         List<Integer> ids = new ArrayList<>();
 
-        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + "WHERE uuid='" + uuid.toString() + "'", rs -> {
+        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + "WHERE uuid='" + uuid + "'", rs -> {
             try {
                 while(rs.next()) {
-                    ids.add(rs.getInt("#"));}
+                    ids.add(rs.getInt("id"));}
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
 
         return ids;
+    }
+
+    public List<Report> getReports(String uuid) {
+        List<Report> reports = new ArrayList<>();
+
+        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + "WHERE uuid='" + uuid + "' ORDER BY id ASC", rs -> {
+            try {
+                while(rs.next()) {
+                    reports.add(new Report(rs.getString("uuid"), rs.getString("date"),rs.getString("auteur"), rs.getString("raison")));
+                    ;}
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return reports;
     }
 }

@@ -22,7 +22,7 @@ public class MySQL {
 
     public void createTables() {
         update("CREATE TABLE IF NOT EXISTS reports (" +
-                "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
+                "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "uuid VARCHAR(255), " +
                 "date VARCHAR(255), " +
                 "auteur VARCHAR(255), " +

@@ -2,6 +2,7 @@ package fr.exolia.plugin.listeners;
 
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.managers.PlayerManager;
+import fr.exolia.plugin.managers.Report;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.EquipmentSlot;
+
+import java.util.List;
 
 public class ModItemsInteract implements Listener {
 
@@ -39,6 +42,18 @@ public class ModItemsInteract implements Listener {
                     target.sendMessage(Main.PrefixInfo + "Vous avez été freeze par un modérateur");
                     player.sendMessage(Main.PrefixInfo + "Vous avez freeze" + target.getName());
                 }
+                break;
+
+            case BOOK:
+                List<Report> reports = Main.getInstance().getReports().getReports(target.getUniqueId().toString());
+
+                if(reports.isEmpty()) {
+                    player.sendMessage(Main.PrefixError + "Ce joueur n'a aucun signalement");
+                } else {
+                    player.sendMessage(Main.PrefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
+                    reports.forEach(r -> player.sendMessage("§f" + r.getDate() + "§fSignalé par :" + r.getAuthor() + " §fpour la raison :" + r.getReason()));
+                }
+
                 break;
 
             default: break;
