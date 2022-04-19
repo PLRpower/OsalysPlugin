@@ -24,14 +24,15 @@ public class PlayerManager {
         Main.getInstance().getModerators().add(player.getUniqueId());
         player.sendMessage( Main.PrefixInfo + "Mode modération §aactivé§7.");
         SaveInventory();
-        player.setGameMode(GameMode.CREATIVE);
 
         ItemBuilder invSee = new ItemBuilder(Material.PAPER).setName("§aVoir l'inventaire").setLore("§7Clique droit sur un joueur", "§7pour voir son inventaire");
-        ItemBuilder reports = new ItemBuilder(Material.FEATHER).setName("§aVanish");
-        ItemBuilder freeze = new ItemBuilder(Material.PACKED_ICE).setName("§aFreeze");
+        ItemBuilder vanish = new ItemBuilder(Material.FEATHER).setName("§aVanish").setLore("§7Clique droit pour", "§7activer/désactiver le vanish");
+        ItemBuilder freeze = new ItemBuilder(Material.PACKED_ICE).setName("§aFreeze").setLore("§7Clique droit sur un joueur", "§7pour le rendre immobile");
+        ItemBuilder reports = new ItemBuilder(Material.BOOK).setName("§aReports").setLore("§7Clique droit sur un joueur", "§7pour voir ses reports");
         player.getInventory().setItem(0, invSee.toItemStack());
-        player.getInventory().setItem(1, reports.toItemStack());
+        player.getInventory().setItem(1, vanish.toItemStack());
         player.getInventory().setItem(2, freeze.toItemStack());
+        player.getInventory().setItem(3, reports.toItemStack());
     }
 
     public void destroyModerationMod() {
@@ -40,7 +41,6 @@ public class PlayerManager {
         player.getInventory().clear();
         player.sendMessage(Main.PrefixInfo + "Mode modération §cdésactivé§7.");
         GiveInventory();
-        player.setGameMode(GameMode.SURVIVAL);
         setVanished(false);
     }
 

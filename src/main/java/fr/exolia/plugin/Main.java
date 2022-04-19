@@ -20,6 +20,7 @@ public class Main extends JavaPlugin {
     private static Main instance;
 
     private MySQL mysql;
+    private MySQL mysql2;
     private Reports reports;
 
     public ArrayList<UUID> moderators = new ArrayList<>();
@@ -39,6 +40,7 @@ public class Main extends JavaPlugin {
         initConnection();
         registerCommands();
         registerEvents();
+        getMySQL2().update("INSERT INTO discord_traffic ( date, time, players ) VALUES ( NOW(), NOW(), 0);");
         System.out.println(PrefixAnnounce + "Le plugin s'est correctement activé.");
     }
 
@@ -57,15 +59,14 @@ public class Main extends JavaPlugin {
 
         HikariDataSource db2 = new HikariDataSource();
         db2.setDriverClassName("com.mysql.jdbc.Driver");
-        db2.setUsername("PLR");
-        db2.setPassword("@qkVi06&");
-        db2.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/site?autoReconnect=true");
+        db2.setUsername("u12749_Y7S0i006dF");
+        db2.setPassword("NMv22^!45sUrNexU!.asU19b");
+        db2.setJdbcUrl("jdbc:mysql://45.140.165.82:3306/s12749_serveur?autoReconnect=true");
         db2.setMaxLifetime(600000L);
         db2.setIdleTimeout(300000L);
         db2.setLeakDetectionThreshold(300000L);
         db2.setConnectionTimeout(1000L);
-        mysql = new MySQL(db2);
-        mysql.createTables();
+        mysql2 = new MySQL(db2);
     }
 
     @Override
@@ -94,11 +95,13 @@ public class Main extends JavaPlugin {
         getCommand("report").setExecutor(new PublicCommands());
         getCommand("mod").setExecutor(new StaffCommands());
         getCommand("sc").setExecutor(new StaffCommands());
+        getCommand("history").setExecutor(new StaffCommands());
     }
 
     public static Main getInstance() {return instance;}
     public Reports getReports() {return reports;}
     public MySQL getMySQL() {return mysql;}
+    public MySQL getMySQL2() {return mysql2;}
     public List<UUID> getModerators() {return moderators;}
     public Map<UUID, PlayerManager> getPlayers() {return players;}
     public Map<UUID, Location> getFrozenPlayers() {return freezedPlayers;}

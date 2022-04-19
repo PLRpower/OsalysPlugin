@@ -90,7 +90,7 @@ public class PublicCommands implements CommandExecutor {
                 return false;
             }
 
-            if(Bukkit.getPlayer(targetName) != player) {
+            if(Bukkit.getPlayer(targetName) == player) {
                 player.sendMessage(Main.PrefixError + "Vous ne pouvez pas vous signaler vous-même !");
                 return false;
             }

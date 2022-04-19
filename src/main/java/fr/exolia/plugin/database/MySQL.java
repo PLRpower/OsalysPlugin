@@ -12,9 +12,7 @@ import java.util.function.Function;
 public class MySQL {
     private final HikariDataSource connectionPool;
 
-    public MySQL(HikariDataSource connectionPool) {
-        this.connectionPool = connectionPool;
-    }
+    public MySQL(HikariDataSource connectionPool) {this.connectionPool = connectionPool;}
 
     private Connection getConnection() throws SQLException {
         return connectionPool.getConnection();
