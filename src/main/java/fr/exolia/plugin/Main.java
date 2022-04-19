@@ -5,12 +5,8 @@ import fr.exolia.plugin.commands.PublicCommands;
 import fr.exolia.plugin.commands.StaffCommands;
 import fr.exolia.plugin.database.MySQL;
 import fr.exolia.plugin.database.Reports;
-import fr.exolia.plugin.listeners.ModCancels;
-import fr.exolia.plugin.listeners.ModItemsInteract;
-import fr.exolia.plugin.listeners.PlayerChat;
-import fr.exolia.plugin.listeners.ReportEvents;
+import fr.exolia.plugin.listeners.*;
 import fr.exolia.plugin.managers.PlayerManager;
-import fr.exolia.plugin.managers.Report;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -23,14 +19,13 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
 
-    private HikariDataSource connectionPool;
     private MySQL mysql;
     private Reports reports;
 
     public ArrayList<UUID> moderators = new ArrayList<>();
     public ArrayList<UUID> staffchat = new ArrayList<>();
     public HashMap<UUID, PlayerManager> players = new HashMap<>();
-    private Map<UUID, Location> freezedPlayers = new HashMap<>();
+    private final Map<UUID, Location> freezedPlayers = new HashMap<>();
 
     public static String PrefixInfo = "§a§lExolia §f§l» §7";
     public static String PrefixError = "§4§lExolia §f§l» §c";
@@ -48,22 +43,35 @@ public class Main extends JavaPlugin {
     }
 
     private void initConnection() {
-        connectionPool = new HikariDataSource();
-        connectionPool.setDriverClassName("com.mysql.jdbc.Driver");
-        connectionPool.setUsername("PLR");
-        connectionPool.setPassword("@4qkVi06&");
-        connectionPool.setJdbcUrl("jdbc:mysql://45.76.45.183:33ç06/site?autoReconnect=true");
-        connectionPool.setMaxLifetime(600000L);
-        connectionPool.setIdleTimeout(300000L);
-        connectionPool.setLeakDetectionThreshold(300000L);
-        connectionPool.setConnectionTimeout(1000L);
-        mysql = new MySQL(connectionPool);
+        HikariDataSource db1 = new HikariDataSource();
+        db1.setDriverClassName("com.mysql.jdbc.Driver");
+        db1.setUsername("PLR");
+        db1.setPassword("@4qkVi06&");
+        db1.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/site?autoReconnect=true");
+        db1.setMaxLifetime(600000L);
+        db1.setIdleTimeout(300000L);
+        db1.setLeakDetectionThreshold(300000L);
+        db1.setConnectionTimeout(1000L);
+        mysql = new MySQL(db1);
+        mysql.createTables();
+
+        HikariDataSource db2 = new HikariDataSource();
+        db2.setDriverClassName("com.mysql.jdbc.Driver");
+        db2.setUsername("PLR");
+        db2.setPassword("@qkVi06&");
+        db2.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/site?autoReconnect=true");
+        db2.setMaxLifetime(600000L);
+        db2.setIdleTimeout(300000L);
+        db2.setLeakDetectionThreshold(300000L);
+        db2.setConnectionTimeout(1000L);
+        mysql = new MySQL(db2);
         mysql.createTables();
     }
 
     @Override
     public void onDisable() {
         System.out.println(PrefixInfo + "Désactivation du plugin en cours ...");
+        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> PlayerManager.getFromPlayer(p).destroyModerationMod());
         System.out.println(PrefixAnnounce + "Le plugin s'est correctement désactivé.");
     }
 
@@ -73,6 +81,7 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new ReportEvents(), this);
         pm.registerEvents(new ModCancels(), this);
         pm.registerEvents(new PlayerChat(), this);
+        pm.registerEvents(new PlayerQuit(), this);
     }
 
     private void registerCommands() {

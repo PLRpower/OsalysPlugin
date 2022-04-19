@@ -6,7 +6,6 @@ import fr.exolia.plugin.managers.Report;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Reports {
 
@@ -14,7 +13,7 @@ public class Reports {
 
     public void add(Report report) {
         Main.getInstance().getMySQL().update("INSERT INTO " + TABLE + " (uuid, date, auteur, raison) VALUES (" +
-                "'" + report.getUUID().toString() + "' ," +
+                "'" + report.getUUID() + "' ," +
                 "'" + report.getDate() + "' ," +
                 "'" + report.getAuthor() + "' ," +
                 "'" + report.getReason() + "')");
@@ -49,7 +48,7 @@ public class Reports {
     public List<Integer> getIds(String uuid) {
         List<Integer> ids = new ArrayList<>();
 
-        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + "WHERE uuid='" + uuid + "'", rs -> {
+        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "'", rs -> {
             try {
                 while(rs.next()) {
                     ids.add(rs.getInt("id"));}
@@ -64,11 +63,11 @@ public class Reports {
     public List<Report> getReports(String uuid) {
         List<Report> reports = new ArrayList<>();
 
-        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + "WHERE uuid='" + uuid + "' ORDER BY id ASC", rs -> {
+        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "' ORDER BY id ASC", rs -> {
             try {
                 while(rs.next()) {
                     reports.add(new Report(rs.getString("uuid"), rs.getString("date"),rs.getString("auteur"), rs.getString("raison")));
-                    ;}
+                    }
             } catch (SQLException e) {
                 e.printStackTrace();
             }

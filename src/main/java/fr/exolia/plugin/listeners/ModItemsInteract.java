@@ -84,10 +84,12 @@ public class ModItemsInteract implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         for(Player players : Bukkit.getOnlinePlayers()) {
-            PlayerManager pm = PlayerManager.getFromPlayer(players);
-            if(pm.isVanished()) {
-                player.hidePlayer(players);
+            if(PlayerManager.isInModerationMod(players)){
+                PlayerManager pm = PlayerManager.getFromPlayer(players);
+                if(pm.isVanished()){
+                    player.hidePlayer(players);
+                }
             }
         }
-     }
+    }
 }

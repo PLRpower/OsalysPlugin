@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class MySQL {
-    private HikariDataSource connectionPool;
+    private final HikariDataSource connectionPool;
 
     public MySQL(HikariDataSource connectionPool) {
         this.connectionPool = connectionPool;
@@ -24,7 +24,7 @@ public class MySQL {
         update("CREATE TABLE IF NOT EXISTS reports (" +
                 "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "uuid VARCHAR(255), " +
-                "date VARCHAR(255), " +
+                "date DATETIME, " +
                 "auteur VARCHAR(255), " +
                 "raison VARCHAR(255))");
     }

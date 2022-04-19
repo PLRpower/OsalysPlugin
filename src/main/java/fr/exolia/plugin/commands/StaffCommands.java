@@ -1,10 +1,7 @@
 package fr.exolia.plugin.commands;
 
 import fr.exolia.plugin.managers.PlayerManager;
-import fr.exolia.plugin.util.ItemBuilder;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,9 +28,9 @@ public class StaffCommands implements CommandExecutor {
             }
 
             if(PlayerManager.isInModerationMod(player)) {
-                PlayerManager.getFromPlayer(player).destroy();
+                PlayerManager.getFromPlayer(player).destroyModerationMod();
             } else {
-                new PlayerManager(player).init();
+                new PlayerManager(player).initModerationMod();
             }
             return true;
         }
@@ -56,14 +53,12 @@ public class StaffCommands implements CommandExecutor {
             }
 
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < args.length; i++) {
-                sb.append(args[i]);
+            for (String arg : args) {
+                sb.append(arg);
                 sb.append(" ");
             }
             String combinedArgs = sb.toString();
-            Bukkit.getOnlinePlayers().stream()
-                    .filter(players -> players.hasPermission("exolia.staff"))
-                    .forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + combinedArgs));
+            Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + combinedArgs));
             return true;
         }
 

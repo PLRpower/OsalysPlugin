@@ -9,14 +9,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8e4a9f2-88f8-4dc9-acb8-e57912f0779e" name="Changes" comment="Avancement dans le /report avec la base de donnée 2/4">
+    <list default="true" id="e8e4a9f2-88f8-4dc9-acb8-e57912f0779e" name="Changes" comment="Correction et refactorisation du code massive">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/PlayerQuit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/commands/PublicCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/commands/PublicCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/commands/StaffCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/commands/StaffCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/database/MySQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/database/MySQL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/database/Reports.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/database/Reports.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/ModCancels.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/ModCancels.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/ModItemsInteract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/ModItemsInteract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/PlayerChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/PlayerChat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/ReportEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/listeners/ReportEvents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/managers/PlayerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/managers/PlayerManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/managers/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/exolia/plugin/managers/Report.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,13 +103,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "settings.editor.selected.configurable": "inlay.hints"
   }
-}</component>
+}]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
+      <command value="mvn clean" />
       <command value="mvn clean install" />
     </option>
   </component>
@@ -175,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650223600558</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="/report avec base de donnée fini!">
+      <created>1650313458974</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1650313458974</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,19 +199,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="PLR" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -208,7 +209,9 @@
     <MESSAGE value="Petite modification" />
     <MESSAGE value="Modification de la connexion à la base de donnée, avec une librairie plus rapide." />
     <MESSAGE value="Avancement dans le /report avec la base de donnée 2/4" />
-    <option name="LAST_COMMIT_MESSAGE" value="Avancement dans le /report avec la base de donnée 2/4" />
+    <MESSAGE value="/report avec base de donnée fini!" />
+    <MESSAGE value="Correction et refactorisation du code massive" />
+    <option name="LAST_COMMIT_MESSAGE" value="Correction et refactorisation du code massive" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

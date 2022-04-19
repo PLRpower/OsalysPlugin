@@ -22,8 +22,6 @@ public class ModCancels implements Listener {
         e.setCancelled(PlayerManager.isInModerationMod(e.getPlayer()) || Main.getInstance().isFreeze(e.getPlayer()));
     }
 
-
-
     @EventHandler
     public void onItemPickup(EntityPickupItemEvent e) {
         if(!(e.getEntity() instanceof Player)) return;
@@ -34,7 +32,8 @@ public class ModCancels implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
         if(!(e.getEntity() instanceof Player)) return;
-        e.setCancelled(PlayerManager.isInModerationMod((Player) e.getEntity()) || Main.getInstance().isFreeze((Player) e.getEntity()));
+        Player damaged = (Player) e.getEntity();
+        e.setCancelled(PlayerManager.isInModerationMod(damaged) || Main.getInstance().isFreeze(damaged));
 
         if(e instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent) e;
@@ -47,7 +46,7 @@ public class ModCancels implements Listener {
         if(!(e.getEntity() instanceof Player)) return;
         if(!(e.getDamager() instanceof Player)) return;
         Player damage = (Player) e.getDamager();
-        if(PlayerManager.isInModerationMod((damage))) {
+        if(PlayerManager.isInModerationMod(damage)) {
             e.setCancelled(damage.getInventory().getItemInMainHand().getType() != Material.STICK);
         }
     }

@@ -13,9 +13,9 @@ import java.util.Map;
 
 public class ReportEvents implements Listener {
 
-    private Map<Player, Long> reportCooldown = new HashMap<>();
+    private final Map<Player, Long> reportCooldown = new HashMap<>();
     @EventHandler
-    public void onClick(InventoryClickEvent e){
+    public void onClick(InventoryClickEvent e) {
         if(e.getCurrentItem() == null) return;
         if(!e.getCurrentItem().hasItemMeta()) return;
         if(!e.getInventory().getTitle().contains("Report")) return;
@@ -46,6 +46,7 @@ public class ReportEvents implements Listener {
         player.closeInventory();
         player.sendMessage("§aVous avez bien signalé ce joueur !");
 
+        assert target != null;
         Main.getInstance().getReports().add(new Report(target.getUniqueId().toString(), player.getName(), reason.substring(2)));
         sendToMods(reason, target.getName());
         reportCooldown.put(player, System.currentTimeMillis());

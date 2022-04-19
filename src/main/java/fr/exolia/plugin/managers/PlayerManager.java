@@ -10,8 +10,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerManager {
 
-    private Player player;
-    private ItemStack[] items = new ItemStack[40];
+    private final Player player;
+    private final ItemStack[] items = new ItemStack[40];
     private boolean vanished;
 
     public PlayerManager(Player player) {
@@ -19,7 +19,7 @@ public class PlayerManager {
         vanished = false;
     }
 
-    public void init() {
+    public void initModerationMod() {
         Main.getInstance().getPlayers().put(player.getUniqueId(), this);
         Main.getInstance().getModerators().add(player.getUniqueId());
         player.sendMessage( Main.PrefixInfo + "Mode modération §aactivé§7.");
@@ -34,7 +34,7 @@ public class PlayerManager {
         player.getInventory().setItem(2, freeze.toItemStack());
     }
 
-    public void destroy() {
+    public void destroyModerationMod() {
         Main.getInstance().getPlayers().remove(player.getUniqueId());
         Main.getInstance().getModerators().remove(player.getUniqueId());
         player.getInventory().clear();
@@ -42,22 +42,6 @@ public class PlayerManager {
         GiveInventory();
         player.setGameMode(GameMode.SURVIVAL);
         setVanished(false);
-    }
-
-    public static PlayerManager getFromPlayer(Player player) {
-        return Main.getInstance().getPlayers().get(player.getUniqueId());
-    }
-
-    public static boolean isInModerationMod(Player player) {
-        return Main.getInstance().getModerators().contains(player.getUniqueId());
-    }
-
-    public static boolean isInStaffChat(Player player) {
-        return Main.getInstance().staffchat.contains(player.getUniqueId());
-    }
-
-    public boolean isVanished() {
-        return vanished;
     }
 
     public void setVanished(boolean vanished) {
@@ -102,4 +86,12 @@ public class PlayerManager {
         player.getInventory().setBoots(items[39]);
 
     }
+
+    public static PlayerManager getFromPlayer(Player player) {return Main.getInstance().getPlayers().get(player.getUniqueId());}
+
+    public static boolean isInModerationMod(Player player) {return Main.getInstance().getModerators().contains(player.getUniqueId());}
+
+    public static boolean isInStaffChat(Player player) {return Main.getInstance().staffchat.contains(player.getUniqueId());}
+
+    public boolean isVanished() {return vanished;}
 }

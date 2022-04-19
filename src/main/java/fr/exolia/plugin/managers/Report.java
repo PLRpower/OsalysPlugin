@@ -1,10 +1,7 @@
 package fr.exolia.plugin.managers;
 
-import org.bukkit.entity.Player;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 public class Report {
     private String uuid;
@@ -20,7 +17,7 @@ public class Report {
     }
 
     public Report(String uuid, String author, String reason) {
-        this(uuid, new SimpleDateFormat("dd/MM/yyyy - HH:mm").format(new Date()), author, reason);
+        this(uuid, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), author, reason);
     }
 
     public Report(String uniqueId) {
