@@ -40,7 +40,6 @@ public class Main extends JavaPlugin {
         initConnection();
         registerCommands();
         registerEvents();
-        getMySQL2().update("INSERT INTO discord_traffic ( date, time, players ) VALUES ( NOW(), NOW(), 0);");
         System.out.println(PrefixAnnounce + "Le plugin s'est correctement activé.");
     }
 
@@ -83,6 +82,7 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new ModCancels(), this);
         pm.registerEvents(new PlayerChat(), this);
         pm.registerEvents(new PlayerQuit(), this);
+        pm.registerEvents(new PlayerJoin(), this);
     }
 
     private void registerCommands() {

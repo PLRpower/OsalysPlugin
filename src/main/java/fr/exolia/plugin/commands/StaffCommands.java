@@ -24,7 +24,13 @@ public class StaffCommands implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if(label.equalsIgnoreCase("mod")){
+        if(!player.hasPermission("exolia.staff")) {
+            player.sendMessage(Main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
+            return false;
+        }
+
+        if(label.equalsIgnoreCase("mod")) {
+
             if(!player.hasPermission("exolia.moderateur")) {
                 player.sendMessage(Main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
                 return false;
@@ -39,39 +45,26 @@ public class StaffCommands implements CommandExecutor {
         }
 
         if(label.equalsIgnoreCase("sc")) {
-            if(!player.hasPermission("exolia.staff")) {
-                player.sendMessage(Main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
-                return false;
-            }
 
             if(args.length == 0) {
                 if(PlayerManager.isInStaffChat(player)) {
                     Main.getInstance().staffchat.remove(player.getUniqueId());
                     player.sendMessage(Main.PrefixInfo + "StaffChat §cdésactivé§7.");
-                    return false;
+                } else {
+                    Main.getInstance().staffchat.add(player.getUniqueId());
+                    player.sendMessage( Main.PrefixInfo + "StaffChat §aactivé§7.");
                 }
-
-                Main.getInstance().staffchat.add(player.getUniqueId());
-                player.sendMessage( Main.PrefixInfo + "StaffChat §aactivé§7.");
-                return false;
+                return true;
             }
 
             StringBuilder sb = new StringBuilder();
-            for (String arg : args) {
-                sb.append(arg);
-                sb.append(" ");
-            }
+            for (String arg : args) {sb.append(arg); sb.append(" ");}
             String combinedArgs = sb.toString();
             Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + combinedArgs));
             return true;
         }
 
         if(label.equalsIgnoreCase("history")) {
-
-            if(!player.hasPermission("exolia.staff")) {
-                player.sendMessage(Main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
-                return false;
-            }
 
             if(args.length != 1) {
                 player.sendMessage(Main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
@@ -80,7 +73,6 @@ public class StaffCommands implements CommandExecutor {
 
             Player target = Bukkit.getPlayer(args[0]);
             List<Report> reports = Main.getInstance().getReports().getReports(target.getUniqueId().toString());
-
             if(reports.isEmpty()) {
                 player.sendMessage(Main.PrefixError + "Ce joueur n'a aucun signalement");
             } else {

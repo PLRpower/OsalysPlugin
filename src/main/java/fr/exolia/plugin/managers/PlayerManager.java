@@ -47,9 +47,9 @@ public class PlayerManager {
     public void setVanished(boolean vanished) {
         this.vanished = vanished;
         if(vanished) {
-            Bukkit.getOnlinePlayers().forEach(players -> players.hidePlayer(player));
+            Bukkit.getOnlinePlayers().forEach(players -> players.hidePlayer(Bukkit.getPluginManager().getPlugin("Essentials"), player));
         } else {
-            Bukkit.getOnlinePlayers().forEach(players -> players.showPlayer(player));
+            Bukkit.getOnlinePlayers().forEach(players -> players.showPlayer(Bukkit.getPluginManager().getPlugin("Essentials"), player));
         }
     }
 

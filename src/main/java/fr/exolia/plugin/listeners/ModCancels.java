@@ -18,11 +18,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 public class ModCancels implements Listener {
 
     @EventHandler
-    public void onItemDrop(PlayerDropItemEvent e) {
-        e.setCancelled(PlayerManager.isInModerationMod(e.getPlayer()) || Main.getInstance().isFreeze(e.getPlayer()));
-    }
-
-    @EventHandler
     public void onItemPickup(EntityPickupItemEvent e) {
         if(!(e.getEntity() instanceof Player)) return;
         Player pickup = (Player) e.getEntity();
@@ -52,11 +47,6 @@ public class ModCancels implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent e) {
-        e.setCancelled(PlayerManager.isInModerationMod((Player) e.getWhoClicked()) || Main.getInstance().isFreeze((Player) e.getWhoClicked()));
-    }
-
-    @EventHandler
     public void onMove(PlayerMoveEvent e) {
         if(Main.getInstance().isFreeze(e.getPlayer())) {
             e.setTo(e.getFrom());
@@ -64,12 +54,15 @@ public class ModCancels implements Listener {
     }
 
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e) {
-        e.setCancelled(Main.getInstance().isFreeze(e.getPlayer()));
-    }
+    public void onItemDrop(PlayerDropItemEvent e) {e.setCancelled(PlayerManager.isInModerationMod(e.getPlayer()) || Main.getInstance().isFreeze(e.getPlayer()));}
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) {
-        e.setCancelled(Main.getInstance().isFreeze(e.getPlayer()));
-    }
+    public void onBlockPlace(BlockPlaceEvent e) {e.setCancelled(Main.getInstance().isFreeze(e.getPlayer()));}
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {e.setCancelled(Main.getInstance().isFreeze(e.getPlayer()));}
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e) {e.setCancelled(PlayerManager.isInModerationMod((Player) e.getWhoClicked()) || Main.getInstance().isFreeze((Player) e.getWhoClicked()));}
+
 }

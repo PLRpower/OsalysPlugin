@@ -16,9 +16,9 @@ public class ReportEvents implements Listener {
     private final Map<Player, Long> reportCooldown = new HashMap<>();
     @EventHandler
     public void onClick(InventoryClickEvent e) {
+        if(!e.getInventory().getTitle().contains("Report")) return;
         if(e.getCurrentItem() == null) return;
         if(!e.getCurrentItem().hasItemMeta()) return;
-        if(!e.getInventory().getTitle().contains("Report")) return;
 
         Player player = (Player) e.getWhoClicked();
         Player target = Bukkit.getPlayer(e.getInventory().getName().substring(12));
