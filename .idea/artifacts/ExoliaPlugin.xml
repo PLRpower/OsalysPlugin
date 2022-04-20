@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ExoliaPlugin">
+    <output-path>$USER_HOME$/OneDrive - Conseil régional Grand Est - Numérique Educatif/Bureau/Fourre-Tout/server/plugins</output-path>
+    <root id="archive" name="ExoliaPlugin.jar">
+      <element id="module-output" name="ExoliaPlugin" />
+    </root>
+  </artifact>
+</component>
