@@ -96,6 +96,8 @@ public class Main extends JavaPlugin {
         getCommand("mod").setExecutor(new StaffCommands());
         getCommand("sc").setExecutor(new StaffCommands());
         getCommand("history").setExecutor(new StaffCommands());
+        getCommand("jm").setExecutor(new StaffCommands());
+        getCommand("clearchat").setExecutor(new StaffCommands());
     }
 
     public static Main getInstance() {return instance;}

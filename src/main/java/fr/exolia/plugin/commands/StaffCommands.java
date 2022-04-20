@@ -81,8 +81,35 @@ public class StaffCommands implements CommandExecutor {
             }
         }
 
+        if(label.equalsIgnoreCase("jm")) {
+
+            if(args.length != 1){
+                player.sendMessage(Main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
+                return false;
+            }
+
+            String targetName = args[0];
+            if(Bukkit.getPlayer(targetName) == null){
+                player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                return false;
+            }
+
+            if(Bukkit.getPlayer(targetName) == player) {
+                player.sendMessage(Main.PrefixError + "Vous ne pouvez pas vous occuper de vous-même !");
+                return false;
+            }
+
+            Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage(player.getName()+"s'occupe de modérer de" + targetName));
+            return true;
+        }
+
+        if(label.equalsIgnoreCase("clearchat")) {
+            for (int x = 0; x <= 100; x++) {
+                Bukkit.broadcastMessage("");
+            }
+            return true;
+        }
 
         return false;
-
     }
 }
