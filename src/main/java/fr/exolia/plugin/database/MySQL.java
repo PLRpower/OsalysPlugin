@@ -14,6 +14,7 @@ public class MySQL {
 
     public MySQL(HikariDataSource connectionPool) {this.connectionPool = connectionPool;}
 
+
     private Connection getConnection() throws SQLException {
         return connectionPool.getConnection();
     }

@@ -1,6 +1,7 @@
 package fr.exolia.plugin.commands;
 
 import fr.exolia.plugin.Main;
+import fr.exolia.plugin.managers.Exolions;
 import fr.exolia.plugin.util.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -78,7 +79,7 @@ public class PublicCommands implements CommandExecutor {
             return true;
         }
 
-        if(label.equalsIgnoreCase("report")){
+        if(label.equalsIgnoreCase("report")) {
             if(args.length != 1){
                 player.sendMessage(Main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
                 return false;
@@ -100,6 +101,57 @@ public class PublicCommands implements CommandExecutor {
             inv.setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§cForceField").toItemStack());
             inv.setItem(1, new ItemBuilder(Material.BOW).setName("§cSpamBow").toItemStack());
             player.openInventory(inv);
+            return true;
+        }
+
+        if(label.equalsIgnoreCase("exolions")) {
+
+
+            if(args.length == 0) {
+                Exolions exolions = new Exolions(player);
+                player.sendMessage("\n§7§m---------------------\n" + Main.PrefixAnnounce + "Acheter des Exolions:\n \n§aTu as §b" + exolions.getCoins() + " Exolions\n ");
+                TextComponent weblink = new TextComponent("§2➤ §aObtiens des §2Exolions §aen cliquant sur ce §2lien sécurisé §a:\n§b§lhttps://exolia.site/shop");
+                weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bObtenir des Exolions").create()));
+                weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/shop"));
+                player.spigot().sendMessage(weblink);
+                player.sendMessage("§7§m--------------------- \n ");
+                return true;
+            }
+
+            if(!args[0].equalsIgnoreCase("send")) {
+                player.sendMessage(Main.PrefixError + "Utilisation : /exolions send <joueur> <nombre d'exolions>");
+                return false;
+            }
+
+            if(args.length == 1) {
+                player.sendMessage(Main.PrefixError + "Veuillez saisir un joueur à qui envoyer les exolions !");
+                return false;
+            }
+
+            String targetName = args[1];
+            if(Bukkit.getPlayer(targetName) == null) {
+                player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                return false;
+            }
+
+            if(Bukkit.getPlayer(targetName) == player) {
+                player.sendMessage(Main.PrefixError + "Vous ne pouvez pas vous envoyer des exolions à vous-même !");
+                return false;
+            }
+
+            if(args.length == 2) {
+                player.sendMessage(Main.PrefixError + "Veuillez saisir un nombre d'exolions à envoyer !");
+                return false;
+            }
+
+            Exolions exolionsplayer = new Exolions(player);
+            Exolions exolionstarget = new Exolions(Bukkit.getPlayer(targetName));
+            exolionsplayer.removeCoins(Integer.parseInt(args[2]));
+            exolionstarget.addCoins(Integer.parseInt(args[2]));
+
+            player.sendMessage(Main.PrefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + targetName + "§7.");
+            Bukkit.getPlayer(targetName).sendMessage("Vous avez reçu §b" + args[2] + " Exolions §7de §b" + player.getName() + "§7.");
+
             return true;
         }
 

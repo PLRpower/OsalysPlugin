@@ -1,6 +1,7 @@
 package fr.exolia.plugin;
 
 import com.zaxxer.hikari.HikariDataSource;
+import fr.exolia.plugin.commands.HStaffCommands;
 import fr.exolia.plugin.commands.PublicCommands;
 import fr.exolia.plugin.commands.StaffCommands;
 import fr.exolia.plugin.database.MySQL;
@@ -12,7 +13,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.*;
 
 public class Main extends JavaPlugin {
@@ -21,6 +21,7 @@ public class Main extends JavaPlugin {
 
     private MySQL mysql;
     private MySQL mysql2;
+
     private Reports reports;
 
     public ArrayList<UUID> moderators = new ArrayList<>();
@@ -44,28 +45,28 @@ public class Main extends JavaPlugin {
     }
 
     private void initConnection() {
-        HikariDataSource db1 = new HikariDataSource();
-        db1.setDriverClassName("com.mysql.jdbc.Driver");
-        db1.setUsername("PLR");
-        db1.setPassword("@4qkVi06&");
-        db1.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/site?autoReconnect=true");
-        db1.setMaxLifetime(600000L);
-        db1.setIdleTimeout(300000L);
-        db1.setLeakDetectionThreshold(300000L);
-        db1.setConnectionTimeout(1000L);
-        mysql = new MySQL(db1);
+        HikariDataSource connectionpool = new HikariDataSource();
+        connectionpool.setDriverClassName("com.mysql.jdbc.Driver");
+        connectionpool.setUsername("PLR");
+        connectionpool.setPassword("@4qkVi06&");
+        connectionpool.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/site?autoReconnect=true");
+        connectionpool.setMaxLifetime(600000L);
+        connectionpool.setIdleTimeout(300000L);
+        connectionpool.setLeakDetectionThreshold(300000L);
+        connectionpool.setConnectionTimeout(1000L);
+        mysql = new MySQL(connectionpool);
         mysql.createTables();
 
-        HikariDataSource db2 = new HikariDataSource();
-        db2.setDriverClassName("com.mysql.jdbc.Driver");
-        db2.setUsername("u12749_Y7S0i006dF");
-        db2.setPassword("NMv22^!45sUrNexU!.asU19b");
-        db2.setJdbcUrl("jdbc:mysql://45.140.165.82:3306/s12749_serveur?autoReconnect=true");
-        db2.setMaxLifetime(600000L);
-        db2.setIdleTimeout(300000L);
-        db2.setLeakDetectionThreshold(300000L);
-        db2.setConnectionTimeout(1000L);
-        mysql2 = new MySQL(db2);
+        HikariDataSource connectionpool2 = new HikariDataSource();
+        connectionpool2.setDriverClassName("com.mysql.jdbc.Driver");
+        connectionpool2.setUsername("u12749_OwD4gPJ6L7");
+        connectionpool2.setPassword("FMavi6!z^X@n.cd4XlEehhwL");
+        connectionpool2.setJdbcUrl("jdbc:mysql://45.140.165.82:3306/s12749_site?autoReconnect=true");
+        connectionpool2.setMaxLifetime(600000L);
+        connectionpool2.setIdleTimeout(300000L);
+        connectionpool2.setLeakDetectionThreshold(300000L);
+        connectionpool2.setConnectionTimeout(1000L);
+        mysql2 = new MySQL(connectionpool2);
     }
 
     @Override
@@ -98,6 +99,8 @@ public class Main extends JavaPlugin {
         getCommand("history").setExecutor(new StaffCommands());
         getCommand("jm").setExecutor(new StaffCommands());
         getCommand("clearchat").setExecutor(new StaffCommands());
+        getCommand("exolion").setExecutor(new PublicCommands());
+        getCommand("exolionadmin").setExecutor(new HStaffCommands());
     }
 
     public static Main getInstance() {return instance;}

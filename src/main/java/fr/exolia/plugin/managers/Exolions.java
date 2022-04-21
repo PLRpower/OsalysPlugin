@@ -13,10 +13,10 @@ public class Exolions {
     }
 
     public long getCoins() {
-        return (long) Main.getInstance().getMySQL2().query("SELECT * FROM users WHERE pseudo ='" + player + "'", rs -> {
+        return (int) Main.getInstance().getMySQL2().query("SELECT * FROM users WHERE pseudo ='" + player.getName() + "'", rs -> {
             try {
                 if(rs.next()) {
-                    return rs.getLong("money");
+                    return rs.getInt("money");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -25,16 +25,16 @@ public class Exolions {
         });
     }
 
-    public void setCoins(long coins) {
-        Main.getInstance().getMySQL2().update("UPDATE users SET money ='" + coins + "' WHERE pseudo ='" + player + "'");
+    public void setCoins(int coins) {
+        Main.getInstance().getMySQL2().update("UPDATE users SET money ='" + coins + "' WHERE pseudo ='" + player.getName() + "'");
     }
 
-    public void addCoins(long coins) {
-        setCoins(getCoins() + coins);
+    public void addCoins(int coins) {
+        setCoins((int) (getCoins() + coins));
     }
 
-    public void removeCoins(long coins) {
-        setCoins(getCoins() < coins ? 0 : getCoins() - coins);
+    public void removeCoins(int coins) {
+        setCoins(getCoins() < coins ? 0 : (int) (getCoins() - coins));
     }
 
 }

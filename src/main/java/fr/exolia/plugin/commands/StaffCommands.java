@@ -44,6 +44,37 @@ public class StaffCommands implements CommandExecutor {
             return true;
         }
 
+        if(label.equalsIgnoreCase("freeze")) {
+
+            if(!player.hasPermission("exolia.moderateur")) {
+                player.sendMessage(Main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
+                return false;
+            }
+
+            if(args.length != 1) {
+                player.sendMessage(Main.PrefixError + "Veuillez saisir un joueur !");
+                return false;
+            }
+
+            Player target = Bukkit.getPlayer(args[0]);
+
+            if(target == null){
+                player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                return false;
+            }
+
+            if(Main.getInstance().getFrozenPlayers().containsKey(target.getUniqueId())){
+                Main.getInstance().getFrozenPlayers().remove(target.getUniqueId());
+                target.sendMessage(Main.PrefixInfo + "Vous avez été unfreeze par un modérateur");
+                player.sendMessage(Main.PrefixInfo + "Vous avez unfreeze" + target.getName());
+            } else {
+                Main.getInstance().getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
+                target.sendMessage(Main.PrefixInfo + "Vous avez été freeze par un modérateur");
+                player.sendMessage(Main.PrefixInfo + "Vous avez freeze" + target.getName());
+            }
+            return true;
+        }
+
         if(label.equalsIgnoreCase("sc")) {
 
             if(args.length == 0) {
@@ -79,6 +110,7 @@ public class StaffCommands implements CommandExecutor {
                 player.sendMessage(Main.PrefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
                 reports.forEach(r -> player.sendMessage("§f" + r.getDate() + "§fSignalé par :" + r.getAuthor() + " §fpour la raison :" + r.getReason()));
             }
+            return true;
         }
 
         if(label.equalsIgnoreCase("jm")) {
@@ -99,7 +131,7 @@ public class StaffCommands implements CommandExecutor {
                 return false;
             }
 
-            Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage(player.getName()+"s'occupe de modérer de" + targetName));
+            Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage(player.getName()+" s'occupe de modérer de " + targetName));
             return true;
         }
 
