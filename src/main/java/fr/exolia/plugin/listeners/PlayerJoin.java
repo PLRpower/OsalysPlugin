@@ -19,6 +19,8 @@ public class PlayerJoin implements Listener {
                     player.hidePlayer(Bukkit.getPluginManager().getPlugin("Essentials"), players);
                 }
             }
+
         }
+
     }
 }

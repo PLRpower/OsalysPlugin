@@ -2,6 +2,7 @@ package fr.exolia.plugin.commands;
 
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.managers.Exolions;
+import fr.exolia.plugin.managers.PlayerManager;
 import fr.exolia.plugin.util.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,6 +16,8 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class PublicCommands implements CommandExecutor {
 
@@ -80,23 +83,23 @@ public class PublicCommands implements CommandExecutor {
         }
 
         if(label.equalsIgnoreCase("report")) {
+
             if(args.length != 1){
                 player.sendMessage(Main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
                 return false;
             }
 
-            String targetName = args[0];
-            if(Bukkit.getPlayer(targetName) == null){
+            Player target = Bukkit.getPlayer(args[0]);
+            if(target == null){
                 player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                 return false;
             }
 
-            if(Bukkit.getPlayer(targetName) == player) {
+            if(target == player) {
                 player.sendMessage(Main.PrefixError + "Vous ne pouvez pas vous signaler vous-même !");
                 return false;
             }
 
-            Player target = Bukkit.getPlayer(targetName);
             Inventory inv = Bukkit.createInventory(null, 18, "§bReport: §c" + target.getName());
             inv.setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§cForceField").toItemStack());
             inv.setItem(1, new ItemBuilder(Material.BOW).setName("§cSpamBow").toItemStack());
@@ -114,7 +117,8 @@ public class PublicCommands implements CommandExecutor {
                 weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bObtenir des Exolions").create()));
                 weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/shop"));
                 player.spigot().sendMessage(weblink);
-                player.sendMessage("§7§m--------------------- \n ");
+                player.sendMessage("§7§m---------------------");
+                player.sendMessage("");
                 return true;
             }
 
@@ -128,13 +132,13 @@ public class PublicCommands implements CommandExecutor {
                 return false;
             }
 
-            String targetName = args[1];
-            if(Bukkit.getPlayer(targetName) == null) {
+            Player target = Bukkit.getPlayer(args[1]);
+            if(target == null) {
                 player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                 return false;
             }
 
-            if(Bukkit.getPlayer(targetName) == player) {
+            if(target == player) {
                 player.sendMessage(Main.PrefixError + "Vous ne pouvez pas vous envoyer des exolions à vous-même !");
                 return false;
             }
@@ -145,15 +149,27 @@ public class PublicCommands implements CommandExecutor {
             }
 
             Exolions exolionsplayer = new Exolions(player);
-            Exolions exolionstarget = new Exolions(Bukkit.getPlayer(targetName));
+            Exolions exolionstarget = new Exolions(target);
             exolionsplayer.removeCoins(Integer.parseInt(args[2]));
             exolionstarget.addCoins(Integer.parseInt(args[2]));
 
-            player.sendMessage(Main.PrefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + targetName + "§7.");
-            Bukkit.getPlayer(targetName).sendMessage("Vous avez reçu §b" + args[2] + " Exolions §7de §b" + player.getName() + "§7.");
+            player.sendMessage(Main.PrefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + target.getName() + "§7.");
+            target.sendMessage("Vous avez reçu §b" + args[2] + " Exolions §7de §b" + player.getName() + "§7.");
 
             return true;
         }
+
+        if(label.equalsIgnoreCase("nv")) {
+            if(player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+                player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                player.sendMessage(Main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+            } else {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 10000,2, false, false));
+                player.sendMessage(Main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+            }
+            return true;
+        }
+
 
         return false;
     }

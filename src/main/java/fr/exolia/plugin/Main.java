@@ -10,7 +10,6 @@ import fr.exolia.plugin.listeners.*;
 import fr.exolia.plugin.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
@@ -22,7 +21,7 @@ public class Main extends JavaPlugin {
     private MySQL mysql;
     private MySQL mysql2;
 
-    private Reports reports;
+    private final Reports reports = new Reports();
 
     public ArrayList<UUID> moderators = new ArrayList<>();
     public ArrayList<UUID> staffchat = new ArrayList<>();
@@ -35,45 +34,44 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        System.out.println(PrefixInfo + "Activation du plugin en cours ...");
+        getLogger().info(PrefixInfo + "Activation du plugin en cours ...");
         instance = this;
-        reports = new Reports();
         initConnection();
         registerCommands();
         registerEvents();
-        System.out.println(PrefixAnnounce + "Le plugin s'est correctement activé.");
+        getLogger().info(PrefixAnnounce + "Le plugin s'est correctement activé.");
     }
 
     private void initConnection() {
-        HikariDataSource connectionpool = new HikariDataSource();
-        connectionpool.setDriverClassName("com.mysql.jdbc.Driver");
-        connectionpool.setUsername("PLR");
-        connectionpool.setPassword("@4qkVi06&");
-        connectionpool.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/site?autoReconnect=true");
-        connectionpool.setMaxLifetime(600000L);
-        connectionpool.setIdleTimeout(300000L);
-        connectionpool.setLeakDetectionThreshold(300000L);
-        connectionpool.setConnectionTimeout(1000L);
-        mysql = new MySQL(connectionpool);
+        HikariDataSource c1 = new HikariDataSource();
+        c1.setDriverClassName("com.mysql.jdbc.Driver");
+        c1.setUsername("PLR");
+        c1.setPassword("@4qkVi06&");
+        c1.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/site?autoReconnect=true");
+        c1.setMaxLifetime(600000L);
+        c1.setIdleTimeout(300000L);
+        c1.setLeakDetectionThreshold(300000L);
+        c1.setConnectionTimeout(1000L);
+        mysql = new MySQL(c1);
         mysql.createTables();
 
-        HikariDataSource connectionpool2 = new HikariDataSource();
-        connectionpool2.setDriverClassName("com.mysql.jdbc.Driver");
-        connectionpool2.setUsername("u12749_OwD4gPJ6L7");
-        connectionpool2.setPassword("FMavi6!z^X@n.cd4XlEehhwL");
-        connectionpool2.setJdbcUrl("jdbc:mysql://45.140.165.82:3306/s12749_site?autoReconnect=true");
-        connectionpool2.setMaxLifetime(600000L);
-        connectionpool2.setIdleTimeout(300000L);
-        connectionpool2.setLeakDetectionThreshold(300000L);
-        connectionpool2.setConnectionTimeout(1000L);
-        mysql2 = new MySQL(connectionpool2);
+        HikariDataSource c2 = new HikariDataSource();
+        c2.setDriverClassName("com.mysql.jdbc.Driver");
+        c2.setUsername("u12749_OwD4gPJ6L7");
+        c2.setPassword("FMavi6!z^X@n.cd4XlEehhwL");
+        c2.setJdbcUrl("jdbc:mysql://45.140.165.82:3306/s12749_site?autoReconnect=true");
+        c2.setMaxLifetime(600000L);
+        c2.setIdleTimeout(300000L);
+        c2.setLeakDetectionThreshold(300000L);
+        c2.setConnectionTimeout(1000L);
+        mysql2 = new MySQL(c2);
     }
 
     @Override
     public void onDisable() {
-        System.out.println(PrefixInfo + "Désactivation du plugin en cours ...");
+        getLogger().info(PrefixInfo + "Désactivation du plugin en cours ...");
         Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> PlayerManager.getFromPlayer(p).destroyModerationMod());
-        System.out.println(PrefixAnnounce + "Le plugin s'est correctement désactivé.");
+        getLogger().info(PrefixAnnounce + "Le plugin s'est correctement désactivé.");
     }
 
     private void registerEvents() {
@@ -101,14 +99,18 @@ public class Main extends JavaPlugin {
         getCommand("clearchat").setExecutor(new StaffCommands());
         getCommand("exolion").setExecutor(new PublicCommands());
         getCommand("exolionadmin").setExecutor(new HStaffCommands());
+        getCommand("nv").setExecutor(new PublicCommands());
     }
 
     public static Main getInstance() {return instance;}
-    public Reports getReports() {return reports;}
+
     public MySQL getMySQL() {return mysql;}
     public MySQL getMySQL2() {return mysql2;}
-    public List<UUID> getModerators() {return moderators;}
+
+    public Reports getReports() {return reports;}
+
     public Map<UUID, PlayerManager> getPlayers() {return players;}
+    public List<UUID> getModerators() {return moderators;}
+    public List<UUID> getStaffChat() {return staffchat;}
     public Map<UUID, Location> getFrozenPlayers() {return freezedPlayers;}
-    public boolean isFreeze(Player player) {return getFrozenPlayers().containsKey(player.getUniqueId());}
 }

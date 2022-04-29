@@ -3,6 +3,7 @@ package fr.exolia.plugin.commands;
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.managers.Exolions;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,8 +38,8 @@ public class HStaffCommands implements CommandExecutor {
                 return false;
             }
 
-            String targetName = args[1];
-            if(Bukkit.getPlayer(targetName) == null){
+            Player target = Bukkit.getPlayer(args[1]);
+            if(target == null){
                 player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                 return false;
             }
@@ -48,7 +49,7 @@ public class HStaffCommands implements CommandExecutor {
                 return false;
             }
 
-            Exolions exolions = new Exolions(Bukkit.getPlayer(targetName));
+            Exolions exolions = new Exolions(target);
 
             if(args[0].equalsIgnoreCase("give")) {
                 exolions.addCoins(Integer.parseInt(args[2]));

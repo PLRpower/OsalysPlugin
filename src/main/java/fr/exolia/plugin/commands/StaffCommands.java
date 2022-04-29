@@ -63,7 +63,7 @@ public class StaffCommands implements CommandExecutor {
                 return false;
             }
 
-            if(Main.getInstance().getFrozenPlayers().containsKey(target.getUniqueId())){
+            if(PlayerManager.isFreeze(target)) {
                 Main.getInstance().getFrozenPlayers().remove(target.getUniqueId());
                 target.sendMessage(Main.PrefixInfo + "Vous avez été unfreeze par un modérateur");
                 player.sendMessage(Main.PrefixInfo + "Vous avez unfreeze" + target.getName());
@@ -79,11 +79,9 @@ public class StaffCommands implements CommandExecutor {
 
             if(args.length == 0) {
                 if(PlayerManager.isInStaffChat(player)) {
-                    Main.getInstance().staffchat.remove(player.getUniqueId());
-                    player.sendMessage(Main.PrefixInfo + "StaffChat §cdésactivé§7.");
+                    PlayerManager.getFromPlayer(player).destroyStaffChat();
                 } else {
-                    Main.getInstance().staffchat.add(player.getUniqueId());
-                    player.sendMessage( Main.PrefixInfo + "StaffChat §aactivé§7.");
+                    new PlayerManager(player).initStaffChat();
                 }
                 return true;
             }
@@ -120,18 +118,18 @@ public class StaffCommands implements CommandExecutor {
                 return false;
             }
 
-            String targetName = args[0];
-            if(Bukkit.getPlayer(targetName) == null){
+            Player target = Bukkit.getPlayer(args[0]);
+            if(target == null){
                 player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                 return false;
             }
 
-            if(Bukkit.getPlayer(targetName) == player) {
+            if(target == player) {
                 player.sendMessage(Main.PrefixError + "Vous ne pouvez pas vous occuper de vous-même !");
                 return false;
             }
 
-            Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage(player.getName()+" s'occupe de modérer de " + targetName));
+            Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage(player.getName()+" s'occupe de modérer de " + target.getName()));
             return true;
         }
 

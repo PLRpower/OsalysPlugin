@@ -3,14 +3,12 @@ package fr.exolia.plugin.listeners;
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.managers.PlayerManager;
 import fr.exolia.plugin.managers.Report;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.List;
@@ -77,6 +75,5 @@ public class ModItemsInteract implements Listener {
             default:
                 break;
         }
-
     }
 }

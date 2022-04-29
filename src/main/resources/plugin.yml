@@ -37,3 +37,5 @@ commands:
     aliases: exolion
   exolionadmin:
     description: permet de gérer les exolions
+  nv:
+    aliases: nightvision

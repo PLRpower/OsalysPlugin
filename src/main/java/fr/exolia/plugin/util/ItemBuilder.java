@@ -4,6 +4,7 @@ import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -12,7 +13,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.Arrays;
 
 public class ItemBuilder {
-    private ItemStack is;
+    private final ItemStack is;
 
     public ItemBuilder(Material m) {
         this(m, 1);
@@ -56,10 +57,10 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setSkullOwner(String owner) {
+    public ItemBuilder setSkullOwner(Player owner) {
         try {
             SkullMeta im = (SkullMeta) is.getItemMeta();
-            im.setOwner(owner);
+            im.setOwningPlayer(owner);
             is.setItemMeta(im);
         } catch (ClassCastException expected) {
         }

@@ -1,6 +1,5 @@
 package fr.exolia.plugin.listeners;
 
-import fr.exolia.plugin.Main;
 import fr.exolia.plugin.managers.PlayerManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,18 +20,18 @@ public class ModCancels implements Listener {
     public void onItemPickup(EntityPickupItemEvent e) {
         if(!(e.getEntity() instanceof Player)) return;
         Player pickup = (Player) e.getEntity();
-        e.setCancelled(PlayerManager.isInModerationMod(pickup) || Main.getInstance().isFreeze(pickup));
+        e.setCancelled(PlayerManager.isInModerationMod(pickup) || PlayerManager.isFreeze(pickup));
     }
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
         if(!(e.getEntity() instanceof Player)) return;
         Player damaged = (Player) e.getEntity();
-        e.setCancelled(PlayerManager.isInModerationMod(damaged) || Main.getInstance().isFreeze(damaged));
+        e.setCancelled(PlayerManager.isInModerationMod(damaged) ||  PlayerManager.isFreeze(damaged));
 
         if(e instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent) e;
-            e.setCancelled(ev.getEntity() instanceof Player && Main.getInstance().isFreeze((Player) ev.getEntity()));
+            e.setCancelled(ev.getEntity() instanceof Player &&  PlayerManager.isFreeze((Player) ev.getEntity()));
         }
     }
 
@@ -48,21 +47,21 @@ public class ModCancels implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
-        if(Main.getInstance().isFreeze(e.getPlayer())) {
+        if( PlayerManager.isFreeze(e.getPlayer())) {
             e.setTo(e.getFrom());
         }
     }
 
     @EventHandler
-    public void onItemDrop(PlayerDropItemEvent e) {e.setCancelled(PlayerManager.isInModerationMod(e.getPlayer()) || Main.getInstance().isFreeze(e.getPlayer()));}
+    public void onItemDrop(PlayerDropItemEvent e) {e.setCancelled(PlayerManager.isInModerationMod(e.getPlayer()) ||  PlayerManager.isFreeze(e.getPlayer()));}
 
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e) {e.setCancelled(Main.getInstance().isFreeze(e.getPlayer()));}
+    public void onBlockPlace(BlockPlaceEvent e) {e.setCancelled( PlayerManager.isFreeze(e.getPlayer()));}
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) {e.setCancelled(Main.getInstance().isFreeze(e.getPlayer()));}
+    public void onBlockBreak(BlockBreakEvent e) {e.setCancelled(PlayerManager.isFreeze(e.getPlayer()));}
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent e) {e.setCancelled(PlayerManager.isInModerationMod((Player) e.getWhoClicked()) || Main.getInstance().isFreeze((Player) e.getWhoClicked()));}
+    public void onInventoryClick(InventoryClickEvent e) {e.setCancelled(PlayerManager.isInModerationMod((Player) e.getWhoClicked()) || PlayerManager.isFreeze((Player) e.getWhoClicked()));}
 
 }
