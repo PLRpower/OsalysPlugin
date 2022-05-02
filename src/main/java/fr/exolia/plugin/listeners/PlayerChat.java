@@ -1,7 +1,6 @@
 package fr.exolia.plugin.listeners;
 
 import fr.exolia.plugin.Main;
-import fr.exolia.plugin.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

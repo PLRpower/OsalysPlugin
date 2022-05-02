@@ -105,6 +105,7 @@ public class Main extends JavaPlugin {
 
     public MySQL getMySQL() {return mysql;}
     public MySQL getMySQL2() {return mysql2;}
+
     public Reports getReports() {return reports;}
 
     public Map<UUID, PlayerManager> getPlayers() {return players;}
