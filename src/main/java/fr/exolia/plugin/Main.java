@@ -98,6 +98,7 @@ public class Main extends JavaPlugin {
         getCommand("history").setExecutor(new StaffCommands());
         getCommand("jm").setExecutor(new StaffCommands());
         getCommand("clearchat").setExecutor(new StaffCommands());
+        getCommand("nv").setExecutor(new StaffCommands());
     }
 
     public static Main getInstance() {return instance;}

@@ -7,6 +7,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import fr.exolia.plugin.Main;
 
@@ -108,6 +110,45 @@ public class StaffCommands implements CommandExecutor {
                 Bukkit.broadcastMessage("");
             }
             return true;
+        }
+        if (cmd.getName().equalsIgnoreCase("nv") && sender instanceof Player) {
+            if (!player.hasPermission("nightvision.use")) {
+                player.sendMessage(Main.PrefixError + "Tu n'as pas la permission d'utiliser cette commande !");
+                return true;
+            }
+            if (args.length == 0) {
+                if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+                    player.sendMessage("Night Vision désactivé");
+                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                    return true;
+                }
+                player.sendMessage("Night Vision activé");
+                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 9000000, 2));
+                return true;
+            }
+            if (args.length == 1) {
+                Player target = Bukkit.getPlayer(args[0]);
+                if (target == null || !target.isOnline()) {
+                    player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                    return true;
+                }
+                if (!player.hasPermission("nightvision.player")) {
+                    player.sendMessage(Main.PrefixError + "Tu n'as pas la permission d'utiliser cette commande !");
+                    return true;
+                }
+                if (target.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+                    target.sendMessage("Night Vision désactivé");
+                    target.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                    return true;
+                }
+                target.sendMessage("Night Vision désactivé");
+                target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 9000000, 2));
+                return true;
+            }
+            if (args.length != 1 && args.length != 0) {
+                player.sendMessage(Main.PrefixError + "/nv <player>");
+                return true;
+            }
         }
 
         return false;
