@@ -13,6 +13,8 @@ import java.util.Map;
 
 public class ReportEvents implements Listener {
 
+    private final Main main = Main.getInstance();
+
     private final Map<Player, Long> reportCooldown = new HashMap<>();
     @EventHandler
     public void onClick(InventoryClickEvent e) {
@@ -28,7 +30,7 @@ public class ReportEvents implements Listener {
             long time = (System.currentTimeMillis() - reportCooldown.get(player)) / 1000;
 
             if(time < 120) {
-                player.sendMessage(Main.PrefixError + "Merci de patienter entre chaque signalement !");
+                player.sendMessage(main.PrefixError + "Merci de patienter entre chaque signalement !");
                 player.closeInventory();
                 return;
             } else {
@@ -38,7 +40,7 @@ public class ReportEvents implements Listener {
 
         if(target == null) {
             player.closeInventory();
-            player.sendMessage(Main.PrefixError + "Vous ne pouvez pas signaler ce joueur car il s'est déconnecté");
+            player.sendMessage(main.PrefixError + "Vous ne pouvez pas signaler ce joueur car il s'est déconnecté");
         }
 
         e.setCancelled(true);

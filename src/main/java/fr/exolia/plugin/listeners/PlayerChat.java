@@ -15,16 +15,18 @@ public class PlayerChat implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();
+        if(e.isCancelled()){
+            return;
+        }else{
+            if(e.getMessage().startsWith("$") && player.hasPermission("exolia.staff")) {
+                e.setCancelled(true);
+                Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + e.getMessage().substring(1)));
+            }
 
-        if(e.getMessage().startsWith("$") && player.hasPermission("exolia.staff")) {
-            e.setCancelled(true);
-            Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + e.getMessage().substring(1)));
-        }
-
-        if(main.staffchat.contains(e.getPlayer().getUniqueId())) {
-            e.setCancelled(true);
-            Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + e.getMessage()));
+            if(main.staffchat.contains(e.getPlayer().getUniqueId())) {
+                e.setCancelled(true);
+                Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + e.getMessage()));
+            }
         }
     }
-
 }
