@@ -14,25 +14,27 @@ import java.util.List;
 
 public class StaffCommands implements CommandExecutor {
 
+    private final Main main = Main.getInstance();
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Main.PrefixError + "Seul un joueur peut executer cette commande.");
+            sender.sendMessage(main.PrefixError + "Seul un joueur peut executer cette commande.");
             return false;
         }
 
         Player player = (Player) sender;
 
         if(!player.hasPermission("exolia.staff")) {
-            player.sendMessage(Main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
+            player.sendMessage(main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
             return false;
         }
 
         if(label.equalsIgnoreCase("mod")) {
 
             if(!player.hasPermission("exolia.moderateur")) {
-                player.sendMessage(Main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
+                player.sendMessage(main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
                 return false;
             }
 
@@ -47,30 +49,30 @@ public class StaffCommands implements CommandExecutor {
         if(label.equalsIgnoreCase("freeze")) {
 
             if(!player.hasPermission("exolia.moderateur")) {
-                player.sendMessage(Main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
+                player.sendMessage(main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
                 return false;
             }
 
             if(args.length != 1) {
-                player.sendMessage(Main.PrefixError + "Veuillez saisir un joueur !");
+                player.sendMessage(main.PrefixError + "Veuillez saisir un joueur !");
                 return false;
             }
 
             Player target = Bukkit.getPlayer(args[0]);
 
             if(target == null){
-                player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                player.sendMessage(main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                 return false;
             }
 
             if(PlayerManager.isFreeze(target)) {
-                Main.getInstance().getFrozenPlayers().remove(target.getUniqueId());
-                target.sendMessage(Main.PrefixInfo + "Vous avez été unfreeze par un modérateur");
-                player.sendMessage(Main.PrefixInfo + "Vous avez unfreeze" + target.getName());
+                main.getFrozenPlayers().remove(target.getUniqueId());
+                target.sendMessage(main.PrefixInfo + "Vous avez été unfreeze par un modérateur");
+                player.sendMessage(main.PrefixInfo + "Vous avez unfreeze" + target.getName());
             } else {
-                Main.getInstance().getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
-                target.sendMessage(Main.PrefixInfo + "Vous avez été freeze par un modérateur");
-                player.sendMessage(Main.PrefixInfo + "Vous avez freeze" + target.getName());
+                main.getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
+                target.sendMessage(main.PrefixInfo + "Vous avez été freeze par un modérateur");
+                player.sendMessage(main.PrefixInfo + "Vous avez freeze" + target.getName());
             }
             return true;
         }
@@ -78,7 +80,7 @@ public class StaffCommands implements CommandExecutor {
         if(label.equalsIgnoreCase("sc")) {
 
             if(args.length == 0) {
-                if(PlayerManager.isInStaffChat(player)) {
+                if(main.staffchat.contains(player.getUniqueId())) {
                     PlayerManager.getFromPlayer(player).destroyStaffChat();
                 } else {
                     new PlayerManager(player).initStaffChat();
@@ -96,16 +98,16 @@ public class StaffCommands implements CommandExecutor {
         if(label.equalsIgnoreCase("history")) {
 
             if(args.length != 1) {
-                player.sendMessage(Main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
+                player.sendMessage(main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
                 return false;
             }
 
             Player target = Bukkit.getPlayer(args[0]);
-            List<Report> reports = Main.getInstance().getReports().getReports(target.getUniqueId().toString());
+            List<Report> reports = main.getReports().getReports(target.getUniqueId().toString());
             if(reports.isEmpty()) {
-                player.sendMessage(Main.PrefixError + "Ce joueur n'a aucun signalement");
+                player.sendMessage(main.PrefixError + "Ce joueur n'a aucun signalement");
             } else {
-                player.sendMessage(Main.PrefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
+                player.sendMessage(main.PrefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
                 reports.forEach(r -> player.sendMessage("§f" + r.getDate() + "§fSignalé par :" + r.getAuthor() + " §fpour la raison :" + r.getReason()));
             }
             return true;
@@ -114,18 +116,18 @@ public class StaffCommands implements CommandExecutor {
         if(label.equalsIgnoreCase("jm")) {
 
             if(args.length != 1){
-                player.sendMessage(Main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
+                player.sendMessage(main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
                 return false;
             }
 
             Player target = Bukkit.getPlayer(args[0]);
             if(target == null){
-                player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                player.sendMessage(main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                 return false;
             }
 
             if(target == player) {
-                player.sendMessage(Main.PrefixError + "Vous ne pouvez pas vous occuper de vous-même !");
+                player.sendMessage(main.PrefixError + "Vous ne pouvez pas vous occuper de vous-même !");
                 return false;
             }
 

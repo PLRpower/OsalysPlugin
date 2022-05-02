@@ -2,30 +2,30 @@ package fr.exolia.plugin.commands;
 
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.managers.Exolions;
-import fr.exolia.plugin.managers.PlayerManager;
 import fr.exolia.plugin.util.ItemBuilder;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class PublicCommands implements CommandExecutor {
 
+    private final Main main = Main.getInstance();
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Main.PrefixError + "Seul un joueur peut executer cette commande.");
+            sender.sendMessage(main.PrefixError + "Seul un joueur peut executer cette commande.");
             return false;
         }
 
@@ -67,11 +67,6 @@ public class PublicCommands implements CommandExecutor {
             return true;
         }
 
-        if (label.equalsIgnoreCase("hoteldevente")) {
-            player.performCommand("ah");
-            return true;
-        }
-
         if (label.equalsIgnoreCase("end")) {
             player.performCommand("warp end");
             return true;
@@ -85,18 +80,18 @@ public class PublicCommands implements CommandExecutor {
         if(label.equalsIgnoreCase("report")) {
 
             if(args.length != 1){
-                player.sendMessage(Main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
+                player.sendMessage(main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
                 return false;
             }
 
             Player target = Bukkit.getPlayer(args[0]);
             if(target == null){
-                player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                player.sendMessage(main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                 return false;
             }
 
             if(target == player) {
-                player.sendMessage(Main.PrefixError + "Vous ne pouvez pas vous signaler vous-même !");
+                player.sendMessage(main.PrefixError + "Vous ne pouvez pas vous signaler vous-même !");
                 return false;
             }
 
@@ -112,7 +107,7 @@ public class PublicCommands implements CommandExecutor {
 
             if(args.length == 0) {
                 Exolions exolions = new Exolions(player);
-                player.sendMessage("\n§7§m---------------------\n" + Main.PrefixAnnounce + "Acheter des Exolions:\n \n§aTu as §b" + exolions.getCoins() + " Exolions\n ");
+                player.sendMessage("\n§7§m---------------------\n" + main.PrefixAnnounce + "Acheter des Exolions:\n \n§aTu as §b" + exolions.getCoins() + " Exolions\n ");
                 TextComponent weblink = new TextComponent("§2➤ §aObtiens des §2Exolions §aen cliquant sur ce §2lien sécurisé §a:\n§b§lhttps://exolia.site/shop");
                 weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bObtenir des Exolions").create()));
                 weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/shop"));
@@ -123,28 +118,28 @@ public class PublicCommands implements CommandExecutor {
             }
 
             if(!args[0].equalsIgnoreCase("send")) {
-                player.sendMessage(Main.PrefixError + "Utilisation : /exolions send <joueur> <nombre d'exolions>");
+                player.sendMessage(main.PrefixError + "Utilisation : /exolions send <joueur> <nombre d'exolions>");
                 return false;
             }
 
             if(args.length == 1) {
-                player.sendMessage(Main.PrefixError + "Veuillez saisir un joueur à qui envoyer les exolions !");
+                player.sendMessage(main.PrefixError + "Veuillez saisir un joueur à qui envoyer les exolions !");
                 return false;
             }
 
             Player target = Bukkit.getPlayer(args[1]);
             if(target == null) {
-                player.sendMessage(Main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                player.sendMessage(main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                 return false;
             }
 
             if(target == player) {
-                player.sendMessage(Main.PrefixError + "Vous ne pouvez pas vous envoyer des exolions à vous-même !");
+                player.sendMessage(main.PrefixError + "Vous ne pouvez pas vous envoyer des exolions à vous-même !");
                 return false;
             }
 
             if(args.length == 2) {
-                player.sendMessage(Main.PrefixError + "Veuillez saisir un nombre d'exolions à envoyer !");
+                player.sendMessage(main.PrefixError + "Veuillez saisir un nombre d'exolions à envoyer !");
                 return false;
             }
 
@@ -153,7 +148,7 @@ public class PublicCommands implements CommandExecutor {
             exolionsplayer.removeCoins(Integer.parseInt(args[2]));
             exolionstarget.addCoins(Integer.parseInt(args[2]));
 
-            player.sendMessage(Main.PrefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + target.getName() + "§7.");
+            player.sendMessage(main.PrefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + target.getName() + "§7.");
             target.sendMessage("Vous avez reçu §b" + args[2] + " Exolions §7de §b" + player.getName() + "§7.");
 
             return true;
@@ -162,10 +157,10 @@ public class PublicCommands implements CommandExecutor {
         if(label.equalsIgnoreCase("nv")) {
             if(player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
                 player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                player.sendMessage(Main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+                player.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
             } else {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 10000,2, false, false));
-                player.sendMessage(Main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+                player.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
             }
             return true;
         }

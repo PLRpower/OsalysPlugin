@@ -28,9 +28,9 @@ public class Main extends JavaPlugin {
     public HashMap<UUID, PlayerManager> players = new HashMap<>();
     private final Map<UUID, Location> freezedPlayers = new HashMap<>();
 
-    public static String PrefixInfo = "§a§lExolia §f§l» §7";
-    public static String PrefixError = "§4§lExolia §f§l» §c";
-    public static String PrefixAnnounce = "§2§lExolia §f§l» §a";
+    public String PrefixInfo = "§a§lExolia §f§l» §7";
+    public String PrefixError = "§4§lExolia §f§l» §c";
+    public String PrefixAnnounce = "§2§lExolia §f§l» §a";
 
     @Override
     public void onEnable() {
@@ -90,7 +90,6 @@ public class Main extends JavaPlugin {
         getCommand("reglement").setExecutor(new PublicCommands());
         getCommand("discord").setExecutor(new PublicCommands());
         getCommand("hub").setExecutor(new PublicCommands());
-        getCommand("hoteldevente").setExecutor(new PublicCommands());
         getCommand("report").setExecutor(new PublicCommands());
         getCommand("mod").setExecutor(new StaffCommands());
         getCommand("sc").setExecutor(new StaffCommands());

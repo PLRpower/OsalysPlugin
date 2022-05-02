@@ -15,8 +15,6 @@ commands:
     description: Permet de rejoindre le discord d'Exolia
   hub:
     alisases: lobby
-  hoteldevente:
-    description: Aliase de la commande /ah
   end:
     description: Aliase de la commande /warp end
   nether:

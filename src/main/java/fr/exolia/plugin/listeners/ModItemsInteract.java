@@ -15,6 +15,8 @@ import java.util.List;
 
 public class ModItemsInteract implements Listener {
 
+    private final Main main = Main.getInstance();
+
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
@@ -33,12 +35,12 @@ public class ModItemsInteract implements Listener {
             case PACKED_ICE:
                 if(Main.getInstance().getFrozenPlayers().containsKey(target.getUniqueId())){
                     Main.getInstance().getFrozenPlayers().remove(target.getUniqueId());
-                    target.sendMessage(Main.PrefixInfo + "Vous avez été unfreeze par un modérateur");
-                    player.sendMessage(Main.PrefixInfo + "Vous avez unfreeze" + target.getName());
+                    target.sendMessage(main.PrefixInfo + "Vous avez été unfreeze par un modérateur");
+                    player.sendMessage(main.PrefixInfo + "Vous avez unfreeze" + target.getName());
                 } else {
                     Main.getInstance().getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
-                    target.sendMessage(Main.PrefixInfo + "Vous avez été freeze par un modérateur");
-                    player.sendMessage(Main.PrefixInfo + "Vous avez freeze" + target.getName());
+                    target.sendMessage(main.PrefixInfo + "Vous avez été freeze par un modérateur");
+                    player.sendMessage(main.PrefixInfo + "Vous avez freeze" + target.getName());
                 }
                 break;
 
@@ -46,9 +48,9 @@ public class ModItemsInteract implements Listener {
                 List<Report> reports = Main.getInstance().getReports().getReports(target.getUniqueId().toString());
 
                 if(reports.isEmpty()) {
-                    player.sendMessage(Main.PrefixError + "Ce joueur n'a aucun signalement");
+                    player.sendMessage(main.PrefixError + "Ce joueur n'a aucun signalement");
                 } else {
-                    player.sendMessage(Main.PrefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
+                    player.sendMessage(main.PrefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
                     reports.forEach(r -> player.sendMessage("§f" + r.getDate() + "§fSignalé par :" + r.getAuthor() + " §fpour la raison :" + r.getReason()));
                 }
 
@@ -69,7 +71,7 @@ public class ModItemsInteract implements Listener {
             case FEATHER:
                 PlayerManager mod = PlayerManager.getFromPlayer(player);
                 mod.setVanished(!mod.isVanished());
-                player.sendMessage(mod.isVanished() ? Main.PrefixInfo + "Vous êtes à présent invisible." : Main.PrefixInfo + "Vous êtes à présent visible");
+                player.sendMessage(mod.isVanished() ? main.PrefixInfo + "Vous êtes à présent invisible." : main.PrefixInfo + "Vous êtes à présent visible");
                 break;
 
             default:

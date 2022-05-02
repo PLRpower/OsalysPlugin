@@ -25,16 +25,16 @@ public class Exolions {
         });
     }
 
-    public void setCoins(int coins) {
+    public void setCoins(float coins) {
         Main.getInstance().getMySQL2().update("UPDATE users SET money ='" + coins + "' WHERE pseudo ='" + player.getName() + "'");
     }
 
-    public void addCoins(int coins) {
-        setCoins((int) (getCoins() + coins));
+    public void addCoins(float coins) {
+        setCoins(getCoins() + coins);
     }
 
-    public void removeCoins(int coins) {
-        setCoins(getCoins() < coins ? 0 : (int) (getCoins() - coins));
+    public void removeCoins(float coins) {
+        setCoins(getCoins() < coins ? 0 : (getCoins() - coins));
     }
 
 }
