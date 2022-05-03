@@ -154,17 +154,45 @@ public class PublicCommands implements CommandExecutor {
             return true;
         }
 
-        if(label.equalsIgnoreCase("nv")) {
-            if(player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
-                player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                player.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
-            } else {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 10000,2, false, false));
-                player.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+        if (label.equalsIgnoreCase("nv")) {
+            if (!player.hasPermission("exolia.empereur")) {
+                player.sendMessage(main.PrefixError + "Tu n'as pas la permission d'utiliser cette commande !");
+                return false;
             }
-            return true;
-        }
 
+            if (args.length == 0) {
+                if(player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                    player.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+                } else {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 10000,2, false, false));
+                    player.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+                }
+            }
+            if (args.length == 1) {
+
+                Player target = Bukkit.getPlayer(args[0]);
+
+                if (!player.hasPermission("exolia.hstaff")) {
+                    player.sendMessage(main.PrefixError + "Tu n'as pas la permission d'utiliser cette commande !");
+                    return false;
+                }
+
+                if (target == null) {
+                    player.sendMessage(main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                    return false;
+                }
+
+                if(target.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+                    target.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                    target.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+                } else {
+                    target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 10000,2, false, false));
+                    target.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+                }
+                return true;
+            }
+        }
 
         return false;
     }
