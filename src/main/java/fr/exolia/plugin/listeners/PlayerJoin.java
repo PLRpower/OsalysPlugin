@@ -1,13 +1,19 @@
 package fr.exolia.plugin.listeners;
 
+import fr.exolia.plugin.Main;
+import fr.exolia.plugin.commands.StaffCommands;
 import fr.exolia.plugin.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 
 public class PlayerJoin implements Listener {
+
+    private final Main main = Main.getInstance();
+    private final Plugin plugin = main;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
@@ -19,8 +25,8 @@ public class PlayerJoin implements Listener {
                     player.hidePlayer(Bukkit.getPluginManager().getPlugin("Essentials"), players);
                 }
             }
-
         }
 
+        Bukkit.getScheduler().runTaskLater(this.plugin, () -> main.chatManager.clearChatForOnePlayer(player), 100);
     }
 }

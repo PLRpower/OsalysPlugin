@@ -7,6 +7,7 @@ import fr.exolia.plugin.commands.StaffCommands;
 import fr.exolia.plugin.database.MySQL;
 import fr.exolia.plugin.database.Reports;
 import fr.exolia.plugin.listeners.*;
+import fr.exolia.plugin.managers.ChatManager;
 import fr.exolia.plugin.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,15 +23,16 @@ public class Main extends JavaPlugin {
     private MySQL mysql2;
 
     private final Reports reports = new Reports();
+    public final ChatManager chatManager = new ChatManager();
 
     public ArrayList<UUID> moderators = new ArrayList<>();
     public ArrayList<UUID> staffchat = new ArrayList<>();
     public HashMap<UUID, PlayerManager> players = new HashMap<>();
     private final Map<UUID, Location> freezedPlayers = new HashMap<>();
 
-    public String PrefixInfo = "§a§lExolia §f§l» §7";
-    public String PrefixError = "§4§lExolia §f§l» §c";
-    public String PrefixAnnounce = "§2§lExolia §f§l» §a";
+    public String PrefixInfo = "§a§lExolia §f§l➜ §7";
+    public String PrefixError = "§c§lExolia §f§l➜ §c";
+    public String PrefixAnnounce = "§a§lExolia §f§l➜ §a";
 
     @Override
     public void onEnable() {
