@@ -37,3 +37,7 @@ commands:
     description: permet de gérer les exolions
   nv:
     aliases: nightvision
+  fdeco:
+    description: Permet de simuler sa propre déconnexion
+  freco:
+    description: Permet de simuler sa propre connexion
