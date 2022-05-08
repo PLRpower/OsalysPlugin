@@ -88,8 +88,7 @@ public class StaffCommands implements CommandExecutor {
 
                 StringBuilder sb = new StringBuilder();
                 for (String arg : args) {sb.append(arg); sb.append(" ");}
-                String combinedArgs = sb.toString();
-                Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + combinedArgs));
+                main.chatManager.sendMessageToStaff(player, sb.toString());
                 return true;
             }
 

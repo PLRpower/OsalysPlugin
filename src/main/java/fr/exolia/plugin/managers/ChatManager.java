@@ -34,4 +34,15 @@ public class ChatManager {
         player.sendMessage("§c§lExolia §8➜ §c/clearchat <player> <Nom d'un joueur> §7Clear le chat pour un seul joueur");
     }
 
+    public void sendReportToStaff(String reason, String targetName) {
+        for(Player players : Bukkit.getOnlinePlayers()){
+            if(players.hasPermission("exolia.staff")){
+                players.sendMessage("§cLe joueur §6" + targetName + " §ca été signalé pour : §6" + reason);
+            }
+        }
+    }
+
+    public void sendMessageToStaff(Player player, String message) {
+        Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + message));
+    }
 }

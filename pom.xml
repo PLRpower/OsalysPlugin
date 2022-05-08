@@ -45,6 +45,18 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
+            Permet d'export le pl directement dans le dossier d'un serveur local. (Changez le repertoire si vous voulez l'utiliser.)
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <outputDirectory>C:\Users\pault\OneDrive - Conseil régional Grand Est - Numérique Educatif\Bureau\server\plugins</outputDirectory>
+                </configuration>
+            </plugin>
+            -->
         </plugins>
         <resources>
             <resource>

@@ -6,9 +6,12 @@ import fr.exolia.plugin.commands.PublicCommands;
 import fr.exolia.plugin.commands.StaffCommands;
 import fr.exolia.plugin.database.MySQL;
 import fr.exolia.plugin.database.Reports;
+import fr.exolia.plugin.gui.ReportGui;
 import fr.exolia.plugin.listeners.*;
 import fr.exolia.plugin.managers.ChatManager;
+import fr.exolia.plugin.managers.GuiManager;
 import fr.exolia.plugin.managers.PlayerManager;
+import fr.exolia.plugin.util.GuiBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.PluginManager;
@@ -30,6 +33,9 @@ public class Main extends JavaPlugin {
     public HashMap<UUID, PlayerManager> players = new HashMap<>();
     private final Map<UUID, Location> freezedPlayers = new HashMap<>();
 
+    private GuiManager guiManager;
+    private Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus;
+
     public String PrefixInfo = "§a§lExolia §f§l➜ §7";
     public String PrefixError = "§c§lExolia §f§l➜ §c";
     public String PrefixAnnounce = "§a§lExolia §f§l➜ §a";
@@ -41,6 +47,7 @@ public class Main extends JavaPlugin {
         initConnection();
         registerCommands();
         registerEvents();
+        loadGui();
         getLogger().info(PrefixAnnounce + "Le plugin s'est correctement activé.");
     }
 
@@ -79,7 +86,6 @@ public class Main extends JavaPlugin {
     private void registerEvents() {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new ModItemsInteract(), this);
-        pm.registerEvents(new ReportEvents(), this);
         pm.registerEvents(new ModCancels(), this);
         pm.registerEvents(new PlayerChat(), this);
         pm.registerEvents(new PlayerQuit(), this);
@@ -103,7 +109,25 @@ public class Main extends JavaPlugin {
         getCommand("nv").setExecutor(new PublicCommands());
     }
 
+
+
+
     public static Main getInstance() {return instance;}
+
+    private void loadGui() {
+        guiManager = new GuiManager();
+        Bukkit.getPluginManager().registerEvents(guiManager, this);
+        registeredMenus = new HashMap<>();
+        guiManager.addMenu(new ReportGui());
+
+    }
+
+    public GuiManager getGuiManager() {
+        return guiManager;
+    }
+    public Map<Class<? extends GuiBuilder>, GuiBuilder> getRegisteredMenus() {
+        return registeredMenus;
+    }
 
     public MySQL getMySQL() {return mysql;}
     public MySQL getMySQL2() {return mysql2;}

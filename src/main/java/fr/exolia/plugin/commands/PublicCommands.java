@@ -1,19 +1,17 @@
 package fr.exolia.plugin.commands;
 
 import fr.exolia.plugin.Main;
+import fr.exolia.plugin.gui.ReportGui;
 import fr.exolia.plugin.managers.Exolions;
-import fr.exolia.plugin.util.ItemBuilder;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -95,11 +93,7 @@ public class PublicCommands implements CommandExecutor {
                 return false;
             }
 
-            Inventory inv = Bukkit.createInventory(null, 18, "§bReport: §c" + target.getName());
-            inv.setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§cForceField").toItemStack());
-            inv.setItem(1, new ItemBuilder(Material.BOW).setName("§cSpamBow").toItemStack());
-            player.openInventory(inv);
-            return true;
+            main.getGuiManager().open(player, ReportGui.class);
         }
 
         if(label.equalsIgnoreCase("exolions")) {
