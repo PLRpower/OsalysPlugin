@@ -107,6 +107,8 @@ public class Main extends JavaPlugin {
         getCommand("exolion").setExecutor(new PublicCommands());
         getCommand("exolionadmin").setExecutor(new HStaffCommands());
         getCommand("nv").setExecutor(new PublicCommands());
+        getCommand("freco").setExecutor(new HStaffCommands());
+        getCommand("fdeco").setExecutor(new HStaffCommands());
     }
 
 
