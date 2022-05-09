@@ -34,6 +34,12 @@ commands:
   exolions:
     aliases: exolion
   exolionadmin:
-    description: permet de gérer les exolions
+    description: Permet de gérer les exolions
   nv:
     aliases: nightvision
+  freeze:
+    description: Permet d'immobiliser un joueur
+  freco:
+    description: Permet de simuler la connexion d'un joueur
+  fdeco:
+    description: Permet de simuler la déconnexion d'un joueur

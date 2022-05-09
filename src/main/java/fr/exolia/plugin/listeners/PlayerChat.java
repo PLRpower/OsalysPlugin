@@ -19,7 +19,7 @@ public class PlayerChat implements Listener {
                 main.chatManager.sendMessageToStaff(player, e.getMessage().substring(1));
                 return;
             }
-            if(main.staffChat.contains(e.getPlayer().getUniqueId())){
+            if(main.getStaffChat().contains(e.getPlayer().getUniqueId())){
                 e.setCancelled(true);
                 main.chatManager.sendMessageToStaff(player, e.getMessage());
             }

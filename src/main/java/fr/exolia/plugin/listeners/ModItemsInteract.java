@@ -3,6 +3,7 @@ package fr.exolia.plugin.listeners;
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.managers.PlayerManager;
 import fr.exolia.plugin.managers.ReportManager;
+import org.apache.commons.io.EndianUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,14 +34,10 @@ public class ModItemsInteract implements Listener {
                 break;
 
             case PACKED_ICE:
-                if(main.getFrozenPlayers().containsKey(target.getUniqueId())){
-                    main.getFrozenPlayers().remove(target.getUniqueId());
-                    target.sendMessage(main.prefixInfo + "Vous avez été unfreeze par un modérateur");
-                    player.sendMessage(main.prefixInfo + "Vous avez unfreeze" + target.getName());
+                if(PlayerManager.isFreeze(target)){
+                    main.getPlayerManager().destoryFreeze(target, player);
                 }else{
-                    main.getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
-                    target.sendMessage(main.prefixInfo + "Vous avez été freeze par un modérateur");
-                    player.sendMessage(main.prefixInfo + "Vous avez freeze" + target.getName());
+                    main.getPlayerManager().initFreeze(target, player);
                 }
                 break;
 
@@ -69,9 +66,7 @@ public class ModItemsInteract implements Listener {
         switch (player.getInventory().getItemInMainHand().getType()){
 
             case FEATHER:
-                PlayerManager mod = PlayerManager.getFromPlayer(player);
-                mod.setVanished(!mod.isVanished());
-                player.sendMessage(mod.isVanished() ? main.prefixInfo + "Vous êtes à présent invisible." : main.prefixInfo + "Vous êtes à présent visible");
+                player.sendMessage(main.prefixInfo + "Vous êtes à présent invisible.");
                 break;
 
             default:

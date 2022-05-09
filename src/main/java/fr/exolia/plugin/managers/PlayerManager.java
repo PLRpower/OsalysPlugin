@@ -6,26 +6,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class PlayerManager {
 
     private final Main main = Main.getInstance();
-    private final Player player;
     private final ItemStack[] items = new ItemStack[40];
-    private boolean vanished;
-
-    public PlayerManager(Player player){
-        this.player = player;
-        vanished = false;
-    }
+    private final Plugin plugin = main;
 
     public ItemStack[] getItems() {
         return items;
     }
 
-    public void SaveInventory(){
+    public void SaveInventory(Player player){
         for (int slot = 0; slot < 36; slot++) {
             ItemStack item = player.getInventory().getItem(slot);
             if (item != null) {
@@ -40,7 +35,7 @@ public class PlayerManager {
         player.getInventory().clear();
     }
 
-    public void GiveInventory(){
+    public void GiveInventory(Player player){
         player.getInventory().clear();
 
         for (int slot = 0; slot < 36; slot++){
@@ -56,11 +51,10 @@ public class PlayerManager {
         player.getInventory().setBoots(items[39]);
     }
 
-    public void initModerationMod(){
-        main.getPlayers().put(player.getUniqueId(), this);
+    public void initModerationMod(Player player){
         main.getModerators().add(player.getUniqueId());
         player.sendMessage( main.prefixInfo + "Mode modération §aactivé§7.");
-        SaveInventory();
+        SaveInventory(player);
 
         ItemBuilder invSee = new ItemBuilder(Material.PAPER).setName("§aVoir l'inventaire").setLore("§7Clique droit sur un joueur", "§7pour voir son inventaire");
         ItemBuilder vanish = new ItemBuilder(Material.FEATHER).setName("§aVanish").setLore("§7Clique droit pour", "§7activer/désactiver le vanish");
@@ -72,61 +66,66 @@ public class PlayerManager {
         player.getInventory().setItem(3, reports.toItemStack());
     }
 
-    public void destroyModerationMod(){
-        main.getPlayers().remove(player.getUniqueId());
+    public void destroyModerationMod(Player player){
         main.getModerators().remove(player.getUniqueId());
         player.getInventory().clear();
         player.sendMessage(main.prefixInfo + "Mode modération §cdésactivé§7.");
-        GiveInventory();
-        setVanished(false);
+        GiveInventory(player);
     }
 
-    public void setVanished(boolean vanished){
-        this.vanished = vanished;
-        if(vanished){
-            Bukkit.getOnlinePlayers().forEach(players -> players.hidePlayer(Bukkit.getPluginManager().getPlugin("Essentials"), player));
-        } else {
-            Bukkit.getOnlinePlayers().forEach(players -> players.showPlayer(Bukkit.getPluginManager().getPlugin("Essentials"), player));
-        }
+
+    public void initVanish(Player player){
+        main.getVanished().add(player.getUniqueId());
     }
 
-    public void initStaffChat(){
-        main.getPlayers().put(player.getUniqueId(), this);
+    public void destroyVanish(Player player){
+        main.getVanished().remove(player.getUniqueId());
+    }
+
+    public void initStaffChat(Player player){
         main.getStaffChat().add(player.getUniqueId());
         player.sendMessage( main.prefixInfo + "StaffChat §aactivé§7.");
     }
 
-    public void destroyStaffChat(){
-        main.getPlayers().remove(player.getUniqueId());
+    public void destroyStaffChat(Player player){
         main.getStaffChat().remove(player.getUniqueId());
         player.sendMessage(main.prefixInfo + "StaffChat §cdésactivé§7.");
     }
 
-    public void initFreeze(Player target){
+    public void initFreeze(Player target, Player player){
         main.getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
-        target.sendMessage(main.prefixInfo + "Vous avez été immobilisé par un modérateur");
-        player.sendMessage(main.prefixInfo + "Vous avez immobilisé " + target.getName());
+        target.sendMessage(main.prefixInfo + "Vous avez été §cimmobilisé §7par un modérateur");
+        player.sendMessage(main.prefixInfo + "Vous avez §cimmobilisé §b" + target.getName());
     }
 
-    public void destoryFreeze(Player target){
+    public void destoryFreeze(Player target, Player player){
         main.getFrozenPlayers().remove(target.getUniqueId());
-        target.sendMessage(main.prefixInfo + "Vous avez été désimmobilisé un modérateur");
-        player.sendMessage(main.prefixInfo + "Vous avez désimmobilisé " + target.getName());
+        target.sendMessage(main.prefixInfo + "Vous avez été §adésimmobilisé §7un modérateur");
+        player.sendMessage(main.prefixInfo + "Vous avez §adésimmobilisé §b" + target.getName());
     }
 
-    public void initNightVision(){
+    public void initNightVision(Player player){
         player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 10000,2, false, false));
         player.sendMessage(main.prefixInfo + "Vous avez §aactivé §7la vision nocturne.");
     }
 
-    public void destroyNightVision(){
+    public void destroyNightVision(Player player){
         player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-        player.sendMessage(main.prefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+        player.sendMessage(main.prefixInfo + "Vous avez §cdésactivé §7la vision nocturne.");
     }
 
-    public static PlayerManager getFromPlayer(Player player) {return Main.getInstance().getPlayers().get(player.getUniqueId());}
-    public static boolean isInModerationMod(Player player) {return Main.getInstance().getModerators().contains(player.getUniqueId());}
-    public static boolean isFreeze(Player player) {return Main.getInstance().getFrozenPlayers().containsKey(player.getUniqueId());}
-    public static boolean isNightVision(Player player) {return player.hasPotionEffect(PotionEffectType.NIGHT_VISION);}
-    public boolean isVanished() {return vanished;}
+
+    public static boolean isInModerationMod(Player player) {
+        return Main.getInstance().getModerators().contains(player.getUniqueId());
+    }
+    public static boolean isFreeze(Player player) {
+        return Main.getInstance().getFrozenPlayers().containsKey(player.getUniqueId());
+    }
+    public static boolean isNightVision(Player player) {
+        return player.hasPotionEffect(PotionEffectType.NIGHT_VISION);
+    }
+    public static boolean isStaffChat(Player player) {
+        return Main.getInstance().getStaffChat().contains(player.getUniqueId());
+    }
+    public static boolean isVanished(Player player) {return Main.getInstance().getVanished().contains(player.getUniqueId());}
 }

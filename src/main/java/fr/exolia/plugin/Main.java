@@ -27,15 +27,16 @@ public class Main extends JavaPlugin {
     private MySQL mysql2;
     private GuiManager guiManager;
 
-    private final Reports reports = new Reports();
     public final ChatManager chatManager = new ChatManager();
     public final Stats stats = new Stats();
-
-    public ArrayList<UUID> moderators = new ArrayList<>();
-    public ArrayList<UUID> staffChat = new ArrayList<>();
-    public HashMap<UUID, PlayerManager> players = new HashMap<>();
-    private final Map<UUID, Location> frozenPlayers = new HashMap<>();
+    public final PlayerManager playerManager = new PlayerManager();
     private Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus;
+
+    private final ArrayList<UUID> moderators = new ArrayList<>();
+    private final ArrayList<UUID> staffChat = new ArrayList<>();
+    private final Map<UUID, Location> frozenPlayers = new HashMap<>();
+    private final Reports reports = new Reports();
+    private final ArrayList<UUID> vanished = new ArrayList<>();
 
     public String prefixInfo = "§a§lExolia §8§l➜ §7";
     public String prefixError = "§c§lExolia §8§l➜ §c";
@@ -70,7 +71,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable(){
         getLogger().info(prefixInfo + "Désactivation du plugin en cours ...");
-        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> PlayerManager.getFromPlayer(p).destroyModerationMod());
+        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> Main.getInstance().getPlayerManager().destroyNightVision(p));
         stats.setOnlinePlayers(0);
         getLogger().info(prefixAnnounce + "Le plugin s'est correctement désactivé.");
     }
@@ -97,10 +98,10 @@ public class Main extends JavaPlugin {
         mysql.createTables();
 
         HikariDataSource c2 = new HikariDataSource();
-        c2.setDriverClassName("com.mysql.jdbc.Driver");
-        c2.setUsername("u12749_OwD4gPJ6L7");
-        c2.setPassword("FMavi6!z^X@n.cd4XlEehhwL");
-        c2.setJdbcUrl("jdbc:mysql://45.140.165.82:3306/s12749_site?autoReconnect=true");
+        c1.setDriverClassName("com.mysql.jdbc.Driver");
+        c1.setUsername("adminmysql_all");
+        c1.setPassword("4yc2@k0D8&!z");
+        c1.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/exolia_website?autoReconnect=true");
         c2.setMaxLifetime(600000L);
         c2.setIdleTimeout(300000L);
         c2.setLeakDetectionThreshold(300000L);
@@ -142,6 +143,9 @@ public class Main extends JavaPlugin {
         getCommand("exolion").setExecutor(new PublicCommands());
         getCommand("exolionadmin").setExecutor(new HStaffCommands());
         getCommand("nv").setExecutor(new PublicCommands());
+        getCommand("freeze").setExecutor(new StaffCommands());
+        getCommand("freco").setExecutor(new HStaffCommands());
+        getCommand("fdeco").setExecutor(new HStaffCommands());
     }
 
     /**<hr>
@@ -176,11 +180,11 @@ public class Main extends JavaPlugin {
     public MySQL getMySQL2() {
         return mysql2;
     }
+    public PlayerManager getPlayerManager() {
+        return playerManager;
+    }
     public Reports getReports() {
         return reports;
-    }
-    public Map<UUID, PlayerManager> getPlayers() {
-        return players;
     }
     public List<UUID> getModerators() {
         return moderators;
@@ -190,5 +194,8 @@ public class Main extends JavaPlugin {
     }
     public Map<UUID, Location> getFrozenPlayers() {
         return frozenPlayers;
+    }
+    public List<UUID> getVanished() {
+        return vanished;
     }
 }

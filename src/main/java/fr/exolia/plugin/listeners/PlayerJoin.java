@@ -20,10 +20,12 @@ public class PlayerJoin implements Listener {
         Player player = e.getPlayer();
         for(Player players : Bukkit.getOnlinePlayers()){
             if(PlayerManager.isInModerationMod(players)){
+                /**
                 PlayerManager pm = PlayerManager.getFromPlayer(players);
                 if(pm.isVanished()){
                     player.hidePlayer(Bukkit.getPluginManager().getPlugin("Essentials"), players);
                 }
+                 */
             }
         }
         if(!player.hasPermission(main.permissionHStaff)){

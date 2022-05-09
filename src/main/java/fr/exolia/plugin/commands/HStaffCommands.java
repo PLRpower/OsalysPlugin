@@ -51,7 +51,19 @@ public class HStaffCommands implements CommandExecutor {
                     }
                 }
             }
+
         }
+
+        if (label.equalsIgnoreCase("freco")) {
+            Bukkit.broadcastMessage("§f[§a+§f] " + player.getDisplayName());
+            return true;
+        }
+
+        if (label.equalsIgnoreCase("fdeco")) {
+            Bukkit.broadcastMessage("§f[§c-§f] " + player.getDisplayName());
+            return true;
+        }
+
         return false;
     }
 }

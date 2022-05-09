@@ -152,16 +152,15 @@ public class PublicCommands implements CommandExecutor {
                 player.sendMessage(main.prefixError + "Tu n'as pas la permission d'utiliser cette commande !");
                 return false;
             }
-
-            if (PlayerManager.isNightVision(player)){
-                if(player.hasPotionEffect(PotionEffectType.NIGHT_VISION)){
-                    PlayerManager.getFromPlayer(player).destroyNightVision();
-                    return true;
+            if (args.length == 0){
+                if (PlayerManager.isNightVision(player)){
+                    main.getPlayerManager().destroyNightVision(player);
                 } else {
-                    new PlayerManager(player).initNightVision();
-                    return true;
+                    main.getPlayerManager().initNightVision(player);
                 }
+                return true;
             }
+
             if (args.length == 1){
 
                 Player target = Bukkit.getPlayer(args[0]);
@@ -177,9 +176,9 @@ public class PublicCommands implements CommandExecutor {
                 }
 
                 if(PlayerManager.isNightVision(player)){
-                    PlayerManager.getFromPlayer(player).destroyNightVision();
+                    main.getPlayerManager().destroyNightVision(player);
                 } else {
-                    new PlayerManager(player).initNightVision();
+                    main.getPlayerManager().initNightVision(player);
                 }
                 return true;
             }

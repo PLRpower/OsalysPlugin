@@ -20,7 +20,6 @@ public class StaffCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 
         Player player = (Player) sender;
-
         if(!player.hasPermission(main.permissionStaff)){
             player.sendMessage(main.prefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
             return false;
@@ -33,9 +32,9 @@ public class StaffCommands implements CommandExecutor {
                 }
 
                 if(PlayerManager.isInModerationMod(player)){
-                    PlayerManager.getFromPlayer(player).destroyModerationMod();
+                    main.getPlayerManager().destroyModerationMod(player);
                 } else {
-                    new PlayerManager(player).initModerationMod();
+                    main.getPlayerManager().initModerationMod(player);
                 }
                 return true;
             }
@@ -60,9 +59,9 @@ public class StaffCommands implements CommandExecutor {
                 }
 
                 if(PlayerManager.isFreeze(target)){
-                    PlayerManager.getFromPlayer(player).destoryFreeze(target);
+                    main.getPlayerManager().destoryFreeze(target, player);
                 } else{
-                    new PlayerManager(player).initFreeze(target);
+                    main.getPlayerManager().initFreeze(target, player);
                 }
                 return true;
             }
@@ -70,10 +69,10 @@ public class StaffCommands implements CommandExecutor {
             if(label.equalsIgnoreCase("sc")){
 
                 if(args.length == 0) {
-                    if(main.staffChat.contains(player.getUniqueId())){
-                        PlayerManager.getFromPlayer(player).destroyStaffChat();
+                    if(PlayerManager.isStaffChat(player)){
+                        main.getPlayerManager().destroyStaffChat(player);
                     } else {
-                        new PlayerManager(player).initStaffChat();
+                        main.getPlayerManager().initStaffChat(player);
                     }
                     return true;
                 }

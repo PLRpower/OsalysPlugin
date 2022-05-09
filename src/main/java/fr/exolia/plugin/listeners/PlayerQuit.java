@@ -16,7 +16,7 @@ public class PlayerQuit  implements Listener {
         main.stats.removePlayers(1);
         Player player = e.getPlayer();
         if(PlayerManager.isInModerationMod(player)){
-            PlayerManager.getFromPlayer(player).destroyModerationMod();
+            main.getPlayerManager().destroyModerationMod(player);
         }
     }
 }
