@@ -17,37 +17,37 @@ import org.bukkit.event.player.PlayerMoveEvent;
 public class ModCancels implements Listener {
 
     @EventHandler
-    public void onItemPickup(EntityPickupItemEvent e) {
+    public void onItemPickup(EntityPickupItemEvent e){
         if(!(e.getEntity() instanceof Player)) return;
         Player pickup = (Player) e.getEntity();
         e.setCancelled(PlayerManager.isInModerationMod(pickup) || PlayerManager.isFreeze(pickup));
     }
 
     @EventHandler
-    public void onEntityDamage(EntityDamageEvent e) {
+    public void onEntityDamage(EntityDamageEvent e){
         if(!(e.getEntity() instanceof Player)) return;
         Player damaged = (Player) e.getEntity();
         e.setCancelled(PlayerManager.isInModerationMod(damaged) ||  PlayerManager.isFreeze(damaged));
 
-        if(e instanceof EntityDamageByEntityEvent) {
+        if(e instanceof EntityDamageByEntityEvent){
             EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent) e;
             e.setCancelled(ev.getEntity() instanceof Player &&  PlayerManager.isFreeze((Player) ev.getEntity()));
         }
     }
 
     @EventHandler
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent e){
         if(!(e.getEntity() instanceof Player)) return;
         if(!(e.getDamager() instanceof Player)) return;
         Player damage = (Player) e.getDamager();
-        if(PlayerManager.isInModerationMod(damage)) {
+        if(PlayerManager.isInModerationMod(damage)){
             e.setCancelled(damage.getInventory().getItemInMainHand().getType() != Material.STICK);
         }
     }
 
     @EventHandler
-    public void onMove(PlayerMoveEvent e) {
-        if( PlayerManager.isFreeze(e.getPlayer())) {
+    public void onMove(PlayerMoveEvent e){
+        if( PlayerManager.isFreeze(e.getPlayer())){
             e.setTo(e.getFrom());
         }
     }

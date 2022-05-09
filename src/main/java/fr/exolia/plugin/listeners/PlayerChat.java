@@ -1,7 +1,6 @@
 package fr.exolia.plugin.listeners;
 
 import fr.exolia.plugin.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,17 +11,15 @@ public class PlayerChat implements Listener {
     private final Main main = Main.getInstance();
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent e) {
+    public void onChat(AsyncPlayerChatEvent e){
         Player player = e.getPlayer();
-
-        if(!e.isCancelled()) {
-            if(e.getMessage().startsWith("$") && player.hasPermission("exolia.staff")) {
+        if(!e.isCancelled()){
+            if(e.getMessage().startsWith("$") && player.hasPermission("exolia.staff")){
                 e.setCancelled(true);
                 main.chatManager.sendMessageToStaff(player, e.getMessage().substring(1));
                 return;
             }
-
-            if(main.staffchat.contains(e.getPlayer().getUniqueId())) {
+            if(main.staffChat.contains(e.getPlayer().getUniqueId())){
                 e.setCancelled(true);
                 main.chatManager.sendMessageToStaff(player, e.getMessage());
             }

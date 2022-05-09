@@ -2,7 +2,8 @@ package fr.exolia.plugin.commands;
 
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.gui.ReportGui;
-import fr.exolia.plugin.managers.Exolions;
+import fr.exolia.plugin.database.Exolions;
+import fr.exolia.plugin.managers.PlayerManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -12,7 +13,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class PublicCommands implements CommandExecutor {
@@ -20,17 +20,17 @@ public class PublicCommands implements CommandExecutor {
     private final Main main = Main.getInstance();
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(main.PrefixError + "Seul un joueur peut executer cette commande.");
+        if (!(sender instanceof Player)){
+            sender.sendMessage(main.prefixError + "Seul un joueur peut executer cette commande.");
             return false;
         }
 
         Player player = (Player)sender;
         TextComponent bar = new TextComponent("§7§m---------------------");
 
-        if (label.equalsIgnoreCase("site")) {
+        if (label.equalsIgnoreCase("site")){
             TextComponent weblink = new TextComponent("\n§aSite Web §2§l➤ §bexolia.site\n");
             weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bCliquez pour accéder au site").create()));
             weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site"));
@@ -38,7 +38,7 @@ public class PublicCommands implements CommandExecutor {
             return true;
         }
 
-        if (label.equalsIgnoreCase("vote")) {
+        if (label.equalsIgnoreCase("vote")){
             TextComponent weblink = new TextComponent("\n§aVoter pour exolia §2§l➤ §bexolia.site/vote\n");
             weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bCliquez pour voter").create()));
             weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/vote"));
@@ -46,7 +46,7 @@ public class PublicCommands implements CommandExecutor {
             return true;
         }
 
-        if (label.equalsIgnoreCase("reglement")) {
+        if (label.equalsIgnoreCase("reglement")){
             TextComponent weblink = new TextComponent("\n§aRéglement §2§l➤ §bexolia.site/p/reglement\n");
             weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bCliquez pour accèder au règlement du serveur.").create()));
             weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/p/reglement"));
@@ -55,53 +55,53 @@ public class PublicCommands implements CommandExecutor {
             return true;
         }
 
-        if (label.equalsIgnoreCase("discord")) {
+        if (label.equalsIgnoreCase("discord")){
             player.performCommand("discordsrv link");
             return true;
         }
 
-        if (label.equalsIgnoreCase("hub")) {
+        if (label.equalsIgnoreCase("hub")){
             player.performCommand("spawn");
             return true;
         }
 
-        if (label.equalsIgnoreCase("end")) {
+        if (label.equalsIgnoreCase("end")){
             player.performCommand("warp end");
             return true;
         }
 
-        if (label.equalsIgnoreCase("nether")) {
+        if (label.equalsIgnoreCase("nether")){
             player.performCommand("warp nether");
             return true;
         }
 
-        if(label.equalsIgnoreCase("report")) {
+        if(label.equalsIgnoreCase("report")){
 
             if(args.length != 1){
-                player.sendMessage(main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
+                player.sendMessage(main.prefixError + "Veuillez saisir le pseudo d'un joueur !");
                 return false;
             }
 
             Player target = Bukkit.getPlayer(args[0]);
             if(target == null){
-                player.sendMessage(main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                player.sendMessage(main.prefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                 return false;
             }
 
             if(target == player) {
-                player.sendMessage(main.PrefixError + "Vous ne pouvez pas vous signaler vous-même !");
+                player.sendMessage(main.prefixError + "Vous ne pouvez pas vous signaler vous-même !");
                 return false;
             }
 
             main.getGuiManager().open(player, ReportGui.class);
         }
 
-        if(label.equalsIgnoreCase("exolions")) {
+        if(label.equalsIgnoreCase("exolions")){
 
 
-            if(args.length == 0) {
+            if(args.length == 0){
                 Exolions exolions = new Exolions(player);
-                player.sendMessage("\n§7§m---------------------\n" + main.PrefixAnnounce + "Acheter des Exolions:\n \n§aTu as §b" + exolions.getCoins() + " Exolions\n ");
+                player.sendMessage("\n§7§m---------------------\n" + main.prefixAnnounce + "Acheter des Exolions:\n \n§aTu as §b" + exolions.getCoins() + " Exolions\n ");
                 TextComponent weblink = new TextComponent("§2➤ §aObtiens des §2Exolions §aen cliquant sur ce §2lien sécurisé §a:\n§b§lhttps://exolia.site/shop");
                 weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bObtenir des Exolions").create()));
                 weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/shop"));
@@ -111,29 +111,29 @@ public class PublicCommands implements CommandExecutor {
                 return true;
             }
 
-            if(!args[0].equalsIgnoreCase("send")) {
-                player.sendMessage(main.PrefixError + "Utilisation : /exolions send <joueur> <nombre d'exolions>");
+            if(!args[0].equalsIgnoreCase("send")){
+                player.sendMessage(main.prefixError + "Utilisation : /exolions send <joueur> <nombre d'exolions>");
                 return false;
             }
 
-            if(args.length == 1) {
-                player.sendMessage(main.PrefixError + "Veuillez saisir un joueur à qui envoyer les exolions !");
+            if(args.length == 1){
+                player.sendMessage(main.prefixError + "Veuillez saisir un joueur à qui envoyer les exolions !");
                 return false;
             }
 
             Player target = Bukkit.getPlayer(args[1]);
-            if(target == null) {
-                player.sendMessage(main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+            if(target == null){
+                player.sendMessage(main.prefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                 return false;
             }
 
-            if(target == player) {
-                player.sendMessage(main.PrefixError + "Vous ne pouvez pas vous envoyer des exolions à vous-même !");
+            if(target == player){
+                player.sendMessage(main.prefixError + "Vous ne pouvez pas vous envoyer des exolions à vous-même !");
                 return false;
             }
 
-            if(args.length == 2) {
-                player.sendMessage(main.PrefixError + "Veuillez saisir un nombre d'exolions à envoyer !");
+            if(args.length == 2){
+                player.sendMessage(main.prefixError + "Veuillez saisir un nombre d'exolions à envoyer !");
                 return false;
             }
 
@@ -141,48 +141,45 @@ public class PublicCommands implements CommandExecutor {
             Exolions exolionstarget = new Exolions(target);
             exolionsplayer.removeCoins(Integer.parseInt(args[2]));
             exolionstarget.addCoins(Integer.parseInt(args[2]));
-
-            player.sendMessage(main.PrefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + target.getName() + "§7.");
+            player.sendMessage(main.prefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + target.getName() + "§7.");
             target.sendMessage("Vous avez reçu §b" + args[2] + " Exolions §7de §b" + player.getName() + "§7.");
 
             return true;
         }
 
-        if (label.equalsIgnoreCase("nv")) {
-            if (!player.hasPermission("exolia.empereur")) {
-                player.sendMessage(main.PrefixError + "Tu n'as pas la permission d'utiliser cette commande !");
+        if (label.equalsIgnoreCase("nv")){
+            if (!player.hasPermission("exolia.empereur")){
+                player.sendMessage(main.prefixError + "Tu n'as pas la permission d'utiliser cette commande !");
                 return false;
             }
 
-            if (args.length == 0) {
-                if(player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
-                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                    player.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+            if (PlayerManager.isNightVision(player)){
+                if(player.hasPotionEffect(PotionEffectType.NIGHT_VISION)){
+                    PlayerManager.getFromPlayer(player).destroyNightVision();
+                    return true;
                 } else {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 10000,2, false, false));
-                    player.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+                    new PlayerManager(player).initNightVision();
+                    return true;
                 }
             }
-            if (args.length == 1) {
+            if (args.length == 1){
 
                 Player target = Bukkit.getPlayer(args[0]);
 
-                if (!player.hasPermission("exolia.hstaff")) {
-                    player.sendMessage(main.PrefixError + "Tu n'as pas la permission d'utiliser cette commande !");
+                if (!player.hasPermission(main.permissionModerator)){
+                    player.sendMessage(main.prefixError + "Tu n'as pas la permission d'utiliser cette commande !");
                     return false;
                 }
 
-                if (target == null) {
-                    player.sendMessage(main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                if (target == null){
+                    player.sendMessage(main.prefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                     return false;
                 }
 
-                if(target.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
-                    target.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                    target.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+                if(PlayerManager.isNightVision(player)){
+                    PlayerManager.getFromPlayer(player).destroyNightVision();
                 } else {
-                    target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 10000,2, false, false));
-                    target.sendMessage(main.PrefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+                    new PlayerManager(player).initNightVision();
                 }
                 return true;
             }

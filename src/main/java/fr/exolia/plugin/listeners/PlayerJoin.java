@@ -1,7 +1,6 @@
 package fr.exolia.plugin.listeners;
 
 import fr.exolia.plugin.Main;
-import fr.exolia.plugin.commands.StaffCommands;
 import fr.exolia.plugin.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,9 +15,10 @@ public class PlayerJoin implements Listener {
     private final Plugin plugin = main;
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
+    public void onJoin(PlayerJoinEvent e){
+        main.stats.addPlayers(1);
         Player player = e.getPlayer();
-        for(Player players : Bukkit.getOnlinePlayers()) {
+        for(Player players : Bukkit.getOnlinePlayers()){
             if(PlayerManager.isInModerationMod(players)){
                 PlayerManager pm = PlayerManager.getFromPlayer(players);
                 if(pm.isVanished()){
@@ -26,7 +26,8 @@ public class PlayerJoin implements Listener {
                 }
             }
         }
-
-        Bukkit.getScheduler().runTaskLater(this.plugin, () -> main.chatManager.clearChatForOnePlayer(player), 100);
+        if(!player.hasPermission(main.permissionHStaff)){
+            Bukkit.getScheduler().runTaskLater(this.plugin, () -> main.chatManager.clearChatForOnePlayer(player), 100);
+        }
     }
 }

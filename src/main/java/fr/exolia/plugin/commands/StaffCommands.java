@@ -1,7 +1,7 @@
 package fr.exolia.plugin.commands;
 
 import fr.exolia.plugin.managers.PlayerManager;
-import fr.exolia.plugin.managers.Report;
+import fr.exolia.plugin.managers.ReportManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,26 +17,22 @@ public class StaffCommands implements CommandExecutor {
     private final Main main = Main.getInstance();
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(main.PrefixError + "Seul un joueur peut executer cette commande.");
-            return false;
-        }
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 
         Player player = (Player) sender;
 
-        if(!player.hasPermission("exolia.staff")) {
-            player.sendMessage(main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
+        if(!player.hasPermission(main.permissionStaff)){
+            player.sendMessage(main.prefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
+            return false;
         }else{
-            if(label.equalsIgnoreCase("mod")) {
+            if(label.equalsIgnoreCase("mod")){
 
-                if(!player.hasPermission("exolia.moderateur")) {
-                    player.sendMessage(main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
+                if(!player.hasPermission(main.permissionModerator)) {
+                    player.sendMessage(main.prefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
                     return false;
                 }
 
-                if(PlayerManager.isInModerationMod(player)) {
+                if(PlayerManager.isInModerationMod(player)){
                     PlayerManager.getFromPlayer(player).destroyModerationMod();
                 } else {
                     new PlayerManager(player).initModerationMod();
@@ -44,41 +40,37 @@ public class StaffCommands implements CommandExecutor {
                 return true;
             }
 
-            if(label.equalsIgnoreCase("freeze")) {
+            if(label.equalsIgnoreCase("freeze")){
 
-                if(!player.hasPermission("exolia.moderateur")) {
-                    player.sendMessage(main.PrefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
+                if(!player.hasPermission(main.permissionModerator)){
+                    player.sendMessage(main.prefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
                     return false;
                 }
 
-                if(args.length != 1) {
-                    player.sendMessage(main.PrefixError + "Veuillez saisir un joueur !");
+                if(args.length != 1){
+                    player.sendMessage(main.prefixError + "Veuillez saisir un joueur !");
                     return false;
                 }
 
                 Player target = Bukkit.getPlayer(args[0]);
 
                 if(target == null){
-                    player.sendMessage(main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                    player.sendMessage(main.prefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                     return false;
                 }
 
-                if(PlayerManager.isFreeze(target)) {
-                    main.getFrozenPlayers().remove(target.getUniqueId());
-                    target.sendMessage(main.PrefixInfo + "Vous avez été unfreeze par un modérateur");
-                    player.sendMessage(main.PrefixInfo + "Vous avez unfreeze" + target.getName());
-                } else {
-                    main.getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
-                    target.sendMessage(main.PrefixInfo + "Vous avez été freeze par un modérateur");
-                    player.sendMessage(main.PrefixInfo + "Vous avez freeze" + target.getName());
+                if(PlayerManager.isFreeze(target)){
+                    PlayerManager.getFromPlayer(player).destoryFreeze(target);
+                } else{
+                    new PlayerManager(player).initFreeze(target);
                 }
                 return true;
             }
 
-            if(label.equalsIgnoreCase("sc")) {
+            if(label.equalsIgnoreCase("sc")){
 
                 if(args.length == 0) {
-                    if(main.staffchat.contains(player.getUniqueId())) {
+                    if(main.staffChat.contains(player.getUniqueId())){
                         PlayerManager.getFromPlayer(player).destroyStaffChat();
                     } else {
                         new PlayerManager(player).initStaffChat();
@@ -92,82 +84,86 @@ public class StaffCommands implements CommandExecutor {
                 return true;
             }
 
-            if(label.equalsIgnoreCase("history")) {
+            if(label.equalsIgnoreCase("history")){
 
                 if(args.length != 1) {
-                    player.sendMessage(main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
+                    player.sendMessage(main.prefixError + "Veuillez saisir le pseudo d'un joueur !");
                     return false;
                 }
 
                 Player target = Bukkit.getPlayer(args[0]);
-                List<Report> reports = main.getReports().getReports(target.getUniqueId().toString());
+                List<ReportManager> reports = main.getReports().getReports(target.getUniqueId().toString());
                 if(reports.isEmpty()) {
-                    player.sendMessage(main.PrefixError + "Ce joueur n'a aucun signalement");
+                    player.sendMessage(main.prefixError + "Ce joueur n'a aucun signalement");
                 } else {
-                    player.sendMessage(main.PrefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
+                    player.sendMessage(main.prefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
                     reports.forEach(r -> player.sendMessage("§f" + r.getDate() + "§fSignalé par :" + r.getAuthor() + " §fpour la raison :" + r.getReason()));
                 }
                 return true;
             }
 
-            if(label.equalsIgnoreCase("jm")) {
+            if(label.equalsIgnoreCase("jm")){
 
                 if(args.length != 1){
-                    player.sendMessage(main.PrefixError + "Veuillez saisir le pseudo d'un joueur !");
+                    player.sendMessage(main.prefixError + "Veuillez saisir le pseudo d'un joueur !");
                     return false;
                 }
 
                 Player target = Bukkit.getPlayer(args[0]);
                 if(target == null){
-                    player.sendMessage(main.PrefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
+                    player.sendMessage(main.prefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                     return false;
                 }
 
                 if(target == player) {
-                    player.sendMessage(main.PrefixError + "Vous ne pouvez pas vous occuper de vous-même !");
+                    player.sendMessage(main.prefixError + "Vous ne pouvez pas vous occuper de vous-même !");
                     return false;
                 }
 
-                Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission("exolia.staff")).forEach(players -> players.sendMessage(player.getName()+" s'occupe de modérer de " + target.getName()));
+                main.chatManager.sendMessageToStaff(player, " s'occupe de modérer de " + target.getName());
                 return true;
             }
 
-            if(label.equalsIgnoreCase("clearchat")) {
+            if(label.equalsIgnoreCase("clearchat")){
                 if(args.length == 0){
                     main.chatManager.clearChatForAll();
-                    Bukkit.broadcastMessage("§c§lExolia §8➜ §cLe chat vient d'être nettoyé par un Administrateur.");
-                }else{
+                    Bukkit.broadcastMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Modérateur.");
+                    return true;
+                } else {
                     if(args.length == 1){
                         if(args[0].equalsIgnoreCase("player")){
                             for(Player players : Bukkit.getOnlinePlayers()){
-                                if(!players.hasPermission("exolia.staff")){
+                                if(!players.hasPermission(main.permissionStaff)){
                                     main.chatManager.clearChatForPlayersOnly();
-                                    players.sendMessage("§c§lExolia §8➜ §cLe chat vient d'être nettoyé par un Administrateur.");
+                                    players.sendMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Administrateur.");
+                                    return true;
                                 }
                             }
-                        }else if(args[0].equalsIgnoreCase("all")){
+                        } else if(args[0].equalsIgnoreCase("all")){
                             main.chatManager.clearChatForAll();
-                            Bukkit.broadcastMessage("§c§lExolia §8➜ §cLe chat vient d'être nettoyé par un Administrateur.");
-                        }else{
+                            Bukkit.broadcastMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Administrateur.");
+                            return true;
+                        } else {
                             main.chatManager.sendClearChatErrorMessage(player);
                             return false;
                         }
-                    }else if(args.length == 2){
+                    } else if(args.length == 2){
                         Player target = Bukkit.getPlayerExact(args[1]);
 
                         if(target == null){
-                            player.sendMessage("§c§lExolia §8➜ §cCe joueur n'existe pas ou n'est pas connecté.");
+                            player.sendMessage(main.prefixError + "Ce joueur n'existe pas ou n'est pas connecté.");
                             return false;
                         }
 
                         if(args[0].equalsIgnoreCase("player")){
                             main.chatManager.clearChatForOnePlayer(target);
-                            target.sendMessage("§c§lExolia §8➜ §cTon chat vient d'être nettoyé par §f" + player.getName() + "§c.");
-                        }else{
+                            target.sendMessage(main.prefixAnnounce + "Ton chat vient d'être nettoyé par §b" + player.getName() + "§a.");
+                            return true;
+                        } else {
                             main.chatManager.sendClearChatErrorMessage(player);
                             return false;
                         }
-                    }else{
+                    } else {
                         main.chatManager.sendClearChatErrorMessage(player);
                         return false;
                     }

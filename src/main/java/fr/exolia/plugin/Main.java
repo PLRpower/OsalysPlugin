@@ -11,6 +11,7 @@ import fr.exolia.plugin.listeners.*;
 import fr.exolia.plugin.managers.ChatManager;
 import fr.exolia.plugin.managers.GuiManager;
 import fr.exolia.plugin.managers.PlayerManager;
+import fr.exolia.plugin.database.Stats;
 import fr.exolia.plugin.util.GuiBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -24,34 +25,65 @@ public class Main extends JavaPlugin {
 
     private MySQL mysql;
     private MySQL mysql2;
+    private GuiManager guiManager;
 
     private final Reports reports = new Reports();
     public final ChatManager chatManager = new ChatManager();
+    public final Stats stats = new Stats();
 
     public ArrayList<UUID> moderators = new ArrayList<>();
-    public ArrayList<UUID> staffchat = new ArrayList<>();
+    public ArrayList<UUID> staffChat = new ArrayList<>();
     public HashMap<UUID, PlayerManager> players = new HashMap<>();
-    private final Map<UUID, Location> freezedPlayers = new HashMap<>();
-
-    private GuiManager guiManager;
+    private final Map<UUID, Location> frozenPlayers = new HashMap<>();
     private Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus;
 
-    public String PrefixInfo = "§a§lExolia §f§l➜ §7";
-    public String PrefixError = "§c§lExolia §f§l➜ §c";
-    public String PrefixAnnounce = "§a§lExolia §f§l➜ §a";
+    public String prefixInfo = "§a§lExolia §8§l➜ §7";
+    public String prefixError = "§c§lExolia §8§l➜ §c";
+    public String prefixAnnounce = "§2§lExolia §8§l➜ §a";
+
+    public String permissionStaff = "exolia.staff";
+    public String permissionHStaff = "exolia.hstaff";
+    public String permissionModerator = "exolia.moderator";
+
+    /**<hr>
+     * <br>
+     * Fonction apellée lors du démarage.
+     */
 
     @Override
-    public void onEnable() {
-        getLogger().info(PrefixInfo + "Activation du plugin en cours ...");
+    public void onEnable(){
+        getLogger().info(prefixInfo + "Activation du plugin en cours ...");
         instance = this;
         initConnection();
         registerCommands();
         registerEvents();
         loadGui();
-        getLogger().info(PrefixAnnounce + "Le plugin s'est correctement activé.");
+        stats.setOnlinePlayers(0);
+        getLogger().info(prefixAnnounce + "Le plugin s'est correctement activé.");
     }
 
-    private void initConnection() {
+    /**<hr>
+     * <br>
+     * Fonction apellée lors de l'arêt.
+     */
+
+    @Override
+    public void onDisable(){
+        getLogger().info(prefixInfo + "Désactivation du plugin en cours ...");
+        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> PlayerManager.getFromPlayer(p).destroyModerationMod());
+        stats.setOnlinePlayers(0);
+        getLogger().info(prefixAnnounce + "Le plugin s'est correctement désactivé.");
+    }
+
+    /**<hr>
+     * <br>
+     * Permet de connecter le plugin aux différentes bases de données.
+     * <br>
+     * <br>
+     * /!\ Ne pas partagez ce code avec n'importe qui !
+     */
+
+    private void initConnection(){
         HikariDataSource c1 = new HikariDataSource();
         c1.setDriverClassName("com.mysql.jdbc.Driver");
         c1.setUsername("PLR");
@@ -76,14 +108,12 @@ public class Main extends JavaPlugin {
         mysql2 = new MySQL(c2);
     }
 
-    @Override
-    public void onDisable() {
-        getLogger().info(PrefixInfo + "Désactivation du plugin en cours ...");
-        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> PlayerManager.getFromPlayer(p).destroyModerationMod());
-        getLogger().info(PrefixAnnounce + "Le plugin s'est correctement désactivé.");
-    }
+    /**<hr>
+     * <br>
+     * Permet d'activer tout les listeners.
+     */
 
-    private void registerEvents() {
+    private void registerEvents(){
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new ModItemsInteract(), this);
         pm.registerEvents(new ModCancels(), this);
@@ -92,7 +122,12 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PlayerJoin(), this);
     }
 
-    private void registerCommands() {
+    /**<hr>
+     * <br>
+     * Permet d'activer toutes les commandes.
+     */
+
+    private void registerCommands(){
         getCommand("site").setExecutor(new PublicCommands());
         getCommand("vote").setExecutor(new PublicCommands());
         getCommand("reglement").setExecutor(new PublicCommands());
@@ -111,33 +146,51 @@ public class Main extends JavaPlugin {
         getCommand("fdeco").setExecutor(new HStaffCommands());
     }
 
+    /**<hr>
+     * <br>
+     * Permet d'activer tout les menus.
+     */
 
-
-
-    public static Main getInstance() {return instance;}
-
-    private void loadGui() {
+    private void loadGui(){
         guiManager = new GuiManager();
         Bukkit.getPluginManager().registerEvents(guiManager, this);
         registeredMenus = new HashMap<>();
         guiManager.addMenu(new ReportGui());
-
     }
 
+    /**<hr>
+     * <br>
+     * Initialisation des getters afin de pouvoir les utiliser dans d'autres classes.
+     */
+
+    public static Main getInstance() {
+        return instance;
+    }
     public GuiManager getGuiManager() {
         return guiManager;
     }
     public Map<Class<? extends GuiBuilder>, GuiBuilder> getRegisteredMenus() {
         return registeredMenus;
     }
-
-    public MySQL getMySQL() {return mysql;}
-    public MySQL getMySQL2() {return mysql2;}
-
-    public Reports getReports() {return reports;}
-
-    public Map<UUID, PlayerManager> getPlayers() {return players;}
-    public List<UUID> getModerators() {return moderators;}
-    public List<UUID> getStaffChat() {return staffchat;}
-    public Map<UUID, Location> getFrozenPlayers() {return freezedPlayers;}
+    public MySQL getMySQL() {
+        return mysql;
+    }
+    public MySQL getMySQL2() {
+        return mysql2;
+    }
+    public Reports getReports() {
+        return reports;
+    }
+    public Map<UUID, PlayerManager> getPlayers() {
+        return players;
+    }
+    public List<UUID> getModerators() {
+        return moderators;
+    }
+    public List<UUID> getStaffChat() {
+        return staffChat;
+    }
+    public Map<UUID, Location> getFrozenPlayers() {
+        return frozenPlayers;
+    }
 }
