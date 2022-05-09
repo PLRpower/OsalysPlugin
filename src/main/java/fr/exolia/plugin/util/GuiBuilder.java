@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public interface GuiBuilder {
+public interface GuiBuilder{
     String name();
     int getSize();
     void contents(Player player, Inventory inv);
