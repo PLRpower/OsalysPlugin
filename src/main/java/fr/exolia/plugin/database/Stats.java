@@ -4,9 +4,9 @@ import fr.exolia.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
 public class Stats {
 
@@ -19,8 +19,8 @@ public class Stats {
 
     public void setOnlinePlayers(Integer players){
         main.getMySQL2().update("INSERT INTO discord_traffic (date, time, players) VALUES (" +
-                "'" + LocalDate.now() + "' ," +
-                "'" + LocalTime.now() + "' ," +
+                "'" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "' ," +
+                "'" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "' ," +
                 "'" + players + "')");
     }
 

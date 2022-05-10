@@ -23,19 +23,18 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
 
+    public ChatManager chatManager = new ChatManager();
+    public Stats stats = new Stats();
+    public PlayerManager playerManager = new PlayerManager();
+    public Reports reports = new Reports();
+
     private MySQL mysql;
     private MySQL mysql2;
     private GuiManager guiManager;
-
-    public final ChatManager chatManager = new ChatManager();
-    public final Stats stats = new Stats();
-    public final PlayerManager playerManager = new PlayerManager();
     private Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus;
-
     private final ArrayList<UUID> moderators = new ArrayList<>();
     private final ArrayList<UUID> staffChat = new ArrayList<>();
     private final Map<UUID, Location> frozenPlayers = new HashMap<>();
-    private final Reports reports = new Reports();
     private final ArrayList<UUID> vanished = new ArrayList<>();
 
     public String prefixInfo = "§a§lExolia §8§l➜ §7";
@@ -45,6 +44,7 @@ public class Main extends JavaPlugin {
     public String permissionStaff = "exolia.staff";
     public String permissionHStaff = "exolia.hstaff";
     public String permissionModerator = "exolia.moderator";
+
 
     /**<hr>
      * <br>
@@ -59,6 +59,7 @@ public class Main extends JavaPlugin {
         registerCommands();
         registerEvents();
         loadGui();
+        ChatManager chatManager = new ChatManager();
         stats.setOnlinePlayers(0);
         getLogger().info(prefixAnnounce + "Le plugin s'est correctement activé.");
     }
@@ -71,7 +72,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable(){
         getLogger().info(prefixInfo + "Désactivation du plugin en cours ...");
-        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> Main.getInstance().getPlayerManager().destroyNightVision(p));
+        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> Main.getInstance().getPlayerManager().setNightVision(p, false));
         stats.setOnlinePlayers(0);
         getLogger().info(prefixAnnounce + "Le plugin s'est correctement désactivé.");
     }
@@ -165,6 +166,7 @@ public class Main extends JavaPlugin {
      * Initialisation des getters afin de pouvoir les utiliser dans d'autres classes.
      */
 
+
     public static Main getInstance() {
         return instance;
     }
@@ -197,5 +199,8 @@ public class Main extends JavaPlugin {
     }
     public List<UUID> getVanished() {
         return vanished;
+    }
+    public Stats getStats() {
+        return stats;
     }
 }

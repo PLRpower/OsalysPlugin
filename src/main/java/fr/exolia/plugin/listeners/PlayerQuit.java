@@ -13,10 +13,10 @@ public class PlayerQuit  implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e){
-        main.stats.removePlayers(1);
+        main.getStats().removePlayers(1);
         Player player = e.getPlayer();
         if(PlayerManager.isInModerationMod(player)){
-            main.getPlayerManager().destroyModerationMod(player);
+            main.getPlayerManager().setModerationMod(player, false);
         }
     }
 }

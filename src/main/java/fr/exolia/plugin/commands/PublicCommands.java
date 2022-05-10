@@ -13,7 +13,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffectType;
 
 public class PublicCommands implements CommandExecutor {
 
@@ -137,10 +136,8 @@ public class PublicCommands implements CommandExecutor {
                 return false;
             }
 
-            Exolions exolionsplayer = new Exolions(player);
-            Exolions exolionstarget = new Exolions(target);
-            exolionsplayer.removeCoins(Integer.parseInt(args[2]));
-            exolionstarget.addCoins(Integer.parseInt(args[2]));
+            new Exolions(player).removeCoins(Integer.parseInt(args[2]));
+            new Exolions(target).addCoins(Integer.parseInt(args[2]));
             player.sendMessage(main.prefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + target.getName() + "§7.");
             target.sendMessage("Vous avez reçu §b" + args[2] + " Exolions §7de §b" + player.getName() + "§7.");
 
@@ -170,7 +167,7 @@ public class PublicCommands implements CommandExecutor {
                     player.sendMessage(main.prefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                     return false;
                 }
-                main.getPlayerManager().setNightVision(player, PlayerManager.isNightVision(player));
+                main.getPlayerManager().setNightVision(target, PlayerManager.isNightVision(target));
                 return true;
             }
         }

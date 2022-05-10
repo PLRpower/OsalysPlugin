@@ -17,7 +17,7 @@ public class Exolions {
         return (int) main.getMySQL2().query("SELECT * FROM users WHERE pseudo ='" + player.getName() + "'", rs -> {
             try{
                 if(rs.next()){
-                    return rs.getInt("money");
+                    return rs.getFloat("money");
                 }
             }catch (SQLException e){
                 e.printStackTrace();

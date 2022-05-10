@@ -31,11 +31,7 @@ public class StaffCommands implements CommandExecutor {
                     return false;
                 }
 
-                if(PlayerManager.isInModerationMod(player)){
-                    main.getPlayerManager().destroyModerationMod(player);
-                } else {
-                    main.getPlayerManager().initModerationMod(player);
-                }
+                main.getPlayerManager().setModerationMod(player, PlayerManager.isInModerationMod(player));
                 return true;
             }
 
@@ -118,48 +114,40 @@ public class StaffCommands implements CommandExecutor {
             if(label.equalsIgnoreCase("clearchat")){
                 if(args.length == 0){
                     main.chatManager.clearChatForAll();
-                    Bukkit.broadcastMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Modérateur.");
                     return true;
-                } else {
-                    if(args.length == 1){
-                        if(args[0].equalsIgnoreCase("player")){
-                            for(Player players : Bukkit.getOnlinePlayers()){
-                                if(!players.hasPermission(main.permissionStaff)){
-                                    main.chatManager.clearChatForPlayersOnly();
-                                    players.sendMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Administrateur.");
-                                    return true;
-                                }
-                            }
-                        } else if(args[0].equalsIgnoreCase("all")){
-                            main.chatManager.clearChatForAll();
-                            Bukkit.broadcastMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Administrateur.");
-                            return true;
-                        } else {
-                            main.chatManager.sendClearChatErrorMessage(player);
-                            return false;
-                        }
-                    } else if(args.length == 2){
-                        Player target = Bukkit.getPlayerExact(args[1]);
+                }
 
-                        if(target == null){
-                            player.sendMessage(main.prefixError + "Ce joueur n'existe pas ou n'est pas connecté.");
-                            return false;
-                        }
-
-                        if(args[0].equalsIgnoreCase("player")){
-                            main.chatManager.clearChatForOnePlayer(target);
-                            target.sendMessage(main.prefixAnnounce + "Ton chat vient d'être nettoyé par §b" + player.getName() + "§a.");
-                            return true;
-                        } else {
-                            main.chatManager.sendClearChatErrorMessage(player);
-                            return false;
-                        }
-                    } else {
+                if(args.length == 1){
+                    if (args[0].equalsIgnoreCase("player")){
+                        main.chatManager.clearChatForPlayersOnly();
+                        return true;
+                    }else if (args[0].equalsIgnoreCase("all")){
+                        main.chatManager.clearChatForAll();
+                        return true;
+                    }else{
                         main.chatManager.sendClearChatErrorMessage(player);
                         return false;
                     }
                 }
-                return true;
+
+                if(args.length == 2){
+                    Player target = Bukkit.getPlayerExact(args[1]);
+                    if(target == null){
+                        player.sendMessage(main.prefixError + "Ce joueur n'existe pas ou n'est pas connecté.");
+                        return false;
+                    }
+                    if(args[0].equalsIgnoreCase("player")){
+                        main.chatManager.clearChatForOnePlayer(target);
+                        return true;
+                    }else{
+                        main.chatManager.sendClearChatErrorMessage(player);
+                        return false;
+                    }
+
+                }else{
+                    main.chatManager.sendClearChatErrorMessage(player);
+                    return false;
+                }
             }
         }
         return false;

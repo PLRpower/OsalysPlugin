@@ -34,11 +34,7 @@ public class ModItemsInteract implements Listener {
                 break;
 
             case PACKED_ICE:
-                if(PlayerManager.isFreeze(target)){
-                    main.getPlayerManager().destoryFreeze(target, player);
-                }else{
-                    main.getPlayerManager().initFreeze(target, player);
-                }
+                main.getPlayerManager().setFreeze(target, player, PlayerManager.isFreeze(target));
                 break;
 
             case BOOK:
@@ -66,7 +62,7 @@ public class ModItemsInteract implements Listener {
         switch (player.getInventory().getItemInMainHand().getType()){
 
             case FEATHER:
-                player.sendMessage(main.prefixInfo + "Vous êtes à présent invisible.");
+                main.getPlayerManager().setVanish(player, PlayerManager.isVanished(player));
                 break;
 
             default:
