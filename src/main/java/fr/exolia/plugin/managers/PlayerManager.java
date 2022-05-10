@@ -73,47 +73,45 @@ public class PlayerManager {
         GiveInventory(player);
     }
 
-
-    public void initVanish(Player player){
-        main.getVanished().add(player.getUniqueId());
+    public void setVanish(Player player, boolean vanish){
+        if(vanish){
+            main.getVanished().remove(player.getUniqueId());
+        }else{
+            main.getVanished().add(player.getUniqueId());
+        }
     }
 
-    public void destroyVanish(Player player){
-        main.getVanished().remove(player.getUniqueId());
+    public void setStaffChat(Player player, boolean staffChat){
+        if(staffChat){
+            main.getStaffChat().remove(player.getUniqueId());
+            player.sendMessage(main.prefixInfo + "StaffChat §cdésactivé§7.");
+        }else{
+            main.getStaffChat().add(player.getUniqueId());
+            player.sendMessage( main.prefixInfo + "StaffChat §aactivé§7.");
+        }
     }
 
-    public void initStaffChat(Player player){
-        main.getStaffChat().add(player.getUniqueId());
-        player.sendMessage( main.prefixInfo + "StaffChat §aactivé§7.");
+    public void setFreeze(Player target, Player player, boolean freeze){
+        if(freeze){
+            main.getFrozenPlayers().remove(target.getUniqueId());
+            target.sendMessage(main.prefixInfo + "Vous avez été §adésimmobilisé §7un modérateur");
+            player.sendMessage(main.prefixInfo + "Vous avez §adésimmobilisé §b" + target.getName());
+        }else{
+            main.getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
+            target.sendMessage(main.prefixInfo + "Vous avez été §cimmobilisé §7par un modérateur");
+            player.sendMessage(main.prefixInfo + "Vous avez §cimmobilisé §b" + target.getName());
+        }
     }
 
-    public void destroyStaffChat(Player player){
-        main.getStaffChat().remove(player.getUniqueId());
-        player.sendMessage(main.prefixInfo + "StaffChat §cdésactivé§7.");
+    public void setNightVision(Player player, boolean nightVision){
+        if(nightVision){
+            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+            player.sendMessage(main.prefixInfo + "Vous avez §cdésactivé §7la vision nocturne.");
+        }else{
+            player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 10000,2, false, false));
+            player.sendMessage(main.prefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+        }
     }
-
-    public void initFreeze(Player target, Player player){
-        main.getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
-        target.sendMessage(main.prefixInfo + "Vous avez été §cimmobilisé §7par un modérateur");
-        player.sendMessage(main.prefixInfo + "Vous avez §cimmobilisé §b" + target.getName());
-    }
-
-    public void destoryFreeze(Player target, Player player){
-        main.getFrozenPlayers().remove(target.getUniqueId());
-        target.sendMessage(main.prefixInfo + "Vous avez été §adésimmobilisé §7un modérateur");
-        player.sendMessage(main.prefixInfo + "Vous avez §adésimmobilisé §b" + target.getName());
-    }
-
-    public void initNightVision(Player player){
-        player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 10000,2, false, false));
-        player.sendMessage(main.prefixInfo + "Vous avez §aactivé §7la vision nocturne.");
-    }
-
-    public void destroyNightVision(Player player){
-        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-        player.sendMessage(main.prefixInfo + "Vous avez §cdésactivé §7la vision nocturne.");
-    }
-
 
     public static boolean isInModerationMod(Player player) {
         return Main.getInstance().getModerators().contains(player.getUniqueId());

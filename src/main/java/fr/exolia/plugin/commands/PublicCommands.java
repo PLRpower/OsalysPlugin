@@ -153,11 +153,7 @@ public class PublicCommands implements CommandExecutor {
                 return false;
             }
             if (args.length == 0){
-                if (PlayerManager.isNightVision(player)){
-                    main.getPlayerManager().destroyNightVision(player);
-                } else {
-                    main.getPlayerManager().initNightVision(player);
-                }
+                main.getPlayerManager().setNightVision(player, PlayerManager.isNightVision(player));
                 return true;
             }
 
@@ -174,12 +170,7 @@ public class PublicCommands implements CommandExecutor {
                     player.sendMessage(main.prefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                     return false;
                 }
-
-                if(PlayerManager.isNightVision(player)){
-                    main.getPlayerManager().destroyNightVision(player);
-                } else {
-                    main.getPlayerManager().initNightVision(player);
-                }
+                main.getPlayerManager().setNightVision(player, PlayerManager.isNightVision(player));
                 return true;
             }
         }

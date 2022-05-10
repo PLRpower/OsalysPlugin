@@ -58,22 +58,14 @@ public class StaffCommands implements CommandExecutor {
                     return false;
                 }
 
-                if(PlayerManager.isFreeze(target)){
-                    main.getPlayerManager().destoryFreeze(target, player);
-                } else{
-                    main.getPlayerManager().initFreeze(target, player);
-                }
+                main.getPlayerManager().setFreeze(target, player, PlayerManager.isFreeze(target));
                 return true;
             }
 
             if(label.equalsIgnoreCase("sc")){
 
                 if(args.length == 0) {
-                    if(PlayerManager.isStaffChat(player)){
-                        main.getPlayerManager().destroyStaffChat(player);
-                    } else {
-                        main.getPlayerManager().initStaffChat(player);
-                    }
+                    main.getPlayerManager().setStaffChat(player, PlayerManager.isStaffChat(player));
                     return true;
                 }
 
