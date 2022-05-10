@@ -35,15 +35,15 @@ public class HStaffCommands implements CommandExecutor {
                     return false;
                 } else {
                     if(args[0].equalsIgnoreCase("give")){
-                        exolions.addCoins(Integer.parseInt(args[2]));
+                        exolions.addCoins(Float.parseFloat(args[2]));
                         return true;
                     }
                     else if(args[0].equalsIgnoreCase("remove")){
-                        exolions.removeCoins(Integer.parseInt(args[2]));
+                        exolions.removeCoins(Float.parseFloat(args[2]));
                         return true;
                     }
                     else if(args[0].equalsIgnoreCase("set")){
-                        exolions.setCoins(Integer.parseInt(args[2]));
+                        exolions.setCoins(Float.parseFloat(args[2]));
                         return true;
                     } else {
                         player.sendMessage(main.prefixError + "Veuillez saisir un argument correct ! §6(give/remove/set)");
@@ -51,7 +51,19 @@ public class HStaffCommands implements CommandExecutor {
                     }
                 }
             }
+
         }
+
+        if (label.equalsIgnoreCase("freco")) {
+            Bukkit.broadcastMessage("§f[§a+§f] " + player.getDisplayName());
+            return true;
+        }
+
+        if (label.equalsIgnoreCase("fdeco")) {
+            Bukkit.broadcastMessage("§f[§c-§f] " + player.getDisplayName());
+            return true;
+        }
+
         return false;
     }
 }

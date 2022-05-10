@@ -16,15 +16,10 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
-        main.stats.addPlayers(1);
+        main.getStats().addPlayers(1);
         Player player = e.getPlayer();
-        for(Player players : Bukkit.getOnlinePlayers()){
-            if(PlayerManager.isInModerationMod(players)){
-                PlayerManager pm = PlayerManager.getFromPlayer(players);
-                if(pm.isVanished()){
-                    player.hidePlayer(Bukkit.getPluginManager().getPlugin("Essentials"), players);
-                }
-            }
+        if(PlayerManager.isInModerationMod(player)){
+            main.getPlayerManager().setVanish(player, true);
         }
         if(!player.hasPermission(main.permissionHStaff)){
             Bukkit.getScheduler().runTaskLater(this.plugin, () -> main.chatManager.clearChatForOnePlayer(player), 100);

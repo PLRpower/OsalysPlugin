@@ -37,7 +37,9 @@ commands:
     description: permet de gérer les exolions
   nv:
     aliases: nightvision
-  fdeco:
-    description: Permet de simuler sa propre déconnexion
+  freeze:
+    description: Permet d'immobiliser un joueur
   freco:
-    description: Permet de simuler sa propre connexion
+    description: Permet de simuler la connexion d'un joueur
+  fdeco:
+    description: Permet de simuler la déconnexion d'un joueur

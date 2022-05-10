@@ -20,7 +20,6 @@ public class StaffCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 
         Player player = (Player) sender;
-
         if(!player.hasPermission(main.permissionStaff)){
             player.sendMessage(main.prefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
             return false;
@@ -32,11 +31,7 @@ public class StaffCommands implements CommandExecutor {
                     return false;
                 }
 
-                if(PlayerManager.isInModerationMod(player)){
-                    PlayerManager.getFromPlayer(player).destroyModerationMod();
-                } else {
-                    new PlayerManager(player).initModerationMod();
-                }
+                main.getPlayerManager().setModerationMod(player, PlayerManager.isInModerationMod(player));
                 return true;
             }
 
@@ -59,22 +54,14 @@ public class StaffCommands implements CommandExecutor {
                     return false;
                 }
 
-                if(PlayerManager.isFreeze(target)){
-                    PlayerManager.getFromPlayer(player).destoryFreeze(target);
-                } else{
-                    new PlayerManager(player).initFreeze(target);
-                }
+                main.getPlayerManager().setFreeze(target, player, PlayerManager.isFreeze(target));
                 return true;
             }
 
             if(label.equalsIgnoreCase("sc")){
 
                 if(args.length == 0) {
-                    if(main.staffChat.contains(player.getUniqueId())){
-                        PlayerManager.getFromPlayer(player).destroyStaffChat();
-                    } else {
-                        new PlayerManager(player).initStaffChat();
-                    }
+                    main.getPlayerManager().setStaffChat(player, PlayerManager.isStaffChat(player));
                     return true;
                 }
 
@@ -127,48 +114,40 @@ public class StaffCommands implements CommandExecutor {
             if(label.equalsIgnoreCase("clearchat")){
                 if(args.length == 0){
                     main.chatManager.clearChatForAll();
-                    Bukkit.broadcastMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Modérateur.");
                     return true;
-                } else {
-                    if(args.length == 1){
-                        if(args[0].equalsIgnoreCase("player")){
-                            for(Player players : Bukkit.getOnlinePlayers()){
-                                if(!players.hasPermission(main.permissionStaff)){
-                                    main.chatManager.clearChatForPlayersOnly();
-                                    players.sendMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Administrateur.");
-                                    return true;
-                                }
-                            }
-                        } else if(args[0].equalsIgnoreCase("all")){
-                            main.chatManager.clearChatForAll();
-                            Bukkit.broadcastMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Administrateur.");
-                            return true;
-                        } else {
-                            main.chatManager.sendClearChatErrorMessage(player);
-                            return false;
-                        }
-                    } else if(args.length == 2){
-                        Player target = Bukkit.getPlayerExact(args[1]);
+                }
 
-                        if(target == null){
-                            player.sendMessage(main.prefixError + "Ce joueur n'existe pas ou n'est pas connecté.");
-                            return false;
-                        }
-
-                        if(args[0].equalsIgnoreCase("player")){
-                            main.chatManager.clearChatForOnePlayer(target);
-                            target.sendMessage(main.prefixAnnounce + "Ton chat vient d'être nettoyé par §b" + player.getName() + "§a.");
-                            return true;
-                        } else {
-                            main.chatManager.sendClearChatErrorMessage(player);
-                            return false;
-                        }
-                    } else {
+                if(args.length == 1){
+                    if (args[0].equalsIgnoreCase("player")){
+                        main.chatManager.clearChatForPlayersOnly();
+                        return true;
+                    }else if (args[0].equalsIgnoreCase("all")){
+                        main.chatManager.clearChatForAll();
+                        return true;
+                    }else{
                         main.chatManager.sendClearChatErrorMessage(player);
                         return false;
                     }
                 }
-                return true;
+
+                if(args.length == 2){
+                    Player target = Bukkit.getPlayerExact(args[1]);
+                    if(target == null){
+                        player.sendMessage(main.prefixError + "Ce joueur n'existe pas ou n'est pas connecté.");
+                        return false;
+                    }
+                    if(args[0].equalsIgnoreCase("player")){
+                        main.chatManager.clearChatForOnePlayer(target);
+                        return true;
+                    }else{
+                        main.chatManager.sendClearChatErrorMessage(player);
+                        return false;
+                    }
+
+                }else{
+                    main.chatManager.sendClearChatErrorMessage(player);
+                    return false;
+                }
             }
         }
         return false;
