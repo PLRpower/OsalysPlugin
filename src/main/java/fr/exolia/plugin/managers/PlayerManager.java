@@ -68,13 +68,13 @@ public class PlayerManager {
         if(vanish){
             Main.getInstance().getVanished().remove(player.getUniqueId());
             for(Player players : Bukkit.getOnlinePlayers()){
-                player.showPlayer(Bukkit.getPluginManager().getPlugin(String.valueOf(plugin)), players);
+                player.showPlayer(players);
             }
             player.sendMessage(Main.getInstance().prefixInfo + "Vous êtes à présent §cvisible§7.");
         }else{
             Main.getInstance().getVanished().add(player.getUniqueId());
             for(Player players : Bukkit.getOnlinePlayers()){
-                player.hidePlayer(Bukkit.getPluginManager().getPlugin(String.valueOf(plugin)), players);
+                player.hidePlayer(players);
             }
             player.sendMessage(Main.getInstance().prefixInfo + "Vous êtes à présent §ainvisible§7.");
         }

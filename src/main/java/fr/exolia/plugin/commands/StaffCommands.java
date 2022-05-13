@@ -67,7 +67,7 @@ public class StaffCommands implements CommandExecutor {
 
                 StringBuilder sb = new StringBuilder();
                 for (String arg : args) {sb.append(arg); sb.append(" ");}
-                main.chatManager.sendMessageToStaff(player, sb.toString());
+                main.getChatManager().sendMessageToStaff(player, sb.toString());
                 return true;
             }
 
@@ -107,25 +107,25 @@ public class StaffCommands implements CommandExecutor {
                     return false;
                 }
 
-                main.chatManager.sendMessageToStaff(player, " s'occupe de modérer de " + target.getName());
+                main.getChatManager().sendMessageToStaff(player, " s'occupe de modérer de " + target.getName());
                 return true;
             }
 
             if(label.equalsIgnoreCase("clearchat")){
                 if(args.length == 0){
-                    main.chatManager.clearChatForAll();
+                    main.getChatManager().clearChatForAll();
                     return true;
                 }
 
                 if(args.length == 1){
                     if (args[0].equalsIgnoreCase("player")){
-                        main.chatManager.clearChatForPlayersOnly();
+                        main.getChatManager().clearChatForPlayersOnly();
                         return true;
                     }else if (args[0].equalsIgnoreCase("all")){
-                        main.chatManager.clearChatForAll();
+                        main.getChatManager().clearChatForAll();
                         return true;
                     }else{
-                        main.chatManager.sendClearChatErrorMessage(player);
+                        main.getChatManager().sendClearChatErrorMessage(player);
                         return false;
                     }
                 }
@@ -137,15 +137,15 @@ public class StaffCommands implements CommandExecutor {
                         return false;
                     }
                     if(args[0].equalsIgnoreCase("player")){
-                        main.chatManager.clearChatForOnePlayer(target);
+                        main.getChatManager().clearChatForOnePlayer(target);
                         return true;
                     }else{
-                        main.chatManager.sendClearChatErrorMessage(player);
+                        main.getChatManager().sendClearChatErrorMessage(player);
                         return false;
                     }
 
                 }else{
-                    main.chatManager.sendClearChatErrorMessage(player);
+                    main.getChatManager().sendClearChatErrorMessage(player);
                     return false;
                 }
             }

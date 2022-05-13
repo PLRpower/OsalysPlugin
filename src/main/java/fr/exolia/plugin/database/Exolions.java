@@ -13,8 +13,8 @@ public class Exolions {
         this.player = player;
     }
 
-    public long getCoins(){
-        return (int) main.getMySQL2().query("SELECT * FROM users WHERE pseudo ='" + player.getName() + "'", rs -> {
+    public float getCoins(){
+        return (float) main.getMySQL2().query("SELECT * FROM users WHERE pseudo ='" + player.getName() + "'", rs -> {
             try{
                 if(rs.next()){
                     return rs.getFloat("money");

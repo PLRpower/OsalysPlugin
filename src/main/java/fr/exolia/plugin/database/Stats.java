@@ -18,7 +18,7 @@ public class Stats {
     }
 
     public void setOnlinePlayers(Integer players){
-        main.getMySQL2().update("INSERT INTO discord_traffic (date, time, players) VALUES (" +
+        main.getMySQL().update("INSERT INTO discord_traffic (date, time, players) VALUES (" +
                 "'" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "' ," +
                 "'" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "' ," +
                 "'" + players + "')");
@@ -31,5 +31,4 @@ public class Stats {
     public void removePlayers(Integer players){
         setOnlinePlayers(getOnlinePlayers() < players ? 0 : (getOnlinePlayers() - players));
     }
-
 }
