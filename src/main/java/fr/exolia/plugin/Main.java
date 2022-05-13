@@ -30,8 +30,9 @@ public class Main extends JavaPlugin {
 
     private MySQL mysql;
     private MySQL mysql2;
-    private GuiManager guiManager;
-    private Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus;
+
+    private final GuiManager guiManager = new GuiManager();
+    private final Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus = new HashMap<>();
     private final ArrayList<UUID> moderators = new ArrayList<>();
     private final ArrayList<UUID> staffChat = new ArrayList<>();
     private final Map<UUID, Location> frozenPlayers = new HashMap<>();
@@ -59,8 +60,8 @@ public class Main extends JavaPlugin {
         registerCommands();
         registerEvents();
         loadGui();
-        ChatManager chatManager = new ChatManager();
-        stats.setOnlinePlayers(0);
+        getChatManager().autoBroadcast();
+        //getStats().setOnlinePlayers(0);
         getLogger().info(prefixAnnounce + "Le plugin s'est correctement activé.");
     }
 
@@ -72,8 +73,8 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable(){
         getLogger().info(prefixInfo + "Désactivation du plugin en cours ...");
-        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> Main.getInstance().getPlayerManager().setNightVision(p, false));
-        stats.setOnlinePlayers(0);
+        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> Main.getInstance().getPlayerManager().setModerationMod(p, false));
+        //getStats().setOnlinePlayers(0);
         getLogger().info(prefixAnnounce + "Le plugin s'est correctement désactivé.");
     }
 
@@ -88,9 +89,9 @@ public class Main extends JavaPlugin {
     private void initConnection(){
         HikariDataSource c1 = new HikariDataSource();
         c1.setDriverClassName("com.mysql.jdbc.Driver");
-        c1.setUsername("PLR");
-        c1.setPassword("@4qkVi06&");
-        c1.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/site?autoReconnect=true");
+        c1.setUsername("u12749_Y7S0i006dF");
+        c1.setPassword("NMv22^!45sUrNexU!.asU19b");
+        c1.setJdbcUrl("jdbc:mysql://45.140.165.82:3306/s12749_serveur?autoReconnect=true");
         c1.setMaxLifetime(600000L);
         c1.setIdleTimeout(300000L);
         c1.setLeakDetectionThreshold(300000L);
@@ -99,10 +100,10 @@ public class Main extends JavaPlugin {
         mysql.createTables();
 
         HikariDataSource c2 = new HikariDataSource();
-        c1.setDriverClassName("com.mysql.jdbc.Driver");
-        c1.setUsername("adminmysql_all");
-        c1.setPassword("4yc2@k0D8&!z");
-        c1.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/exolia_website?autoReconnect=true");
+        c2.setDriverClassName("com.mysql.jdbc.Driver");
+        c2.setUsername("PLR");
+        c2.setPassword("60xxdZ$40");
+        c2.setJdbcUrl("jdbc:mysql://45.76.45.183:3306/exolia_website?autoReconnect=true");
         c2.setMaxLifetime(600000L);
         c2.setIdleTimeout(300000L);
         c2.setLeakDetectionThreshold(300000L);
@@ -122,6 +123,7 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PlayerChat(), this);
         pm.registerEvents(new PlayerQuit(), this);
         pm.registerEvents(new PlayerJoin(), this);
+        pm.registerEvents(new GuiManager(), this);
     }
 
     /**<hr>
@@ -155,17 +157,13 @@ public class Main extends JavaPlugin {
      */
 
     private void loadGui(){
-        guiManager = new GuiManager();
-        Bukkit.getPluginManager().registerEvents(guiManager, this);
-        registeredMenus = new HashMap<>();
-        guiManager.addMenu(new ReportGui());
+        getGuiManager().addMenu(new ReportGui());
     }
 
     /**<hr>
      * <br>
      * Initialisation des getters afin de pouvoir les utiliser dans d'autres classes.
      */
-
 
     public static Main getInstance() {
         return instance;
@@ -181,6 +179,9 @@ public class Main extends JavaPlugin {
     }
     public MySQL getMySQL2() {
         return mysql2;
+    }
+    public ChatManager getChatManager() {
+        return chatManager;
     }
     public PlayerManager getPlayerManager() {
         return playerManager;

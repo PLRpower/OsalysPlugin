@@ -60,7 +60,7 @@ public class ReportGui implements GuiBuilder {
 
                 assert target != null;
                 main.getReports().add(new ReportManager(target.getUniqueId().toString(), player.getName(), reason.substring(2)));
-                main.chatManager.sendReportToStaff(reason, target.getName());
+                main.getChatManager().sendReportToStaff(reason, target.getName());
                 reportCooldown.put(player, System.currentTimeMillis());
                 break;
             default: break;

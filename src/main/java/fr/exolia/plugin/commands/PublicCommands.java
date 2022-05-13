@@ -139,7 +139,7 @@ public class PublicCommands implements CommandExecutor {
             new Exolions(player).removeCoins(Integer.parseInt(args[2]));
             new Exolions(target).addCoins(Integer.parseInt(args[2]));
             player.sendMessage(main.prefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + target.getName() + "§7.");
-            target.sendMessage("Vous avez reçu §b" + args[2] + " Exolions §7de §b" + player.getName() + "§7.");
+            target.sendMessage(main.prefixInfo + "Vous avez reçu §b" + args[2] + " Exolions §7de §b" + player.getName() + "§7.");
 
             return true;
         }

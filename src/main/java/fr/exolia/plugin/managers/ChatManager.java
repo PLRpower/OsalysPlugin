@@ -31,6 +31,10 @@ public class ChatManager {
         Bukkit.broadcastMessage(Main.getInstance().prefixAnnounce + "Le chat vient d'être nettoyé par un Modérateur.");
     }
 
+    public void autoBroadcast(){
+
+    }
+
     public void sendClearChatErrorMessage(Player player){
         player.sendMessage(Main.getInstance().prefixError + "/clearchat §7Clear le chat pour tout le monde");
         player.sendMessage(Main.getInstance().prefixError + "/clearchat <all> §7Clear le chat pour tout le monde");
@@ -46,6 +50,13 @@ public class ChatManager {
         }
     }
 
+    public boolean checkPlayer(Player player, String[] args){
+        if(args.length != 1){
+            player.sendMessage(Main.getInstance().prefixError + "Veuillez saisir le pseudo d'un joueur !");
+            return false;
+        }
+        return false;
+    }
 
     public void sendMessageToStaff(Player player, String message){
         Bukkit.getOnlinePlayers().stream().filter(players -> players.hasPermission(Main.getInstance().permissionStaff)).forEach(players -> players.sendMessage("§2StaffChat §a" + player.getName() + " §f» §b" + message));
