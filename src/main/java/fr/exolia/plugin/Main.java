@@ -8,6 +8,7 @@ import fr.exolia.plugin.database.MySQL;
 import fr.exolia.plugin.database.Reports;
 import fr.exolia.plugin.gui.ReportGui;
 import fr.exolia.plugin.listeners.*;
+import fr.exolia.plugin.managers.AutoBroadcast;
 import fr.exolia.plugin.managers.ChatManager;
 import fr.exolia.plugin.managers.GuiManager;
 import fr.exolia.plugin.managers.PlayerManager;
@@ -59,8 +60,9 @@ public class Main extends JavaPlugin {
         initConnection();
         registerCommands();
         registerEvents();
-        loadGui();
+        //loadGui();
         getChatManager().autoBroadcast();
+        new AutoBroadcast().Minuterie();
         //getStats().setOnlinePlayers(0);
         getLogger().info(prefixAnnounce + "Le plugin s'est correctement activé.");
     }
