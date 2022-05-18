@@ -2,7 +2,6 @@ package fr.exolia.plugin.managers;
 
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.util.ItemBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -49,11 +48,6 @@ public class PlayerManager {
 
     public void setModerationMod(Player player, boolean moderationMod){
         if(moderationMod){
-            Main.getInstance().getModerators().remove(player.getUniqueId());
-            player.getInventory().clear();
-            GiveInventory(player);
-            player.sendMessage(Main.getInstance().prefixInfo + "Mode modération §cdésactivé§7.");
-        }else{
             Main.getInstance().getModerators().add(player.getUniqueId());
             SaveInventory(player);
             player.getInventory().setItem(0, new ItemBuilder(Material.PAPER).setName("§aVoir l'inventaire").setLore("§7Clique droit sur un joueur", "§7pour voir son inventaire").toItemStack());
@@ -61,54 +55,53 @@ public class PlayerManager {
             player.getInventory().setItem(2, new ItemBuilder(Material.PACKED_ICE).setName("§aFreeze").setLore("§7Clique droit sur un joueur", "§7pour le rendre immobile").toItemStack());
             player.getInventory().setItem(3, new ItemBuilder(Material.BOOK).setName("§aReports").setLore("§7Clique droit sur un joueur", "§7pour voir ses reports").toItemStack());
             player.sendMessage( Main.getInstance().prefixInfo + "Mode modération §aactivé§7.");
+        }else{
+            Main.getInstance().getModerators().remove(player.getUniqueId());
+            player.getInventory().clear();
+            GiveInventory(player);
+            player.sendMessage(Main.getInstance().prefixInfo + "Mode modération §cdésactivé§7.");
         }
     }
 
     public void setVanish(Player player, boolean vanish){
         if(vanish){
-            Main.getInstance().getVanished().remove(player.getUniqueId());
-            for(Player players : Bukkit.getOnlinePlayers()){
-                player.showPlayer(players);
-            }
-            player.sendMessage(Main.getInstance().prefixInfo + "Vous êtes à présent §cvisible§7.");
-        }else{
             Main.getInstance().getVanished().add(player.getUniqueId());
-            for(Player players : Bukkit.getOnlinePlayers()){
-                player.hidePlayer(players);
-            }
-            player.sendMessage(Main.getInstance().prefixInfo + "Vous êtes à présent §ainvisible§7.");
+            player.performCommand("vanish on");
+        }else{
+            Main.getInstance().getVanished().remove(player.getUniqueId());
+            player.performCommand("vanish off");
         }
     }
 
     public void setStaffChat(Player player, boolean staffChat){
         if(staffChat){
-            Main.getInstance().getStaffChat().remove(player.getUniqueId());
-            player.sendMessage(Main.getInstance().prefixInfo + "StaffChat §cdésactivé§7.");
-        }else{
             Main.getInstance().getStaffChat().add(player.getUniqueId());
             player.sendMessage( Main.getInstance().prefixInfo + "StaffChat §aactivé§7.");
+        }else{
+            Main.getInstance().getStaffChat().remove(player.getUniqueId());
+            player.sendMessage(Main.getInstance().prefixInfo + "StaffChat §cdésactivé§7.");
         }
     }
 
     public void setFreeze(Player target, Player player, boolean freeze){
         if(freeze){
-            Main.getInstance().getFrozenPlayers().remove(target.getUniqueId());
-            target.sendMessage(Main.getInstance().prefixInfo + "Vous avez été §adésimmobilisé §7un modérateur");
-            player.sendMessage(Main.getInstance().prefixInfo + "Vous avez §adésimmobilisé §b" + target.getName());
-        }else{
             Main.getInstance().getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
             target.sendMessage(Main.getInstance().prefixInfo + "Vous avez été §cimmobilisé §7par un modérateur");
             player.sendMessage(Main.getInstance().prefixInfo + "Vous avez §cimmobilisé §b" + target.getName());
+        }else{
+            Main.getInstance().getFrozenPlayers().remove(target.getUniqueId());
+            target.sendMessage(Main.getInstance().prefixInfo + "Vous avez été §adésimmobilisé §7un modérateur");
+            player.sendMessage(Main.getInstance().prefixInfo + "Vous avez §adésimmobilisé §b" + target.getName());
         }
     }
 
     public void setNightVision(Player player, boolean nightVision){
         if(nightVision){
-            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-            player.sendMessage(Main.getInstance().prefixInfo + "Vous avez §cdésactivé §7la vision nocturne.");
-        }else{
             player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100000,2, false, false));
             player.sendMessage(Main.getInstance().prefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+        }else{
+            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+            player.sendMessage(Main.getInstance().prefixInfo + "Vous avez §cdésactivé §7la vision nocturne.");
         }
     }
 
@@ -118,7 +111,7 @@ public class PlayerManager {
     public static boolean isFreeze(Player player) {
         return Main.getInstance().getFrozenPlayers().containsKey(player.getUniqueId());
     }
-    public static boolean isNightVision(Player player) {
+    public static boolean isNightVision(Player player){
         return player.hasPotionEffect(PotionEffectType.NIGHT_VISION);
     }
     public static boolean isStaffChat(Player player) {

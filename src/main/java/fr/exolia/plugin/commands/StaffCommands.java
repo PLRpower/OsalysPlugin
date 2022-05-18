@@ -24,20 +24,21 @@ public class StaffCommands implements CommandExecutor {
             player.sendMessage(main.prefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
             return false;
         }else{
+
             if(label.equalsIgnoreCase("mod")){
 
-                if(!player.hasPermission(main.permissionModerator)) {
+                if(!player.hasPermission(main.permissionModerateur)) {
                     player.sendMessage(main.prefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
                     return false;
                 }
 
-                main.getPlayerManager().setModerationMod(player, PlayerManager.isInModerationMod(player));
+                main.getPlayerManager().setModerationMod(player, !PlayerManager.isInModerationMod(player));
                 return true;
             }
 
             if(label.equalsIgnoreCase("freeze")){
 
-                if(!player.hasPermission(main.permissionModerator)){
+                if(!player.hasPermission(main.permissionModerateur)){
                     player.sendMessage(main.prefixError + "Vous n'avez pas la permission d'éxecuter cette commande !");
                     return false;
                 }
@@ -54,14 +55,14 @@ public class StaffCommands implements CommandExecutor {
                     return false;
                 }
 
-                main.getPlayerManager().setFreeze(target, player, PlayerManager.isFreeze(target));
+                main.getPlayerManager().setFreeze(target, player, !PlayerManager.isFreeze(target));
                 return true;
             }
 
             if(label.equalsIgnoreCase("sc")){
 
                 if(args.length == 0) {
-                    main.getPlayerManager().setStaffChat(player, PlayerManager.isStaffChat(player));
+                    main.getPlayerManager().setStaffChat(player, !PlayerManager.isStaffChat(player));
                     return true;
                 }
 
@@ -81,7 +82,7 @@ public class StaffCommands implements CommandExecutor {
                 Player target = Bukkit.getPlayer(args[0]);
                 List<ReportManager> reports = main.getReports().getReports(target.getUniqueId().toString());
                 if(reports.isEmpty()) {
-                    player.sendMessage(main.prefixError + "Ce joueur n'a aucun signalement");
+                    player.sendMessage(main.prefixInfo + "Ce joueur n'a aucun signalement");
                 } else {
                     player.sendMessage(main.prefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
                     reports.forEach(r -> player.sendMessage("§f" + r.getDate() + "§fSignalé par :" + r.getAuthor() + " §fpour la raison :" + r.getReason()));

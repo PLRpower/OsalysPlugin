@@ -2,7 +2,6 @@ package fr.exolia.plugin.commands;
 
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.gui.ReportGui;
-import fr.exolia.plugin.database.Exolions;
 import fr.exolia.plugin.managers.PlayerManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -15,7 +14,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class PublicCommands implements CommandExecutor {
 
@@ -24,13 +22,6 @@ public class PublicCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 
-        if (label.equalsIgnoreCase("date")){
-            Date now = new Date();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
-            System.out.println(simpleDateFormat.format(now));
-            Bukkit.broadcastMessage("§2§lDate/Heure serveur§7 :" + simpleDateFormat.format(now));
-        }
         if (!(sender instanceof Player)){
             sender.sendMessage(main.prefixError + "Seul un joueur peut executer cette commande.");
             return false;
@@ -38,6 +29,10 @@ public class PublicCommands implements CommandExecutor {
 
         Player player = (Player)sender;
         TextComponent bar = new TextComponent("§7§m---------------------");
+
+        if (label.equalsIgnoreCase("date")){
+            player.sendMessage("§2§lDate/Heure serveur: §7" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        }
 
         if (label.equalsIgnoreCase("site")){
             TextComponent weblink = new TextComponent("\n§aSite Web §2§l➤ §bexolia.site\n");
@@ -52,15 +47,15 @@ public class PublicCommands implements CommandExecutor {
             weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bCliquez pour voter").create()));
             weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/vote"));
             player.spigot().sendMessage(bar, weblink, bar);
+
             return true;
         }
 
         if (label.equalsIgnoreCase("reglement")){
             TextComponent weblink = new TextComponent("\n§aRéglement §2§l➤ §bexolia.site/p/reglement\n");
-            weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bCliquez pour accèder au règlement du serveur.").create()));
+            weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bCliquez pour accèder au règlement").create()));
             weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/p/reglement"));
             player.spigot().sendMessage(bar, weblink, bar);
-            player.sendMessage("https://exolia.site");
             return true;
         }
 
@@ -102,15 +97,18 @@ public class PublicCommands implements CommandExecutor {
                 return false;
             }
 
+            if(target.hasPermission(main.permissionStaff)){
+                player.sendMessage(main.prefixError + "Vous ne pouvez pas signaler ce joueur.");
+                return false;
+            }
+
             main.getGuiManager().open(player, ReportGui.class);
         }
 
         if(label.equalsIgnoreCase("exolions")){
 
-
             if(args.length == 0){
-                Exolions exolions = new Exolions(player);
-                player.sendMessage("\n§7§m---------------------\n" + main.prefixAnnounce + "Acheter des Exolions:\n \n§aTu as §b" + exolions.getCoins() + " Exolions\n ");
+                player.sendMessage("\n§7§m---------------------\n" + main.prefixAnnounce + "Acheter des Exolions:\n \n§aTu as §b" + main.getExolions().getCoins(player) + " Exolions\n ");
                 TextComponent weblink = new TextComponent("§2➤ §aObtiens des §2Exolions §aen cliquant sur ce §2lien sécurisé §a:\n§b§lhttps://exolia.site/shop");
                 weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bObtenir des Exolions").create()));
                 weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/shop"));
@@ -146,8 +144,8 @@ public class PublicCommands implements CommandExecutor {
                 return false;
             }
 
-            new Exolions(player).removeCoins(Integer.parseInt(args[2]));
-            new Exolions(target).addCoins(Integer.parseInt(args[2]));
+            main.getExolions().removeCoins(target, Integer.parseInt(args[2]));
+            main.getExolions().addCoins(target, Integer.parseInt(args[2]));
             player.sendMessage(main.prefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + target.getName() + "§7.");
             target.sendMessage(main.prefixInfo + "Vous avez reçu §b" + args[2] + " Exolions §7de §b" + player.getName() + "§7.");
 
@@ -155,12 +153,12 @@ public class PublicCommands implements CommandExecutor {
         }
 
         if (label.equalsIgnoreCase("nv")){
-            if (!player.hasPermission("exolia.empereur")){
+            if (!player.hasPermission(main.permssionEmpereur)){
                 player.sendMessage(main.prefixError + "Tu n'as pas la permission d'utiliser cette commande !");
                 return false;
             }
             if (args.length == 0){
-                main.getPlayerManager().setNightVision(player, PlayerManager.isNightVision(player));
+                main.getPlayerManager().setNightVision(player, !PlayerManager.isNightVision(player));
                 return true;
             }
 
@@ -168,7 +166,7 @@ public class PublicCommands implements CommandExecutor {
 
                 Player target = Bukkit.getPlayer(args[0]);
 
-                if (!player.hasPermission(main.permissionModerator)){
+                if (!player.hasPermission(main.permissionModerateur)){
                     player.sendMessage(main.prefixError + "Tu n'as pas la permission d'utiliser cette commande !");
                     return false;
                 }
@@ -177,7 +175,7 @@ public class PublicCommands implements CommandExecutor {
                     player.sendMessage(main.prefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
                     return false;
                 }
-                main.getPlayerManager().setNightVision(target, PlayerManager.isNightVision(target));
+                main.getPlayerManager().setNightVision(target, !PlayerManager.isNightVision(target));
                 return true;
             }
         }

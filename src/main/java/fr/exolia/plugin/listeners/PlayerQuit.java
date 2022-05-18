@@ -14,7 +14,7 @@ public class PlayerQuit  implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onQuit(PlayerQuitEvent e){
-        //main.getStats().removePlayers(1);
+        main.getStats().removePlayer();
         Player player = e.getPlayer();
         if(PlayerManager.isInModerationMod(player)){
             main.getPlayerManager().setModerationMod(player, false);
