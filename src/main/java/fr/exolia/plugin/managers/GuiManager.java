@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GuiManager implements Listener {
-    private final Main main = Main.getInstance();
 
     @EventHandler
     public void onClick(InventoryClickEvent event){
@@ -27,24 +26,23 @@ public class GuiManager implements Listener {
 
         if(event.getCurrentItem() == null) return;
 
-        main.getRegisteredMenus().values().stream()
+        Main.getInstance().getRegisteredMenus().values().stream()
                 .filter(menu -> inv.getName().equalsIgnoreCase(menu.name()))
                 .forEach(menu -> {
                     menu.onClick(player, inv, current, event.getSlot());
                     event.setCancelled(true);
                 });
-
     }
 
     public void addMenu(GuiBuilder m){
-        main.getRegisteredMenus().put(m.getClass(), m);
+        Main.getInstance().getRegisteredMenus().put(m.getClass(), m);
     }
 
     public void open(Player player, Class<? extends GuiBuilder> gClass){
 
-        if(!main.getRegisteredMenus().containsKey(gClass)) return;
+        if(!Main.getInstance().getRegisteredMenus().containsKey(gClass)) return;
 
-        GuiBuilder menu = main.getRegisteredMenus().get(gClass);
+        GuiBuilder menu = Main.getInstance().getRegisteredMenus().get(gClass);
         Inventory inv = Bukkit.createInventory(null, menu.getSize(), menu.name());
         menu.contents(player, inv);
         new BukkitRunnable() {
@@ -54,14 +52,14 @@ public class GuiManager implements Listener {
                 player.openInventory(inv);
             }
 
-        }.runTaskLater(main, 1);
+        }.runTaskLater(Main.getInstance(), 1);
 
     }
 
     public Inventory addBorder(Inventory inventory, Integer size){
-        if (size == 27){
-            ItemStack border = new ItemStack(Material.SPONGE, 1, (short) 13);
-            List<Integer> slots = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);
+        if(size == 27){
+            ItemStack border = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 13);
+            List<Integer> slots = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26);
             slots.forEach(slot -> inventory.setItem(slot, border));
         }
         return inventory;

@@ -61,7 +61,7 @@ public class Reports {
 
     public List<ReportManager> getReports(String uuid){
         List<ReportManager> reportManagers = new ArrayList<>();
-        main.getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "' ORDER BY id ASC", rs -> {
+        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "' ORDER BY id ASC", rs -> {
             try{
                 while(rs.next()){
                     reportManagers.add(new ReportManager(rs.getString("uuid"), rs.getString("date"),rs.getString("auteur"), rs.getString("raison")));

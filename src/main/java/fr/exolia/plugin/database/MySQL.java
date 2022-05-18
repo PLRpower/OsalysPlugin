@@ -27,6 +27,18 @@ public class MySQL {
                 "date DATETIME, " +
                 "auteur VARCHAR(255), " +
                 "raison VARCHAR(255))");
+
+        update("CREATE TABLE IF NOT EXISTS messages (" +
+                "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
+                "uuid VARCHAR(255), " +
+                "player VARCHAR(255)," +
+                "message VARCHAR(255)," +
+                "date DATETIME)");
+
+        update("CREATE TABLE IF NOT EXISTS stats (" +
+                "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
+                "date DATETIME, " +
+                "players INT(11))");
     }
 
     public void update(String qry){

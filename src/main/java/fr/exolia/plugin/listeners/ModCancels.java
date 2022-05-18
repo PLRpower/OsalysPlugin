@@ -56,7 +56,9 @@ public class ModCancels implements Listener {
     public void onItemDrop(PlayerDropItemEvent e) {e.setCancelled(PlayerManager.isInModerationMod(e.getPlayer()) ||  PlayerManager.isFreeze(e.getPlayer()));}
 
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e) {e.setCancelled( PlayerManager.isFreeze(e.getPlayer()));}
+    public void onBlockPlace(BlockPlaceEvent e) {
+        e.setCancelled(PlayerManager.isFreeze(e.getPlayer()) || PlayerManager.isInModerationMod(e.getPlayer()) && e.getBlock().getType() == Material.PACKED_ICE);
+    }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {e.setCancelled(PlayerManager.isFreeze(e.getPlayer()));}

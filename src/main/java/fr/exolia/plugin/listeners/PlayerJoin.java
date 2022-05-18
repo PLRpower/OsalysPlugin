@@ -2,6 +2,7 @@ package fr.exolia.plugin.listeners;
 
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.managers.PlayerManager;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,10 +18,10 @@ public class PlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e){
-       // main.getStats().addPlayers(1);
+       main.getStats().addPlayer();
         Player player = e.getPlayer();
+        //e.setJoinMessage(PlaceholderAPI.setPlaceholders(e.getPlayer(), "%player_ping% &aà rejoins le serveur! They are rank &f%vault_rank%"));
         if(PlayerManager.isInModerationMod(player)){
-            e.setJoinMessage("hey!");
             main.getPlayerManager().setVanish(player, true);
         }
         if(!player.hasPermission(main.permissionHStaff)){

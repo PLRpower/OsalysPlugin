@@ -3,7 +3,6 @@ package fr.exolia.plugin.listeners;
 import fr.exolia.plugin.Main;
 import fr.exolia.plugin.managers.PlayerManager;
 import fr.exolia.plugin.managers.ReportManager;
-import org.apache.commons.io.EndianUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,7 +33,7 @@ public class ModItemsInteract implements Listener {
                 break;
 
             case PACKED_ICE:
-                main.getPlayerManager().setFreeze(target, player, PlayerManager.isFreeze(target));
+                main.getPlayerManager().setFreeze(target, player, !PlayerManager.isFreeze(target));
                 break;
 
             case BOOK:
@@ -59,11 +58,14 @@ public class ModItemsInteract implements Listener {
         if(!PlayerManager.isInModerationMod(player)) return;
         if(e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.RIGHT_CLICK_AIR) return;
         if(e.getHand() != EquipmentSlot.HAND) return;
-        switch (player.getInventory().getItemInMainHand().getType()){
+        switch(player.getInventory().getItemInMainHand().getType()){
 
             case FEATHER:
-                main.getPlayerManager().setVanish(player, PlayerManager.isVanished(player));
+                main.getPlayerManager().setVanish(player, !PlayerManager.isVanished(player));
                 break;
+
+            case PACKED_ICE:
+                return;
 
             default:
                 break;

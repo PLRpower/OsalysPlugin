@@ -55,13 +55,13 @@ public class ReportGui implements GuiBuilder {
                     player.sendMessage(main.prefixError + "Vous ne pouvez pas signaler ce joueur car il s'est déconnecté");
                 }
 
-                player.closeInventory();
-                player.sendMessage("§aVous avez bien signalé ce joueur !");
-
                 assert target != null;
-                main.getReports().add(new ReportManager(target.getUniqueId().toString(), player.getName(), reason.substring(2)));
+                main.getReports().add(new ReportManager(target.getUniqueId().toString(), player.getName(), reason));
                 main.getChatManager().sendReportToStaff(reason, target.getName());
                 reportCooldown.put(player, System.currentTimeMillis());
+
+                player.closeInventory();
+                player.sendMessage(main.prefixInfo+ "Vous avez bien signalé ce joueur !");
                 break;
             default: break;
         }

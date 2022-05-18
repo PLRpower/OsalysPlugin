@@ -1,20 +1,22 @@
 name: ExoliaPlugin
 version: '${project.version}'
 main: fr.exolia.plugin.Main
-authors: [ PLR_Power, SkyScube, Ketchua_, Omikrone ]
+authors: [ PLR_Power, Ketchua_, Vappy, SkyScube, Omikrone ]
 description: Plugin officiel d'Exolia
 website: https://exolia.site/
 commands:
   site:
     aliases: website
-  vote:
     description: Permet d'ouvrir le site d'Exolia
+  vote:
+    description: Permet de voter pour Exolia
   reglement:
     description: Permet d'afficher le règlement du serveur
   discord:
     description: Permet de rejoindre le discord d'Exolia
   hub:
     alisases: lobby
+    description: Permet de se téléporter au spawn
   end:
     description: Aliase de la commande /warp end
   nether:
@@ -25,18 +27,22 @@ commands:
     description: Permet de signaler un joueur
   sc:
     alisases: staffchat
+    description: Permet d'activer le Staff-Chat
   history:
     alisases: sanctions
+    description: Permet de voir l'historique de sanction d'un joueur
   jm:
     description: Permet de prévenir les membres du staff que vous vous occupez d'un joueur
   clearchat:
     description: Permet de clear le chat
   exolions:
     aliases: exolion
+    description: Permet d'afficher ses Exolions
   exolionadmin:
-    description: permet de gérer les exolions
+    description: Permet de gérer les exolions d'un joueur
   nv:
     aliases: nightvision
+    description: Permet d'activer/désactiver la Night Vision
   freeze:
     description: Permet d'immobiliser un joueur
   freco:

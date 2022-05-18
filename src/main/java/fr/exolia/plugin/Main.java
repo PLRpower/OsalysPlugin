@@ -4,11 +4,9 @@ import com.zaxxer.hikari.HikariDataSource;
 import fr.exolia.plugin.commands.HStaffCommands;
 import fr.exolia.plugin.commands.PublicCommands;
 import fr.exolia.plugin.commands.StaffCommands;
-import fr.exolia.plugin.database.MySQL;
-import fr.exolia.plugin.database.Reports;
+import fr.exolia.plugin.database.*;
 import fr.exolia.plugin.gui.ReportGui;
 import fr.exolia.plugin.listeners.*;
-import fr.exolia.plugin.managers.AutoBroadcast;
 import fr.exolia.plugin.managers.ChatManager;
 import fr.exolia.plugin.managers.GuiManager;
 import fr.exolia.plugin.managers.PlayerManager;
@@ -16,23 +14,25 @@ import fr.exolia.plugin.database.Stats;
 import fr.exolia.plugin.util.GuiBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin implements Listener {
 
     private static Main instance;
 
     public ChatManager chatManager = new ChatManager();
-    public Stats stats = new Stats();
     public PlayerManager playerManager = new PlayerManager();
+    public GuiManager guiManager = new GuiManager();
     public Reports reports = new Reports();
-
+    public Stats stats = new Stats();
+    public Exolions exolions = new Exolions();
+    public ChatHistory chatHistory = new ChatHistory();
     private MySQL mysql;
     private MySQL mysql2;
 
-    private final GuiManager guiManager = new GuiManager();
     private final Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus = new HashMap<>();
     private final ArrayList<UUID> moderators = new ArrayList<>();
     private final ArrayList<UUID> staffChat = new ArrayList<>();
@@ -45,7 +45,12 @@ public class Main extends JavaPlugin {
 
     public String permissionStaff = "exolia.staff";
     public String permissionHStaff = "exolia.hstaff";
-    public String permissionModerator = "exolia.moderator";
+    public String permissionModerateur = "exolia.moderator";
+    public String permissionSupreme = "exolia.supreme";
+    public String permssionEmpereur = "exolia.empereur";
+    public String permissionSeigneur = "exolia.seigneur";
+    public String permissionMaitre = "exolia.maitre";
+    public String permissionChevalier = "exolia.chevalier";
 
 
     /**<hr>
@@ -60,11 +65,16 @@ public class Main extends JavaPlugin {
         initConnection();
         registerCommands();
         registerEvents();
-        //loadGui();
         getChatManager().autoBroadcast();
-        new AutoBroadcast().Minuterie();
-        //getStats().setOnlinePlayers(0);
-        getLogger().info(prefixAnnounce + "Le plugin s'est correctement activé.");
+        loadGui();
+        getStats().setOnlinePlayers(getStats().getOnlinePlayers());
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null){
+            getLogger().warning("Impossible de trouver PlaceholderAPI! Le plugin est requis.");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+        if(Bukkit.getPluginManager().isPluginEnabled(this)){
+            getLogger().info(prefixAnnounce + "Le plugin s'est correctement activé.");
+        }
     }
 
     /**<hr>
@@ -76,7 +86,7 @@ public class Main extends JavaPlugin {
     public void onDisable(){
         getLogger().info(prefixInfo + "Désactivation du plugin en cours ...");
         Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> Main.getInstance().getPlayerManager().setModerationMod(p, false));
-        //getStats().setOnlinePlayers(0);
+        getStats().setOnlinePlayers(0);
         getLogger().info(prefixAnnounce + "Le plugin s'est correctement désactivé.");
     }
 
@@ -206,5 +216,11 @@ public class Main extends JavaPlugin {
     }
     public Stats getStats() {
         return stats;
+    }
+    public Exolions getExolions() {
+        return exolions;
+    }
+    public ChatHistory getChatHistory() {
+        return chatHistory;
     }
 }
