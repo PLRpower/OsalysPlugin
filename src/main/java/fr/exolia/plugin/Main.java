@@ -151,6 +151,7 @@ public class Main extends JavaPlugin {
         getCommand("freeze").setExecutor(new StaffCommands());
         getCommand("freco").setExecutor(new HStaffCommands());
         getCommand("fdeco").setExecutor(new HStaffCommands());
+        getCommand("date").setExecutor(new PublicCommands());
     }
 
     /**<hr>

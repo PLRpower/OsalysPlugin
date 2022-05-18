@@ -43,3 +43,5 @@ commands:
     description: Permet de simuler la connexion d'un joueur
   fdeco:
     description: Permet de simuler la déconnexion d'un joueur
+  date:
+    description: Affiche la date et l'heure (Europe/Paris)

@@ -13,6 +13,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class PublicCommands implements CommandExecutor {
 
@@ -21,6 +24,13 @@ public class PublicCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 
+        if (label.equalsIgnoreCase("date")){
+            Date now = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+            System.out.println(simpleDateFormat.format(now));
+            Bukkit.broadcastMessage("§2§lDate/Heure serveur§7 :" + simpleDateFormat.format(now));
+        }
         if (!(sender instanceof Player)){
             sender.sendMessage(main.prefixError + "Seul un joueur peut executer cette commande.");
             return false;
