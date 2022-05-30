@@ -23,6 +23,7 @@ public class Main extends JavaPlugin implements Listener {
 
     private static Main instance;
 
+    public PlayerStats playerStats = new PlayerStats();
     public ChatManager chatManager = new ChatManager();
     public PlayerManager playerManager = new PlayerManager();
     public GuiManager guiManager = new GuiManager();
@@ -223,4 +224,5 @@ public class Main extends JavaPlugin implements Listener {
     public ChatHistory getChatHistory() {
         return chatHistory;
     }
+    public PlayerStats getPlayerStats() {return playerStats;}
 }

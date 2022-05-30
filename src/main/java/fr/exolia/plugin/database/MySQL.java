@@ -35,6 +35,13 @@ public class MySQL {
                 "message VARCHAR(255)," +
                 "date DATETIME)");
 
+        update("CREATE TABLE IF NOT EXISTS playerstats (" +
+                "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
+                "uuid VARCHAR(255), " +
+                "player VARCHAR(255)," +
+                "kills INT(11)" +
+                "morts INT(11)");
+
         update("CREATE TABLE IF NOT EXISTS stats (" +
                 "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "date DATETIME, " +
