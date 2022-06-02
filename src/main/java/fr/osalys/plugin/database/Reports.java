@@ -1,7 +1,7 @@
-package fr.exolia.plugin.database;
+package fr.osalys.plugin.database;
 
-import fr.exolia.plugin.Main;
-import fr.exolia.plugin.managers.ReportManager;
+import fr.osalys.plugin.Main;
+import fr.osalys.plugin.managers.ReportManager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

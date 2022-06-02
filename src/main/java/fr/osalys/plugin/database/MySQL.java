@@ -1,4 +1,4 @@
-package fr.exolia.plugin.database;
+package fr.osalys.plugin.database;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -40,7 +40,7 @@ public class MySQL {
                 "uuid VARCHAR(255), " +
                 "player VARCHAR(255)," +
                 "kills INT(11)" +
-                "morts INT(11)");
+                "deaths INT(11)");
 
         update("CREATE TABLE IF NOT EXISTS stats (" +
                 "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +

@@ -1,8 +1,8 @@
-package fr.exolia.plugin.gui;
+package fr.osalys.plugin.gui;
 
-import fr.exolia.plugin.Main;
-import fr.exolia.plugin.managers.ReportManager;
-import fr.exolia.plugin.util.GuiBuilder;
+import fr.osalys.plugin.Main;
+import fr.osalys.plugin.managers.ReportManager;
+import fr.osalys.plugin.util.GuiBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ReportGui implements GuiBuilder {
 
@@ -35,8 +36,8 @@ public class ReportGui implements GuiBuilder {
 
     @Override
     public void onClick(Player player, Inventory inv, ItemStack current, int slot){
-        Player target = Bukkit.getPlayer("PLR_Power");
-        String reason = current.getItemMeta().getDisplayName();
+        Player target = Bukkit.getPlayer(String.valueOf(player));
+        String reason = Objects.requireNonNull(current.getItemMeta()).getDisplayName();
         switch(current.getType()){
             case IRON_SWORD:
                 if(reportCooldown.containsKey(player)){

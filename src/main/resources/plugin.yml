@@ -1,15 +1,16 @@
-name: ExoliaPlugin
+name: OsalysPlugin
 version: '${project.version}'
-main: fr.exolia.plugin.Main
+main: fr.osalys.plugin.Main
 authors: [ PLR_Power, Ketchua_, Vappy, SkyScube, Omikrone ]
 description: Plugin officiel d'Exolia
+api-version: 1.16
 website: https://exolia.site/
 commands:
   site:
     aliases: website
     description: Permet d'ouvrir le site d'Exolia
   vote:
-    description: Permet de voter pour Exolia
+    description: Permet de voter pour Osalys
   reglement:
     description: Permet d'afficher le règlement du serveur
   discord:

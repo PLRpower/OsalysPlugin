@@ -1,6 +1,6 @@
-package fr.exolia.plugin.database;
+package fr.osalys.plugin.database;
 
-import fr.exolia.plugin.Main;
+import fr.osalys.plugin.Main;
 import org.bukkit.Bukkit;
 
 import java.text.SimpleDateFormat;

@@ -1,7 +1,7 @@
-package fr.exolia.plugin.managers;
+package fr.osalys.plugin.managers;
 
-import fr.exolia.plugin.Main;
-import fr.exolia.plugin.util.GuiBuilder;
+import fr.osalys.plugin.Main;
+import fr.osalys.plugin.util.GuiBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,15 +21,14 @@ public class GuiManager implements Listener {
     public void onClick(InventoryClickEvent event){
 
         Player player = (Player) event.getWhoClicked();
-        Inventory inv = event.getInventory();
         ItemStack current = event.getCurrentItem();
 
         if(event.getCurrentItem() == null) return;
 
         Main.getInstance().getRegisteredMenus().values().stream()
-                .filter(menu -> inv.getName().equalsIgnoreCase(menu.name()))
+                .filter(menu -> event.getView().getTitle().equalsIgnoreCase(menu.name()))
                 .forEach(menu -> {
-                    menu.onClick(player, inv, current, event.getSlot());
+                    menu.onClick(player, event.getInventory(), current, event.getSlot());
                     event.setCancelled(true);
                 });
     }
@@ -58,7 +57,7 @@ public class GuiManager implements Listener {
 
     public Inventory addBorder(Inventory inventory, Integer size){
         if(size == 27){
-            ItemStack border = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 13);
+            ItemStack border = new ItemStack(Material.GREEN_STAINED_GLASS_PANE, 1);
             List<Integer> slots = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26);
             slots.forEach(slot -> inventory.setItem(slot, border));
         }

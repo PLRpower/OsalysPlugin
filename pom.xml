@@ -4,16 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fr.exolia.plugin</groupId>
-    <artifactId>ExoliaPlugin</artifactId>
+    <groupId>fr.osalys.plugin</groupId>
+    <artifactId>OsalysPlugin</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>ExoliaPlugin</name>
+    <name>OsalysPlugin</name>
 
-    <description>Plugin officiel d'Exolia</description>
+    <description>Plugin officiel d'Osalys</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>16</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <url>htpps://exolia.site/</url>
@@ -45,17 +45,14 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    Dossier d'export du plugin, à changer en fonction de l'emplacement de votre serveur local
                     <outputDirectory>C:\Users\pault\OneDrive - Conseil régional Grand Est - Numérique Educatif\Bureau\server\plugins</outputDirectory>
                 </configuration>
             </plugin>
-            -->
         </plugins>
         <resources>
             <resource>
@@ -64,10 +61,11 @@
             </resource>
         </resources>
     </build>
+
     <repositories>
         <repository>
-            <id>papermc-repo</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>placeholderapi</id>
@@ -81,9 +79,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.16.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

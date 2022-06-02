@@ -1,18 +1,19 @@
-package fr.exolia.plugin.commands;
+package fr.osalys.plugin.commands;
 
-import fr.exolia.plugin.Main;
+import fr.osalys.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class HStaffCommands implements CommandExecutor {
 
     private final Main main = Main.getInstance();
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args){
         Player player = (Player)sender;
         if(!player.hasPermission(main.permissionHStaff)){
             player.sendMessage(main.prefixError + "Vous n'avez pas la permission d'exécuter cette commande !");

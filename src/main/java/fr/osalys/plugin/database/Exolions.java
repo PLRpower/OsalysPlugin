@@ -1,6 +1,6 @@
-package fr.exolia.plugin.database;
+package fr.osalys.plugin.database;
 
-import fr.exolia.plugin.Main;
+import fr.osalys.plugin.Main;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -19,7 +19,6 @@ public class Exolions {
             return 0;
         });
     }
-
 
     public void setCoins(Player player, float coins){
         Main.getInstance().getMySQL2().update("UPDATE users SET money ='" + coins + "' WHERE pseudo ='" + player.getName() + "'");

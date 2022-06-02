@@ -1,4 +1,4 @@
-package fr.exolia.plugin.managers;
+package fr.osalys.plugin.managers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
