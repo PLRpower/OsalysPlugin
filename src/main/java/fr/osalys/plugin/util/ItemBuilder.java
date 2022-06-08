@@ -14,37 +14,42 @@ import java.util.Arrays;
 public class ItemBuilder {
 
     private final ItemStack is;
+
     public ItemBuilder(Material m) {
         this(m, 1);
     }
+
     public ItemBuilder(ItemStack is) {
         this.is = is;
     }
+
     public ItemBuilder(Material m, int amount) {
         is = new ItemStack(m, amount);
     }
-    public ItemBuilder(Material m, int amount, short meta){
+
+    public ItemBuilder(Material m, int amount, short meta) {
         is = new ItemStack(m, amount, meta);
     }
+
     public ItemBuilder clone() {
         return new ItemBuilder(is);
     }
 
-    public ItemBuilder setGlow(boolean glow){
+    public ItemBuilder setGlow(boolean glow) {
         if (glow) {
             addEnchant(Enchantment.KNOCKBACK, 1);
             addItemFlag(ItemFlag.HIDE_ENCHANTS);
         } else {
             ItemMeta meta = is.getItemMeta();
             assert meta != null;
-            for (Enchantment enchantment : meta.getEnchants().keySet()){
+            for (Enchantment enchantment : meta.getEnchants().keySet()) {
                 meta.removeEnchant(enchantment);
             }
         }
         return this;
     }
 
-    public ItemBuilder setUnbreakable(boolean unbreakable){
+    public ItemBuilder setUnbreakable(boolean unbreakable) {
         ItemMeta meta = is.getItemMeta();
         assert meta != null;
         meta.setUnbreakable(unbreakable);
@@ -52,7 +57,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setBannerColor (DyeColor color){
+    public ItemBuilder setBannerColor(DyeColor color) {
         BannerMeta meta = (BannerMeta) is.getItemMeta();
         assert meta != null;
         meta.setBaseColor(color);
@@ -60,7 +65,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setName(String name){
+    public ItemBuilder setName(String name) {
         ItemMeta meta = is.getItemMeta();
         assert meta != null;
         meta.setDisplayName(name);
@@ -68,7 +73,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setSkull(Player owner){
+    public ItemBuilder setSkull(Player owner) {
         SkullMeta meta = (SkullMeta) is.getItemMeta();
         assert meta != null;
         meta.setOwningPlayer(owner);
@@ -84,7 +89,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setDurability(short dur){
+    public ItemBuilder setDurability(short dur) {
         ItemMeta meta = is.getItemMeta();
         assert meta != null;
         ((Damageable) meta).setDamage(dur);
@@ -92,7 +97,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addEnchant(Enchantment ench, int level){
+    public ItemBuilder addEnchant(Enchantment ench, int level) {
         ItemMeta meta = is.getItemMeta();
         assert meta != null;
         meta.addEnchant(ench, level, true);
@@ -100,7 +105,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder removeEnchantment(Enchantment ench){
+    public ItemBuilder removeEnchantment(Enchantment ench) {
         ItemMeta meta = is.getItemMeta();
         assert meta != null;
         meta.removeEnchant(ench);
@@ -108,7 +113,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setLore(String... lore){
+    public ItemBuilder setLore(String... lore) {
         ItemMeta meta = is.getItemMeta();
         assert meta != null;
         meta.setLore(Arrays.asList(lore));
@@ -116,14 +121,14 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setWoolColor(DyeColor color){
+    public ItemBuilder setWoolColor(DyeColor color) {
         if (!is.getType().equals(Material.WHITE_WOOL))
             return this;
         this.is.setType(Material.valueOf(color.name() + "_WOOL"));
         return this;
     }
 
-    public ItemBuilder setLeatherArmorColor(Color color){
+    public ItemBuilder setLeatherArmorColor(Color color) {
         LeatherArmorMeta meta = (LeatherArmorMeta) is.getItemMeta();
         assert meta != null;
         meta.setColor(color);
@@ -131,7 +136,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemStack toItemStack(){
+    public ItemStack toItemStack() {
         return is;
     }
 }

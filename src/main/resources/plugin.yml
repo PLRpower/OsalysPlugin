@@ -5,6 +5,9 @@ authors: [ PLR_Power, Ketchua_, Vappy, SkyScube, Omikrone ]
 description: Plugin officiel d'Exolia
 api-version: 1.16
 website: https://exolia.site/
+prefix: Osalys
+depend: [PlaceholderAPI]
+loadbefore: [PlaceholderAPI]
 commands:
   site:
     aliases: website

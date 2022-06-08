@@ -1,5 +1,6 @@
 package fr.osalys.plugin.commands;
 
+import fr.osalys.plugin.Main;
 import fr.osalys.plugin.managers.PlayerManager;
 import fr.osalys.plugin.managers.ReportManager;
 import org.bukkit.Bukkit;
@@ -7,8 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import fr.osalys.plugin.Main;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -123,8 +122,8 @@ public class StaffCommands implements CommandExecutor {
                     return true;
                 }
 
-                if (args.length == 1){
-                    if(args[0].equalsIgnoreCase("player")){
+                if (args.length == 1) {
+                    if (args[0].equalsIgnoreCase("player")) {
                         main.getChatManager().clearChatForPlayersOnly();
                     } else {
                         Player target = Bukkit.getPlayerExact(args[0]);

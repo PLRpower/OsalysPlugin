@@ -27,40 +27,41 @@ public class ModEvents implements Listener {
     private final Main main = Main.getInstance();
 
     @EventHandler
-    public void onItemPickup(EntityPickupItemEvent e){
-        if(!(e.getEntity() instanceof Player pickup)) return;
+    public void onItemPickup(EntityPickupItemEvent e) {
+        if (!(e.getEntity() instanceof Player pickup)) return;
         e.setCancelled(PlayerManager.isInModerationMod(pickup) || PlayerManager.isFreeze(pickup));
     }
 
     @EventHandler
-    public void onEntityDamage(EntityDamageEvent e){
-        if(!(e.getEntity() instanceof Player damaged)) return;
-        e.setCancelled(PlayerManager.isInModerationMod(damaged) ||  PlayerManager.isFreeze(damaged));
+    public void onEntityDamage(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player damaged)) return;
+        e.setCancelled(PlayerManager.isInModerationMod(damaged) || PlayerManager.isFreeze(damaged));
 
-        if(e instanceof EntityDamageByEntityEvent ev){
-            e.setCancelled(ev.getEntity() instanceof Player &&  PlayerManager.isFreeze((Player) ev.getEntity()));
+        if (e instanceof EntityDamageByEntityEvent ev) {
+            e.setCancelled(ev.getEntity() instanceof Player && PlayerManager.isFreeze((Player) ev.getEntity()));
         }
+
     }
 
     @EventHandler
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent e){
-        if(!(e.getEntity() instanceof Player)) return;
-        if(!(e.getDamager() instanceof Player damage)) return;
-        if(PlayerManager.isInModerationMod(damage)){
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+        if (!(e.getEntity() instanceof Player)) return;
+        if (!(e.getDamager() instanceof Player damage)) return;
+        if (PlayerManager.isInModerationMod(damage)) {
             e.setCancelled(damage.getInventory().getItemInMainHand().getType() != Material.STICK);
         }
     }
 
     @EventHandler
-    public void onMove(PlayerMoveEvent e){
-        if( PlayerManager.isFreeze(e.getPlayer())){
+    public void onMove(PlayerMoveEvent e) {
+        if (PlayerManager.isFreeze(e.getPlayer())) {
             e.setTo(e.getFrom());
         }
     }
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent e) {
-        e.setCancelled(PlayerManager.isInModerationMod(e.getPlayer()) ||  PlayerManager.isFreeze(e.getPlayer()));
+        e.setCancelled(PlayerManager.isInModerationMod(e.getPlayer()) || PlayerManager.isFreeze(e.getPlayer()));
     }
 
     @EventHandler
@@ -69,7 +70,9 @@ public class ModEvents implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) {e.setCancelled(PlayerManager.isFreeze(e.getPlayer()));}
+    public void onBlockBreak(BlockBreakEvent e) {
+        e.setCancelled(PlayerManager.isFreeze(e.getPlayer()));
+    }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
@@ -77,13 +80,13 @@ public class ModEvents implements Listener {
     }
 
     @EventHandler
-    public void onInteractWithEntity(PlayerInteractEntityEvent e){
+    public void onInteractWithEntity(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
-        if(!PlayerManager.isInModerationMod(player)) return;
-        if(!(e.getRightClicked() instanceof Player target)) return;
-        if(e.getHand() != EquipmentSlot.HAND) return;
+        if (!PlayerManager.isInModerationMod(player)) return;
+        if (!(e.getRightClicked() instanceof Player target)) return;
+        if (e.getHand() != EquipmentSlot.HAND) return;
         e.setCancelled(true);
-        switch(player.getInventory().getItemInMainHand().getType()){
+        switch (player.getInventory().getItemInMainHand().getType()) {
             case PAPER:
                 player.performCommand("invsee " + target.getName());
                 break;
@@ -95,26 +98,27 @@ public class ModEvents implements Listener {
             case BOOK:
                 List<ReportManager> reports = main.getReports().getReports(target.getUniqueId().toString());
 
-                if(reports.isEmpty()){
+                if (reports.isEmpty()) {
                     player.sendMessage(main.prefixError + "Ce joueur n'a aucun signalement");
-                }else{
+                } else {
                     player.sendMessage(main.prefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
                     reports.forEach(r -> player.sendMessage("§f" + r.getDate() + "§fSignalé par :" + r.getAuthor() + " §fpour la raison :" + r.getReason()));
                 }
 
                 break;
 
-            default: break;
+            default:
+                break;
         }
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e){
+    public void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        if(!PlayerManager.isInModerationMod(player)) return;
-        if(e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.RIGHT_CLICK_AIR) return;
-        if(e.getHand() != EquipmentSlot.HAND) return;
-        switch(player.getInventory().getItemInMainHand().getType()){
+        if (!PlayerManager.isInModerationMod(player)) return;
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.RIGHT_CLICK_AIR) return;
+        if (e.getHand() != EquipmentSlot.HAND) return;
+        switch (player.getInventory().getItemInMainHand().getType()) {
 
             case FEATHER:
                 main.getPlayerManager().setVanish(player, !PlayerManager.isVanished(player));

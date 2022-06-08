@@ -8,21 +8,21 @@ import java.util.Date;
 
 public class Stats {
 
-    public Integer getOnlinePlayers(){
+    public Integer getOnlinePlayers() {
         return Bukkit.getOnlinePlayers().size();
     }
 
-    public void setOnlinePlayers(Integer players){
-        Main.getInstance().getMySQL().update("INSERT INTO stats (date, players) VALUES (" +
+    public void setOnlinePlayers(Integer players) {
+        Main.getInstance().getMySQL().update("INSERT INTO stats (datetime, players) VALUES (" +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' ," +
                 "'" + players + "')");
     }
 
-    public void addPlayer(){
+    public void addPlayer() {
         setOnlinePlayers(getOnlinePlayers());
     }
 
-    public void removePlayer(){
-        setOnlinePlayers(getOnlinePlayers()-1);
+    public void removePlayer() {
+        setOnlinePlayers(getOnlinePlayers() - 1);
     }
 }

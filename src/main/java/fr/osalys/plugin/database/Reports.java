@@ -9,10 +9,10 @@ import java.util.List;
 
 public class Reports {
 
-    private final Main main = Main.getInstance();
     private static final String TABLE = "reports";
+    private final Main main = Main.getInstance();
 
-    public void add(ReportManager reportManager){
+    public void add(ReportManager reportManager) {
         main.getMySQL().update("INSERT INTO " + TABLE + " (uuid, date, auteur, raison) VALUES (" +
                 "'" + reportManager.getUUID() + "' ," +
                 "'" + reportManager.getDate() + "' ," +
@@ -20,10 +20,10 @@ public class Reports {
                 "'" + reportManager.getReason() + "')");
     }
 
-    public void remove(int id){
+    public void remove(int id) {
         main.getMySQL().query("SELECT * FROM " + TABLE + " WHERE id='" + id + "'", rs -> {
             try {
-                if(rs.next()) {
+                if (rs.next()) {
                     rs.deleteRow();
                 }
             } catch (SQLException e) {
@@ -32,13 +32,13 @@ public class Reports {
         });
     }
 
-    public ReportManager getReport(int id){
+    public ReportManager getReport(int id) {
         main.getMySQL().query("SELECT * FROM " + TABLE + " WHERE id='" + id + "'", rs -> {
             try {
-                if(rs.next()){
-                    return new ReportManager(rs.getString("uuid"), rs.getString("date"),rs.getString("auteur"), rs.getString("raison") );
+                if (rs.next()) {
+                    return new ReportManager(rs.getString("uuid"), rs.getString("date"), rs.getString("auteur"), rs.getString("raison"));
                 }
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             return null;
@@ -46,27 +46,28 @@ public class Reports {
         return null;
     }
 
-    public List<Integer> getIds(String uuid){
+    public List<Integer> getIds(String uuid) {
         List<Integer> ids = new ArrayList<>();
         main.getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "'", rs -> {
             try {
-                while(rs.next()){
-                    ids.add(rs.getInt("id"));}
-            }catch (SQLException e){
+                while (rs.next()) {
+                    ids.add(rs.getInt("id"));
+                }
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
         return ids;
     }
 
-    public List<ReportManager> getReports(String uuid){
+    public List<ReportManager> getReports(String uuid) {
         List<ReportManager> reportManagers = new ArrayList<>();
         Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "' ORDER BY id ASC", rs -> {
-            try{
-                while(rs.next()){
-                    reportManagers.add(new ReportManager(rs.getString("uuid"), rs.getString("date"),rs.getString("auteur"), rs.getString("raison")));
-                    }
-            } catch (SQLException e){
+            try {
+                while (rs.next()) {
+                    reportManagers.add(new ReportManager(rs.getString("uuid"), rs.getString("date"), rs.getString("auteur"), rs.getString("raison")));
+                }
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
