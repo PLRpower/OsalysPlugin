@@ -7,8 +7,11 @@ import java.sql.SQLException;
 
 public class Exolions {
 
+    private final Main main;
+    public Exolions(Main main) {this.main = main;}
+
     public float getCoins(Player player) {
-        return (float) Main.getInstance().getMySQL2().query("SELECT * FROM users WHERE pseudo ='" + player.getName() + "'", rs -> {
+        return (float) main.getMySQL2().query("SELECT * FROM users WHERE pseudo ='" + player.getName() + "'", rs -> {
             try {
                 if (rs.next()) {
                     return rs.getFloat("money");
@@ -21,7 +24,7 @@ public class Exolions {
     }
 
     public void setCoins(Player player, float coins) {
-        Main.getInstance().getMySQL2().update("UPDATE users SET money ='" + coins + "' WHERE pseudo ='" + player.getName() + "'");
+        main.getMySQL2().update("UPDATE users SET money ='" + coins + "' WHERE pseudo ='" + player.getName() + "'");
     }
 
     public void addCoins(Player player, float coins) {

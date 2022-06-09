@@ -9,12 +9,13 @@ prefix: Osalys
 depend: [PlaceholderAPI]
 loadbefore: [PlaceholderAPI]
 commands:
-  site:
-    aliases: website
+  website:
+    aliases: site
     description: Permet d'ouvrir le site d'Exolia
   vote:
     description: Permet de voter pour Osalys
-  reglement:
+  rules:
+    aliases: reglement
     description: Permet d'afficher le règlement du serveur
   discord:
     description: Permet de rejoindre le discord d'Exolia
@@ -25,12 +26,13 @@ commands:
     description: Aliase de la commande /warp end
   nether:
     description: Aliase de la commande /warp nether
-  mod:
+  moderationmod:
+    aliases: moderation, mod
     description: Permet d'activer le mode modérateur
   report:
     description: Permet de signaler un joueur
-  sc:
-    alisases: staffchat
+  staffchat:
+    alisases: sc
     description: Permet d'activer le Staff-Chat
   history:
     alisases: sanctions
@@ -44,14 +46,12 @@ commands:
     description: Permet d'afficher ses Exolions
   exolionadmin:
     description: Permet de gérer les exolions d'un joueur
-  nv:
-    aliases: nightvision
+  nightvision:
+    aliases: nv
     description: Permet d'activer/désactiver la Night Vision
   freeze:
     description: Permet d'immobiliser un joueur
-  freco:
-    description: Permet de simuler la connexion d'un joueur
-  fdeco:
-    description: Permet de simuler la déconnexion d'un joueur
+  fake:
+    description: Permet de simuler la connexion/déconnexion d'un joueur
   date:
     description: Affiche la date et l'heure (Europe/Paris)

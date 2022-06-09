@@ -10,35 +10,54 @@ import org.bukkit.entity.Player;
 
 public class ChatManager {
 
+    private final Main main;
+    public ChatManager(Main main) {this.main = main;}
+
     int number = 1;
 
+    /**
+     * Permet de nettoyer le chat pour seulement un joueur.
+     *
+     * @param player joueur qui aura le chat nettoyé
+     */
     public void clearChatForOnePlayer(Player player) {
         for (int x = 0; x <= 100; x++) {
             player.sendMessage(" ");
         }
-        player.sendMessage(Main.getInstance().prefixAnnounce + "Ton chat vient d'être nettoyé  par un Administrateur.");
+        player.sendMessage(main.prefixAnnounce + "Ton chat vient d'être nettoyé  par un Administrateur.");
     }
 
+    /**
+     * Permet de nettoyer le chat pour tout le monde.
+     */
     public void clearChatForAll() {
         for (int x = 0; x <= 100; x++) {
             Bukkit.broadcastMessage("");
         }
-        Bukkit.broadcastMessage(Main.getInstance().prefixAnnounce + "Le chat vient d'être nettoyé par un Modérateur.");
+        Bukkit.broadcastMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Modérateur.");
     }
 
+    /**
+     * Permet de nettoyer le chat pour les joueurs seulement.
+     */
     public void clearChatForPlayersOnly() {
         for (Player targetPlayers : Bukkit.getOnlinePlayers()) {
-            if (!targetPlayers.hasPermission(Main.getInstance().permissionStaff)) {
+            if (!targetPlayers.hasPermission(main.permissionStaff)) {
                 clearChatForOnePlayer(targetPlayers);
             }
         }
     }
 
+    /**
+     * Envoie l'erreur de la commande clearchat.
+     *
+     * @param player joueur qui va recevoir l'erreur
+     */
     public void sendClearChatErrorMessage(Player player) {
-        player.sendMessage(Main.getInstance().prefixInfo + "§b/clearchat §7Clear le chat pour tout le monde");
-        player.sendMessage(Main.getInstance().prefixInfo + "§b/clearchat <all> §7Clear le chat pour tout le monde");
-        player.sendMessage(Main.getInstance().prefixInfo + "§b/clearchat <player> §7Clear le chat pour les joueurs uniquement");
-        player.sendMessage(Main.getInstance().prefixInfo + "§b/clearchat <player> <Nom d'un joueur> §7Clear le chat pour un seul joueur");
+        player.sendMessage(main.prefixInfo + "§b/clearchat §7Clear le chat pour tout le monde");
+        player.sendMessage(main.prefixInfo + "§b/clearchat <all> §7Clear le chat pour tout le monde");
+        player.sendMessage(main.prefixInfo + "§b/clearchat <player> §7Clear le chat pour les joueurs uniquement");
+        player.sendMessage(main.prefixInfo + "§b/clearchat <player> <Nom d'un joueur> §7Clear le chat pour un seul joueur");
     }
 
     /**
@@ -57,15 +76,18 @@ public class ChatManager {
      * @param message texte à envoyer à tout les joueurs qui ont la permission {@link Main#permissionStaff}
      */
     public void sendMessageToStaff(String message) {
-        Bukkit.broadcast(message, Main.getInstance().permissionStaff);
+        Bukkit.broadcast(message, main.permissionStaff);
     }
 
+    /**
+     * Fonction qui envoie les messages d'astuces/d'informations automatiquement.
+     */
     public void autoBroadcast() {
         TextComponent bar = new TextComponent("§7§m---------------------");
         String strBar = "§7§m---------------------";
         String tipsPrefix = "\n§2§lAstuce §7● §a";
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), () -> {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
 
             number += 1;
             if (number == 10) {

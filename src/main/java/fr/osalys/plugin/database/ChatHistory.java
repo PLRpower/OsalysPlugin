@@ -10,10 +10,11 @@ import java.util.List;
 public class ChatHistory {
 
     private static final String TABLE = "messages";
-    private final Main main = Main.getInstance();
+    private final Main main;
+    public ChatHistory(Main main) {this.main = main;}
 
     public void addMessage(ChatHistoryManager chatHistoryManager) {
-        Main.getInstance().getMySQL().update("INSERT INTO " + TABLE + " (uuid, player, message, date) VALUES (" +
+        main.getMySQL().update("INSERT INTO " + TABLE + " (uuid, player, message, date) VALUES (" +
                 "'" + chatHistoryManager.getUUID() + "' ," +
                 "'" + chatHistoryManager.getPlayer() + "' ," +
                 "'" + chatHistoryManager.getMessage() + "' ," +

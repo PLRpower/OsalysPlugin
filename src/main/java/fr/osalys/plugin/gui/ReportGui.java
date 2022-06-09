@@ -15,7 +15,8 @@ import java.util.Objects;
 
 public class ReportGui implements GuiBuilder {
 
-    private final Main main = Main.getInstance();
+    private final Main main;
+    public ReportGui(Main main) {this.main = main;}
     private final Map<Player, Long> reportCooldown = new HashMap<>();
 
     @Override

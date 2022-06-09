@@ -11,34 +11,69 @@ import org.bukkit.potion.PotionEffectType;
 
 public class PlayerManager {
 
+
+    private static Main main = null;
+    public PlayerManager(Main main){
+        PlayerManager.main = main;
+    }
+
     private final ItemStack[] items = new ItemStack[40];
-    public Main main = Main.getInstance();
-    private final Plugin plugin = main;
 
+
+    /**
+     * Permet de savoir si un joueur est en mode modération.
+     *
+     * @param player joueur à vérifier
+     */
     public static boolean isInModerationMod(Player player) {
-        return Main.getInstance().getModerators().contains(player.getUniqueId());
+        return main.getModerators().contains(player.getUniqueId());
     }
 
+    /**
+     * Permet de savoir si un joueur est immobilisé.
+     *
+     * @param player joueur à vérifier
+     */
     public static boolean isFreeze(Player player) {
-        return Main.getInstance().getFrozenPlayers().containsKey(player.getUniqueId());
+        return main.getFrozenPlayers().containsKey(player.getUniqueId());
     }
 
+    /**
+     * Permet de savoir si un joueur à la vision nocturne.
+     *
+     * @param player joueur à vérifier
+     */
     public static boolean isNightVision(Player player) {
         return player.hasPotionEffect(PotionEffectType.NIGHT_VISION);
     }
 
+    /**
+     * Permet de savoir si un joueur est en mode StaffChat.
+     *
+     * @param player joueur à vérifier
+     */
     public static boolean isStaffChat(Player player) {
-        return Main.getInstance().getStaffChat().contains(player.getUniqueId());
+        return main.getStaffChat().contains(player.getUniqueId());
     }
 
+    /**
+     * Permet de savoir si un joueur est invisible.
+     *
+     * @param player joueur à vérifier
+     */
     public static boolean isVanished(Player player) {
-        return Main.getInstance().getVanished().contains(player.getUniqueId());
+        return main.getVanished().contains(player.getUniqueId());
     }
 
     public ItemStack[] getItems() {
         return items;
     }
 
+    /**
+     * Permet de sauvegarder l'inventaire d'un joueur.
+     *
+     * @param player joueur à sauvegarder
+     */
     public void SaveInventory(Player player) {
         for (int slot = 0; slot < 36; slot++) {
             ItemStack item = player.getInventory().getItem(slot);
@@ -53,6 +88,11 @@ public class PlayerManager {
         player.getInventory().clear();
     }
 
+    /**
+     * Permet de redonner l'inventaire sauvegardé à un joueur.
+     *
+     * @param player joueur à regive
+     */
     public void GiveInventory(Player player) {
         player.getInventory().clear();
         for (int slot = 0; slot < 36; slot++) {
@@ -67,62 +107,92 @@ public class PlayerManager {
         player.getInventory().setBoots(items[39]);
     }
 
+    /**
+     * Permet d'activer/désactiver le mode modération.
+     *
+     * @param player        joueur à modifier
+     * @param moderationMod Activer/désactiver le mode
+     */
     public void setModerationMod(Player player, boolean moderationMod) {
         if (moderationMod) {
-            Main.getInstance().getModerators().add(player.getUniqueId());
+            main.getModerators().add(player.getUniqueId());
             SaveInventory(player);
             player.getInventory().setItem(0, new ItemBuilder(Material.PAPER).setName("§aVoir l'inventaire").setLore("§7Clique droit sur un joueur", "§7pour voir son inventaire").toItemStack());
             player.getInventory().setItem(1, new ItemBuilder(Material.FEATHER).setName("§aVanish").setLore("§7Clique droit pour", "§7activer/désactiver le vanish").toItemStack());
             player.getInventory().setItem(2, new ItemBuilder(Material.PACKED_ICE).setName("§aFreeze").setLore("§7Clique droit sur un joueur", "§7pour le rendre immobile").toItemStack());
             player.getInventory().setItem(3, new ItemBuilder(Material.BOOK).setName("§aReports").setLore("§7Clique droit sur un joueur", "§7pour voir ses reports").toItemStack());
-            player.sendMessage(Main.getInstance().prefixInfo + "Mode modération §aactivé§7.");
+            player.sendMessage(main.prefixInfo + "Mode modération §aactivé§7.");
         } else {
-            Main.getInstance().getModerators().remove(player.getUniqueId());
+            main.getModerators().remove(player.getUniqueId());
             player.getInventory().clear();
             GiveInventory(player);
-            player.sendMessage(Main.getInstance().prefixInfo + "Mode modération §cdésactivé§7.");
+            player.sendMessage(main.prefixInfo + "Mode modération §cdésactivé§7.");
         }
     }
 
+    /**
+     * Permet de rendre invisible/visible un joueur.
+     *
+     * @param player joueur à modifier
+     * @param vanish Activer/désactiver le mode
+     */
     public void setVanish(Player player, boolean vanish) {
         if (vanish) {
-            Main.getInstance().getVanished().add(player.getUniqueId());
+            main.getVanished().add(player.getUniqueId());
             player.performCommand("vanish on");
         } else {
-            Main.getInstance().getVanished().remove(player.getUniqueId());
+            main.getVanished().remove(player.getUniqueId());
             player.performCommand("vanish off");
         }
     }
 
+    /**
+     * Permet d'activer/désactiver le mode StaffChat.
+     *
+     * @param player    joueur à mettre dans le mode
+     * @param staffChat Activer/désactiver le mode
+     */
     public void setStaffChat(Player player, boolean staffChat) {
         if (staffChat) {
-            Main.getInstance().getStaffChat().add(player.getUniqueId());
-            player.sendMessage(Main.getInstance().prefixInfo + "StaffChat §aactivé§7.");
+            main.staffChat.add(player.getUniqueId());
+            player.sendMessage(main.prefixInfo + "StaffChat §aactivé§7.");
         } else {
-            Main.getInstance().getStaffChat().remove(player.getUniqueId());
-            player.sendMessage(Main.getInstance().prefixInfo + "StaffChat §cdésactivé§7.");
+            main.staffChat.remove(player.getUniqueId());
+            player.sendMessage(main.prefixInfo + "StaffChat §cdésactivé§7.");
         }
     }
 
+    /**
+     * Permet d'immobiliser ou non un joueur.
+     *
+     * @param player        joueur à mettre dans le mode
+     * @param freeze Activer/désactiver le mode
+     */
     public void setFreeze(Player target, Player player, boolean freeze) {
         if (freeze) {
-            Main.getInstance().getFrozenPlayers().put(target.getUniqueId(), target.getLocation());
-            target.sendMessage(Main.getInstance().prefixInfo + "Vous avez été §cimmobilisé §7par un modérateur");
-            player.sendMessage(Main.getInstance().prefixInfo + "Vous avez §cimmobilisé §b" + target.getName());
+             main.frozenPlayers.put(target.getUniqueId(), target.getLocation());
+            target.sendMessage(main.prefixInfo + "Vous avez été §cimmobilisé §7par un modérateur");
+            player.sendMessage(main.prefixInfo + "Vous avez §cimmobilisé §b" + target.getName());
         } else {
-            Main.getInstance().getFrozenPlayers().remove(target.getUniqueId());
-            target.sendMessage(Main.getInstance().prefixInfo + "Vous avez été §adésimmobilisé §7un modérateur");
-            player.sendMessage(Main.getInstance().prefixInfo + "Vous avez §adésimmobilisé §b" + target.getName());
+            main.frozenPlayers.remove(target.getUniqueId());
+            target.sendMessage(main.prefixInfo + "Vous avez été §adésimmobilisé §7un modérateur");
+            player.sendMessage(main.prefixInfo + "Vous avez §adésimmobilisé §b" + target.getName());
         }
     }
 
+    /**
+     * Permet d'activer/désactiver le vision nocturne.
+     *
+     * @param player        joueur à mettre dans le mode
+     * @param nightVision Activer/désactiver le mode
+     */
     public void setNightVision(Player player, boolean nightVision) {
         if (nightVision) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100000, 2, false, false));
-            player.sendMessage(Main.getInstance().prefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+            player.sendMessage(main.prefixInfo + "Vous avez §aactivé §7la vision nocturne.");
         } else {
             player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-            player.sendMessage(Main.getInstance().prefixInfo + "Vous avez §cdésactivé §7la vision nocturne.");
+            player.sendMessage(main.prefixInfo + "Vous avez §cdésactivé §7la vision nocturne.");
         }
     }
 }

@@ -1,16 +1,14 @@
 package fr.osalys.plugin;
 
 import com.zaxxer.hikari.HikariDataSource;
-import fr.osalys.plugin.commands.HStaffCommands;
-import fr.osalys.plugin.commands.PublicCommands;
-import fr.osalys.plugin.commands.StaffCommands;
+import fr.osalys.plugin.commands.*;
 import fr.osalys.plugin.database.*;
 import fr.osalys.plugin.gui.ReportGui;
 import fr.osalys.plugin.listeners.ModEvents;
+import fr.osalys.plugin.listeners.OnJoinEvent;
 import fr.osalys.plugin.listeners.PlayerEvents;
-import fr.osalys.plugin.managers.ChatManager;
-import fr.osalys.plugin.managers.GuiManager;
-import fr.osalys.plugin.managers.PlayerManager;
+import fr.osalys.plugin.managers.*;
+import fr.osalys.plugin.tablist.TablistManager;
 import fr.osalys.plugin.util.GuiBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,21 +24,24 @@ import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
 
-    private static Main instance;
-    private final Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus = new HashMap<>();
-    private final ArrayList<UUID> moderators = new ArrayList<>();
-    private final ArrayList<UUID> staffChat = new ArrayList<>();
-    private final Map<UUID, Location> frozenPlayers = new HashMap<>();
-    private final ArrayList<UUID> vanished = new ArrayList<>();
-    private final FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(getFile("mysql"));
-    public PlayerStats playerStats = new PlayerStats();
-    public ChatManager chatManager = new ChatManager();
-    public PlayerManager playerManager = new PlayerManager();
-    public GuiManager guiManager = new GuiManager();
-    public Reports reports = new Reports();
-    public Stats stats = new Stats();
-    public Exolions exolions = new Exolions();
-    public ChatHistory chatHistory = new ChatHistory();
+    public Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus = new HashMap<>();
+    public ArrayList<UUID> moderators = new ArrayList<>();
+    public ArrayList<UUID> staffChat = new ArrayList<>();
+    public Map<UUID, Location> frozenPlayers = new HashMap<>();
+    public ArrayList<UUID> vanished = new ArrayList<>();
+    public FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(getFile("mysql"));
+    public TablistManager tablistManager;
+    public boolean chatDisabled;
+    public PlayerStats playerStats;
+    public ChatManager chatManager;
+    public PlayerManager playerManager;
+    public GuiManager guiManager;
+    public CommandManager commandManager;
+    public ModerationManager moderationManager;
+    public Reports reports;
+    public Stats stats;
+    public Exolions exolions;
+    public ChatHistory chatHistory;
     public String prefixInfo = "§a§lExolia §8§l➜ §7";
     public String prefixError = "§c§lExolia §8§l➜ §c";
     public String prefixAnnounce = "§2§lExolia §8§l➜ §a";
@@ -52,28 +53,27 @@ public class Main extends JavaPlugin implements Listener {
     public String permissionSeigneur = "exolia.seigneur";
     public String permissionMaitre = "exolia.maitre";
     public String permissionChevalier = "exolia.chevalier";
-    private MySQL mysql;
-    private MySQL mysql2;
+    public MySQL mysql;
+    public MySQL mysql2;
+
 
     /**
-     * <hr>
-     * <br>
-     * Initialisation des getters afin de pouvoir les utiliser dans d'autres classes.
-     */
-
-    public static Main getInstance() {
-        return instance;
-    }
-
-    /**
-     * <hr>
-     * <br>
      * Fonction apellée lors du démarage.
      */
 
     @Override
     public void onEnable() {
-        instance = this;
+        playerManager = new PlayerManager(this);
+        chatManager = new ChatManager(this);
+        playerStats = new PlayerStats(this);
+        tablistManager = new TablistManager(this);
+        guiManager = new GuiManager(this);
+        commandManager = new CommandManager(this);
+        moderationManager = new ModerationManager(this);
+        reports = new Reports(this);
+        stats = new Stats(this);
+        exolions = new Exolions(this);
+        chatHistory = new ChatHistory(this);
         getLogger().info(prefixInfo + "Activation du plugin en cours ...");
         registerCommands();
         createFile("mysql");
@@ -110,26 +110,19 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     /**
-     * <hr>
-     * <br>
      * Fonction apellée lors de l'arêt.
      */
 
     @Override
     public void onDisable() {
         getLogger().info(prefixInfo + "Désactivation du plugin en cours ...");
-        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> Main.getInstance().getPlayerManager().setModerationMod(p, false));
+        Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> this.getPlayerManager().setModerationMod(p, false));
         getStats().setOnlinePlayers(0);
         getLogger().info(prefixAnnounce + "Le plugin s'est correctement désactivé.");
     }
 
     /**
-     * <hr>
-     * <br>
      * Permet de connecter le plugin aux différentes bases de données.
-     * <br>
-     * <br>
-     * /!\ Ne pas partagez ce code avec n'importe qui !
      */
 
     private void initConnection() {
@@ -156,54 +149,59 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     /**
-     * <hr>
-     * <br>
      * Permet d'activer tout les listeners.
      */
 
     private void registerEvents() {
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new ModEvents(), this);
-        pm.registerEvents(new ModEvents(), this);
-        pm.registerEvents(new PlayerEvents(), this);
-        pm.registerEvents(new GuiManager(), this);
+        pm.registerEvents(new ModEvents(this), this);
+        pm.registerEvents(new PlayerEvents(this), this);
+        pm.registerEvents(new OnJoinEvent(this), this);
     }
 
     /**
-     * <hr>
-     * <br>
      * Permet d'activer toutes les commandes.
      */
 
     private void registerCommands() {
-        Objects.requireNonNull(getCommand("site")).setExecutor(new PublicCommands());
-        Objects.requireNonNull(getCommand("vote")).setExecutor(new PublicCommands());
-        Objects.requireNonNull(getCommand("reglement")).setExecutor(new PublicCommands());
-        Objects.requireNonNull(getCommand("discord")).setExecutor(new PublicCommands());
-        Objects.requireNonNull(getCommand("hub")).setExecutor(new PublicCommands());
-        Objects.requireNonNull(getCommand("report")).setExecutor(new PublicCommands());
-        Objects.requireNonNull(getCommand("mod")).setExecutor(new StaffCommands());
-        Objects.requireNonNull(getCommand("sc")).setExecutor(new StaffCommands());
-        Objects.requireNonNull(getCommand("history")).setExecutor(new StaffCommands());
-        Objects.requireNonNull(getCommand("jm")).setExecutor(new StaffCommands());
-        Objects.requireNonNull(getCommand("clearchat")).setExecutor(new StaffCommands());
-        Objects.requireNonNull(getCommand("exolion")).setExecutor(new PublicCommands());
-        Objects.requireNonNull(getCommand("exolionadmin")).setExecutor(new HStaffCommands());
-        Objects.requireNonNull(getCommand("nv")).setExecutor(new PublicCommands());
-        Objects.requireNonNull(getCommand("freeze")).setExecutor(new StaffCommands());
-        Objects.requireNonNull(getCommand("freco")).setExecutor(new HStaffCommands());
-        Objects.requireNonNull(getCommand("fdeco")).setExecutor(new HStaffCommands());
-        Objects.requireNonNull(getCommand("date")).setExecutor(new PublicCommands());
+        Objects.requireNonNull(getCommand("discord")).setExecutor(new AliasesCommands());
+        Objects.requireNonNull(getCommand("hub")).setExecutor(new AliasesCommands());
+        Objects.requireNonNull(getCommand("end")).setExecutor(new AliasesCommands());
+        Objects.requireNonNull(getCommand("nether")).setExecutor(new AliasesCommands());
+        Objects.requireNonNull(getCommand("website")).setExecutor(new WebsiteCommand());
+        Objects.requireNonNull(getCommand("vote")).setExecutor(new VoteCommand());
+        Objects.requireNonNull(getCommand("rules")).setExecutor(new RulesCommand());
+        Objects.requireNonNull(getCommand("report")).setExecutor(new ReportCommand(this));
+        Objects.requireNonNull(getCommand("moderationmod")).setExecutor(new ModerationModCommand(this));
+        Objects.requireNonNull(getCommand("staffchat")).setExecutor(new StaffChatCommand(this));
+        Objects.requireNonNull(getCommand("history")).setExecutor(new HistoryCommand(this));
+        Objects.requireNonNull(getCommand("jm")).setExecutor(new JMCommand(this));
+        Objects.requireNonNull(getCommand("clearchat")).setExecutor(new ClearChatCommand(this));
+        Objects.requireNonNull(getCommand("exolions")).setExecutor(new ExolionsCommand(this));
+        Objects.requireNonNull(getCommand("exolionadmin")).setExecutor(new ExolionAdminCommand(this));
+        Objects.requireNonNull(getCommand("nightvision")).setExecutor(new NightVisionCommand(this));
+        Objects.requireNonNull(getCommand("freeze")).setExecutor(new FreezeCommand(this));
+        Objects.requireNonNull(getCommand("fake")).setExecutor(new FakeConnectionCommand(this));
+        Objects.requireNonNull(getCommand("date")).setExecutor(new DateCommand());
+
+        Objects.requireNonNull(getCommand("report")).setTabCompleter(new ReportCommand(this));
+        Objects.requireNonNull(getCommand("moderationmod")).setTabCompleter(new ModerationModCommand(this));
+        Objects.requireNonNull(getCommand("history")).setTabCompleter(new HistoryCommand(this));
+        Objects.requireNonNull(getCommand("jm")).setTabCompleter(new JMCommand(this));
+        Objects.requireNonNull(getCommand("clearchat")).setTabCompleter(new ClearChatCommand(this));
+        Objects.requireNonNull(getCommand("exolions")).setTabCompleter(new ExolionsCommand(this));
+        Objects.requireNonNull(getCommand("exolionadmin")).setTabCompleter(new ExolionAdminCommand(this));
+        Objects.requireNonNull(getCommand("nightvision")).setTabCompleter(new NightVisionCommand(this));
+        Objects.requireNonNull(getCommand("freeze")).setTabCompleter(new FreezeCommand(this));
+        Objects.requireNonNull(getCommand("fake")).setTabCompleter(new FakeConnectionCommand(this));
     }
 
     /**
-     * <hr>
-     * <br>
      * Permet d'activer tout les menus.
      */
 
     private void loadGui() {
-        getGuiManager().addMenu(new ReportGui());
+        getGuiManager().addMenu(new ReportGui(this));
     }
 
     private void createFile(String fileName) {
@@ -221,6 +219,10 @@ public class Main extends JavaPlugin implements Listener {
             }
         }
     }
+
+    /**
+     * Getters
+     */
 
     public File getFile(String fileName) {
         return new File(getDataFolder(), fileName + ".yml");
@@ -248,6 +250,10 @@ public class Main extends JavaPlugin implements Listener {
 
     public PlayerManager getPlayerManager() {
         return playerManager;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 
     public Reports getReports() {
@@ -282,7 +288,24 @@ public class Main extends JavaPlugin implements Listener {
         return chatHistory;
     }
 
+    public FileConfiguration getFileConfiguration() {
+        return fileConfiguration;
+    }
+
+    public TablistManager getTablistManager() {
+        return tablistManager;
+    }
+
     public PlayerStats getPlayer() {
         return playerStats;
     }
+
+    public boolean isChatDisabled() {
+        return chatDisabled;
+    }
+
+    public ModerationManager getModerationManager() {
+        return moderationManager;
+    }
+
 }

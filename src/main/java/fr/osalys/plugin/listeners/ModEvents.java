@@ -24,7 +24,8 @@ import java.util.List;
 
 public class ModEvents implements Listener {
 
-    private final Main main = Main.getInstance();
+    private final Main main;
+    public ModEvents(Main main) {this.main = main;}
 
     @EventHandler
     public void onItemPickup(EntityPickupItemEvent e) {

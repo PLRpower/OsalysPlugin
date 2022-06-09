@@ -10,7 +10,8 @@ import java.util.List;
 public class Reports {
 
     private static final String TABLE = "reports";
-    private final Main main = Main.getInstance();
+    private final Main main;
+    public Reports(Main main) {this.main = main;}
 
     public void add(ReportManager reportManager) {
         main.getMySQL().update("INSERT INTO " + TABLE + " (uuid, date, auteur, raison) VALUES (" +
@@ -62,7 +63,7 @@ public class Reports {
 
     public List<ReportManager> getReports(String uuid) {
         List<ReportManager> reportManagers = new ArrayList<>();
-        Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "' ORDER BY id ASC", rs -> {
+        main.getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "' ORDER BY id ASC", rs -> {
             try {
                 while (rs.next()) {
                     reportManagers.add(new ReportManager(rs.getString("uuid"), rs.getString("date"), rs.getString("auteur"), rs.getString("raison")));

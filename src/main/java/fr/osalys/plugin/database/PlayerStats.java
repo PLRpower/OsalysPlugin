@@ -7,8 +7,11 @@ import java.sql.SQLException;
 
 public class PlayerStats {
 
+    private final Main main;
+    public PlayerStats(Main main) {this.main = main;}
+
     public float getKills(Player player) {
-        return (float) Main.getInstance().getMySQL2().query("SELECT * FROM playerstats WHERE pseudo ='" + player.getName() + "'", rs -> {
+        return (float) main.getMySQL2().query("SELECT * FROM playerstats WHERE pseudo ='" + player.getName() + "'", rs -> {
             try {
                 if (rs.next()) {
                     return rs.getFloat("kills");
@@ -21,7 +24,7 @@ public class PlayerStats {
     }
 
     public float getDeaths(Player player) {
-        return (float) Main.getInstance().getMySQL2().query("SELECT * FROM playerstats WHERE pseudo ='" + player.getName() + "'", rs -> {
+        return (float) main.getMySQL2().query("SELECT * FROM playerstats WHERE pseudo ='" + player.getName() + "'", rs -> {
             try {
                 if (rs.next()) {
                     return rs.getFloat("morts");
@@ -34,7 +37,7 @@ public class PlayerStats {
     }
 
     public void setKills(Player player, float kills) {
-        Main.getInstance().getMySQL2().update("UPDATE playerstats SET kills ='" + kills + "' WHERE pseudo ='" + player.getName() + "'");
+        main.getMySQL2().update("UPDATE playerstats SET kills ='" + kills + "' WHERE pseudo ='" + player.getName() + "'");
     }
 
     public void addKills(Player player) {
@@ -42,7 +45,7 @@ public class PlayerStats {
     }
 
     public void setDeaths(org.bukkit.entity.Player player, float deaths) {
-        Main.getInstance().getMySQL2().update("UPDATE playerstats SET deaths ='" + deaths + "' WHERE pseudo ='" + player.getName() + "'");
+        main.getMySQL2().update("UPDATE playerstats SET deaths ='" + deaths + "' WHERE pseudo ='" + player.getName() + "'");
     }
 
     public void addDeaths(Player player) {
