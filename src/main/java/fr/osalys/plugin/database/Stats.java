@@ -9,7 +9,6 @@ import java.util.Date;
 public class Stats {
 
     private final Main main;
-
     public Stats(Main main) {
         this.main = main;
     }
@@ -19,7 +18,7 @@ public class Stats {
     }
 
     public void setOnlinePlayers(Integer players) {
-        main.getMySQL().update("INSERT INTO stats (datetime, players) VALUES (" +
+        main.mysql.update("INSERT INTO stats (datetime, players) VALUES (" +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' ," +
                 "'" + players + "')");
     }

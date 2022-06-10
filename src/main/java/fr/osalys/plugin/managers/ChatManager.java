@@ -51,18 +51,6 @@ public class ChatManager {
     }
 
     /**
-     * Envoie l'erreur de la commande clearchat.
-     *
-     * @param player joueur qui va recevoir l'erreur
-     */
-    public void sendClearChatErrorMessage(Player player) {
-        player.sendMessage(main.prefixInfo + "§b/clearchat §7Clear le chat pour tout le monde");
-        player.sendMessage(main.prefixInfo + "§b/clearchat <all> §7Clear le chat pour tout le monde");
-        player.sendMessage(main.prefixInfo + "§b/clearchat <player> §7Clear le chat pour les joueurs uniquement");
-        player.sendMessage(main.prefixInfo + "§b/clearchat <player> <Nom d'un joueur> §7Clear le chat pour un seul joueur");
-    }
-
-    /**
      * Envoie un message à tout le staff en ligne.
      *
      * @param targetName joueur à signaler

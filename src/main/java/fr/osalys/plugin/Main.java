@@ -40,17 +40,17 @@ public class Main extends JavaPlugin implements Listener {
     public Stats stats;
     public Exolions exolions;
     public ChatHistory chatHistory;
-    public String prefixInfo = "§a§lExolia §8§l➜ §7";
-    public String prefixError = "§c§lExolia §8§l➜ §c";
-    public String prefixAnnounce = "§2§lExolia §8§l➜ §a";
-    public String permissionStaff = "exolia.staff";
-    public String permissionHStaff = "exolia.hstaff";
-    public String permissionModerateur = "exolia.moderator";
-    public String permissionSupreme = "exolia.supreme";
-    public String permssionEmpereur = "exolia.empereur";
-    public String permissionSeigneur = "exolia.seigneur";
-    public String permissionMaitre = "exolia.maitre";
-    public String permissionChevalier = "exolia.chevalier";
+    public final String prefixInfo = "§a§lExolia §8§l➜ §7";
+    public final String prefixError = "§c§lExolia §8§l➜ §c";
+    public final String prefixAnnounce = "§2§lExolia §8§l➜ §a";
+    public final String permissionStaff = "exolia.staff";
+    public final String permissionHStaff = "exolia.hstaff";
+    public final String permissionModerateur = "exolia.moderator";
+    public final String permissionSupreme = "exolia.supreme";
+    public final String permssionEmpereur = "exolia.empereur";
+    public final String permissionSeigneur = "exolia.seigneur";
+    public final String permissionMaitre = "exolia.maitre";
+    public final String permissionChevalier = "exolia.chevalier";
     public MySQL mysql;
     public MySQL mysql2;
 

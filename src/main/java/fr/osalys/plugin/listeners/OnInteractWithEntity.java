@@ -5,6 +5,7 @@ import fr.osalys.plugin.managers.PlayerManager;
 import fr.osalys.plugin.managers.ReportManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -18,7 +19,7 @@ public class OnInteractWithEntity implements Listener {
         this.main = main;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteractWithEntity(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         if (!PlayerManager.isInModerationMod(player)) return;

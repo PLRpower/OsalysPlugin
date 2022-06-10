@@ -33,34 +33,33 @@ public class ClearChatCommand implements CommandExecutor, TabCompleter {
         if (!(sender instanceof Player player)) {
             return false;
         }
-        if (!main.getCommandManager().isPermissed(player, main.permissionModerateur)) {
-            return false;
-        }
 
-        if (args.length == 0) {
-            chatManager.clearChatForAll();
-            return true;
-        }
-
-        if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("player")) {
-                chatManager.clearChatForPlayersOnly();
+        if(main.getCommandManager().isPermissed(player, main.permissionModerateur)) {
+            if (args.length == 0) {
+                chatManager.clearChatForAll();
                 return true;
             }
 
-            Player target = Bukkit.getPlayerExact(args[0]);
-            if (target == null) {
+            if (args.length == 1) {
+                if (args[0].equalsIgnoreCase("player")) {
+                    chatManager.clearChatForPlayersOnly();
+                    return true;
+                }
+
+                Player target = Bukkit.getPlayerExact(args[0]);
+                if (!(target == null)) {
+                    chatManager.clearChatForOnePlayer(target);
+                    return true;
+                }
+
                 player.sendMessage(main.prefixError + "Ce joueur n'existe pas ou n'est pas connecté !");
-                return false;
+
             }
-
-            chatManager.clearChatForOnePlayer(target);
-            return true;
-
-        } else {
-            chatManager.sendClearChatErrorMessage(player);
-            return false;
+            player.sendMessage(main.prefixInfo + "§b/clearchat §7Clear le chat pour tout le monde"
+                    + "\n§b/clearchat player §7Clear le chat pour les joueurs uniquement"
+                    + "\n§b/clearchat <nom d'un joueur> §7Clear le chat pour un seul joueur");
         }
+        return false;
     }
 
     @Nullable

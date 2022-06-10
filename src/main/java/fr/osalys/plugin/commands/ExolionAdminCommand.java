@@ -93,7 +93,7 @@ public class ExolionAdminCommand implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 2) {
-            return getAllPlayers(sender.getName());
+            return main.getCommandManager().getAllPlayers(sender.getName());
         }
 
         if (args.length == 3) {
@@ -104,17 +104,5 @@ public class ExolionAdminCommand implements CommandExecutor, TabCompleter {
             return integer;
         }
         return null;
-    }
-
-    @NotNull
-    private List<String> getAllPlayers(String sender) {
-        List<String> playerNames = new ArrayList<>();
-        Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
-        Bukkit.getServer().getOnlinePlayers().toArray(players);
-        for (Player player : players) {
-            playerNames.add(player.getName());
-        }
-        playerNames.remove(sender);
-        return playerNames;
     }
 }

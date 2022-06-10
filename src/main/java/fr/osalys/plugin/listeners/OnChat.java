@@ -4,6 +4,7 @@ import fr.osalys.plugin.Main;
 import fr.osalys.plugin.managers.ChatHistoryManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -14,7 +15,7 @@ public class OnChat implements Listener {
         this.main = main;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();
         if (main.getModerationManager().chatDisabled) {

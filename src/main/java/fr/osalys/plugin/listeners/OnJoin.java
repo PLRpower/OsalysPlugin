@@ -31,6 +31,5 @@ public class OnJoin implements WebSocket.Listener, Listener {
         }
         main.getTablistManager().setPlayerList(player);
         main.getTablistManager().setPlayerTeams(player);
-
     }
 }

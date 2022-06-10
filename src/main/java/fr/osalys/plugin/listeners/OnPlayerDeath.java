@@ -2,6 +2,7 @@ package fr.osalys.plugin.listeners;
 
 import fr.osalys.plugin.Main;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
@@ -12,10 +13,9 @@ public class OnPlayerDeath implements Listener {
         this.main = main;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent e) {
         main.playerStats.addKills(e.getEntity().getKiller());
         main.playerStats.addDeaths(e.getEntity());
     }
-
 }

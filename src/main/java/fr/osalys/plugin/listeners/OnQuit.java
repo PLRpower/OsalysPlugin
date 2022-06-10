@@ -23,5 +23,4 @@ public class OnQuit implements Listener {
             main.getPlayerManager().setModerationMod(player, false);
         }
     }
-
 }

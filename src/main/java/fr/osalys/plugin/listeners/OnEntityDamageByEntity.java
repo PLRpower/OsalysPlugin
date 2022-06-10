@@ -4,12 +4,13 @@ import fr.osalys.plugin.managers.PlayerManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class OnEntityDamageByEntity implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player)) return;
         if (!(e.getDamager() instanceof Player damage)) return;
@@ -17,5 +18,4 @@ public class OnEntityDamageByEntity implements Listener {
             e.setCancelled(damage.getInventory().getItemInMainHand().getType() != Material.STICK);
         }
     }
-
 }

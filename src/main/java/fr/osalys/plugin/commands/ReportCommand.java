@@ -60,17 +60,8 @@ public class ReportCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) {
-            return getPlayersOnly(sender.getName());
+            return main.getCommandManager().getPlayersOnly(sender.getName());
         }
         return null;
-    }
-
-    @NotNull
-    private List<String> getPlayersOnly(String sender) {
-        List<String> playerNames = new ArrayList<>();
-        Bukkit.getOnlinePlayers().stream().filter(players -> !players.hasPermission(main.permissionStaff))
-                .forEach(players -> playerNames.add(String.valueOf(players)));
-        playerNames.remove(sender);
-        return playerNames;
     }
 }
