@@ -15,9 +15,17 @@ import java.util.List;
 
 public class ClearChatCommand implements CommandExecutor, TabCompleter {
 
+    private final ChatManager chatManager;
     private Main main;
-    public ClearChatCommand(Main main) {this.main = main;}
-    private final ChatManager chatManager; {assert false; chatManager = main.getChatManager();}
+
+    {
+        assert false;
+        chatManager = main.getChatManager();
+    }
+
+    public ClearChatCommand(Main main) {
+        this.main = main;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

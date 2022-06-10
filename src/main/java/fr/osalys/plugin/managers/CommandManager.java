@@ -6,7 +6,10 @@ import org.bukkit.entity.Player;
 public class CommandManager {
 
     private final Main main;
-    public CommandManager(Main main) {this.main = main;}
+
+    public CommandManager(Main main) {
+        this.main = main;
+    }
 
     /**
      * Permet de vérifier si un joueur à une permission

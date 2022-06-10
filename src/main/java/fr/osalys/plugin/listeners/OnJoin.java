@@ -11,10 +11,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.net.http.WebSocket;
 
-public class OnJoinEvent implements WebSocket.Listener, Listener {
+public class OnJoin implements WebSocket.Listener, Listener {
 
     private final Main main;
-    public OnJoinEvent(Main main) {this.main = main;}
+    public OnJoin(Main main) {
+        this.main = main;
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e) {
@@ -27,7 +29,6 @@ public class OnJoinEvent implements WebSocket.Listener, Listener {
         if (!player.hasPermission(main.permissionHStaff)) {
             Bukkit.getScheduler().runTaskLater(this.main, () -> main.getChatManager().clearChatForOnePlayer(player), 100);
         }
-
         main.getTablistManager().setPlayerList(player);
         main.getTablistManager().setPlayerTeams(player);
 

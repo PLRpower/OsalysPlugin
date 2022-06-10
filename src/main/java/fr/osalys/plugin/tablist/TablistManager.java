@@ -9,7 +9,10 @@ import org.bukkit.scoreboard.Team;
 public class TablistManager {
 
     private final Main main;
-    public TablistManager(Main main) {this.main = main;}
+
+    public TablistManager(Main main) {
+        this.main = main;
+    }
 
     public void setPlayerList(Player player) {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {

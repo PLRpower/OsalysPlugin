@@ -9,7 +9,10 @@ import java.util.Date;
 public class Stats {
 
     private final Main main;
-    public Stats(Main main) {this.main = main;}
+
+    public Stats(Main main) {
+        this.main = main;
+    }
 
     public Integer getOnlinePlayers() {
         return Bukkit.getOnlinePlayers().size();

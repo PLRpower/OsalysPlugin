@@ -11,9 +11,11 @@ import org.bukkit.entity.Player;
 public class ChatManager {
 
     private final Main main;
-    public ChatManager(Main main) {this.main = main;}
-
     int number = 1;
+
+    public ChatManager(Main main) {
+        this.main = main;
+    }
 
     /**
      * Permet de nettoyer le chat pour seulement un joueur.

@@ -4,9 +4,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import fr.osalys.plugin.commands.*;
 import fr.osalys.plugin.database.*;
 import fr.osalys.plugin.gui.ReportGui;
-import fr.osalys.plugin.listeners.ModEvents;
-import fr.osalys.plugin.listeners.OnJoinEvent;
-import fr.osalys.plugin.listeners.PlayerEvents;
+import fr.osalys.plugin.listeners.OnBlockBreak;
+import fr.osalys.plugin.listeners.OnJoin;
 import fr.osalys.plugin.managers.*;
 import fr.osalys.plugin.tablist.TablistManager;
 import fr.osalys.plugin.util.GuiBuilder;
@@ -31,7 +30,6 @@ public class Main extends JavaPlugin implements Listener {
     public ArrayList<UUID> vanished = new ArrayList<>();
     public FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(getFile("mysql"));
     public TablistManager tablistManager;
-    public boolean chatDisabled;
     public PlayerStats playerStats;
     public ChatManager chatManager;
     public PlayerManager playerManager;
@@ -154,9 +152,9 @@ public class Main extends JavaPlugin implements Listener {
 
     private void registerEvents() {
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new ModEvents(this), this);
-        pm.registerEvents(new PlayerEvents(this), this);
-        pm.registerEvents(new OnJoinEvent(this), this);
+        pm.registerEvents(new OnJoin(this), this);
+        pm.registerEvents(new OnBlockBreak(), this);
+        pm.registerEvents(new OnJoin(this), this);
     }
 
     /**
@@ -298,10 +296,6 @@ public class Main extends JavaPlugin implements Listener {
 
     public PlayerStats getPlayer() {
         return playerStats;
-    }
-
-    public boolean isChatDisabled() {
-        return chatDisabled;
     }
 
     public ModerationManager getModerationManager() {

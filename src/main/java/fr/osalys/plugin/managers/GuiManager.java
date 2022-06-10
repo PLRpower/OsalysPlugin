@@ -18,7 +18,10 @@ import java.util.List;
 public class GuiManager implements Listener {
 
     private final Main main;
-    public GuiManager(Main main) {this.main = main;}
+
+    public GuiManager(Main main) {
+        this.main = main;
+    }
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
@@ -63,5 +66,4 @@ public class GuiManager implements Listener {
         }
         return inventory;
     }
-
 }

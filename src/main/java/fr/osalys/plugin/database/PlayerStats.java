@@ -8,7 +8,10 @@ import java.sql.SQLException;
 public class PlayerStats {
 
     private final Main main;
-    public PlayerStats(Main main) {this.main = main;}
+
+    public PlayerStats(Main main) {
+        this.main = main;
+    }
 
     public float getKills(Player player) {
         return (float) main.getMySQL2().query("SELECT * FROM playerstats WHERE pseudo ='" + player.getName() + "'", rs -> {

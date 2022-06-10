@@ -16,7 +16,10 @@ import java.util.List;
 public class HistoryCommand implements CommandExecutor, TabCompleter {
 
     private final Main main;
-    public HistoryCommand(Main main) {this.main = main;}
+
+    public HistoryCommand(Main main) {
+        this.main = main;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

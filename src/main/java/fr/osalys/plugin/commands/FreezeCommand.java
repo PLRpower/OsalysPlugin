@@ -16,7 +16,10 @@ import java.util.List;
 public class FreezeCommand implements CommandExecutor, TabCompleter {
 
     private final Main main;
-    public FreezeCommand(Main main) {this.main = main;}
+
+    public FreezeCommand(Main main) {
+        this.main = main;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

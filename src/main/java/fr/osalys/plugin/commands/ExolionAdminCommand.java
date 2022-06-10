@@ -16,10 +16,17 @@ import java.util.List;
 
 public class ExolionAdminCommand implements CommandExecutor, TabCompleter {
 
+    private final Exolions exolions;
     private Main main;
-    public ExolionAdminCommand(Main main) {this.main = main;}
 
-    private final Exolions exolions; {assert false; exolions = main.getExolions();}
+    {
+        assert false;
+        exolions = main.getExolions();
+    }
+
+    public ExolionAdminCommand(Main main) {
+        this.main = main;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {

@@ -15,7 +15,10 @@ import java.util.List;
 public class JMCommand implements CommandExecutor, TabCompleter {
 
     private final Main main;
-    public JMCommand(Main main) {this.main = main;}
+
+    public JMCommand(Main main) {
+        this.main = main;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

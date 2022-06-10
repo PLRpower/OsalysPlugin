@@ -11,7 +11,10 @@ public class Reports {
 
     private static final String TABLE = "reports";
     private final Main main;
-    public Reports(Main main) {this.main = main;}
+
+    public Reports(Main main) {
+        this.main = main;
+    }
 
     public void add(ReportManager reportManager) {
         main.getMySQL().update("INSERT INTO " + TABLE + " (uuid, date, auteur, raison) VALUES (" +

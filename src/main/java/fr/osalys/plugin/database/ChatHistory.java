@@ -11,7 +11,10 @@ public class ChatHistory {
 
     private static final String TABLE = "messages";
     private final Main main;
-    public ChatHistory(Main main) {this.main = main;}
+
+    public ChatHistory(Main main) {
+        this.main = main;
+    }
 
     public void addMessage(ChatHistoryManager chatHistoryManager) {
         main.getMySQL().update("INSERT INTO " + TABLE + " (uuid, player, message, date) VALUES (" +

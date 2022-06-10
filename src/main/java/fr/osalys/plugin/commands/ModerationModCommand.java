@@ -15,7 +15,10 @@ import java.util.List;
 public class ModerationModCommand implements CommandExecutor, TabCompleter {
 
     private final Main main;
-    public ModerationModCommand(Main main) {this.main = main;}
+
+    public ModerationModCommand(Main main) {
+        this.main = main;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

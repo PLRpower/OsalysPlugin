@@ -8,7 +8,10 @@ import java.sql.SQLException;
 public class Exolions {
 
     private final Main main;
-    public Exolions(Main main) {this.main = main;}
+
+    public Exolions(Main main) {
+        this.main = main;
+    }
 
     public float getCoins(Player player) {
         return (float) main.getMySQL2().query("SELECT * FROM users WHERE pseudo ='" + player.getName() + "'", rs -> {

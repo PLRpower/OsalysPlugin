@@ -5,7 +5,6 @@ import fr.osalys.plugin.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -13,12 +12,11 @@ public class PlayerManager {
 
 
     private static Main main = null;
-    public PlayerManager(Main main){
-        PlayerManager.main = main;
-    }
-
     private final ItemStack[] items = new ItemStack[40];
 
+    public PlayerManager(Main main) {
+        PlayerManager.main = main;
+    }
 
     /**
      * Permet de savoir si un joueur est en mode modération.
@@ -165,12 +163,12 @@ public class PlayerManager {
     /**
      * Permet d'immobiliser ou non un joueur.
      *
-     * @param player        joueur à mettre dans le mode
+     * @param player joueur à mettre dans le mode
      * @param freeze Activer/désactiver le mode
      */
     public void setFreeze(Player target, Player player, boolean freeze) {
         if (freeze) {
-             main.frozenPlayers.put(target.getUniqueId(), target.getLocation());
+            main.frozenPlayers.put(target.getUniqueId(), target.getLocation());
             target.sendMessage(main.prefixInfo + "Vous avez été §cimmobilisé §7par un modérateur");
             player.sendMessage(main.prefixInfo + "Vous avez §cimmobilisé §b" + target.getName());
         } else {
@@ -183,7 +181,7 @@ public class PlayerManager {
     /**
      * Permet d'activer/désactiver le vision nocturne.
      *
-     * @param player        joueur à mettre dans le mode
+     * @param player      joueur à mettre dans le mode
      * @param nightVision Activer/désactiver le mode
      */
     public void setNightVision(Player player, boolean nightVision) {

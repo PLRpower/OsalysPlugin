@@ -11,7 +11,10 @@ import org.jetbrains.annotations.NotNull;
 public class StaffChatCommand implements CommandExecutor {
 
     private final Main main;
-    public StaffChatCommand(Main main) {this.main = main;}
+
+    public StaffChatCommand(Main main) {
+        this.main = main;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

@@ -17,7 +17,10 @@ import java.util.List;
 public class ReportCommand implements CommandExecutor, TabCompleter {
 
     private final Main main;
-    public ReportCommand(Main main) {this.main = main;}
+
+    public ReportCommand(Main main) {
+        this.main = main;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
