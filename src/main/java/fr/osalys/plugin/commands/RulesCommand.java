@@ -1,5 +1,7 @@
 package fr.osalys.plugin.commands;
 
+import fr.osalys.plugin.Main;
+import fr.osalys.plugin.managers.ChatManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -13,18 +15,23 @@ import org.jetbrains.annotations.NotNull;
 public class RulesCommand implements CommandExecutor {
 
     private final TextComponent bar = new TextComponent("§7§m---------------------");
+    private final ChatManager chatManager;
+
+    public RulesCommand(Main main) {
+        this.chatManager = main.getChatManager();
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if (!(sender instanceof Player player)) {
-            return false;
+        if (sender instanceof Player player) {
+            TextComponent weblink = new TextComponent("\n§aRéglement §2§l➤ §bexolia.site/p/reglement\n");
+            weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§bCliquez pour accèder au règlement")));
+            weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/p/reglement"));
+            player.spigot().sendMessage(bar, weblink, bar);
+            return true;
         }
-
-        TextComponent weblink = new TextComponent("\n§aRéglement §2§l➤ §bexolia.site/p/reglement\n");
-        weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§bCliquez pour accèder au règlement")));
-        weblink.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://exolia.site/p/reglement"));
-        player.spigot().sendMessage(bar, weblink, bar);
-        return true;
+        sender.sendMessage(chatManager.errorNotInstanceOfPlayer);
+        return false;
     }
 }

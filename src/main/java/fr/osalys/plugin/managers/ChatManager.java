@@ -17,6 +17,17 @@ public class ChatManager {
         this.main = main;
     }
 
+    public final String prefixInfo = "§a§lExolia §8§l➜ §7";
+    public final String prefixError = "§c§lExolia §8§l➜ §c";
+    public final String prefixAnnounce = "§2§lExolia §8§l➜ §a";
+    public final String errorNotValidPlayer = prefixError + "Ce joueur n'existe pas ou n'est pas connecté !";
+    public final String errorNotValidInt = prefixError + "Veuillez saisir un montant valide.";
+    public final String errorHasNotPermission = prefixError + "Vous n'avez pas la permission d'exécuter cette commande !";
+    public final String errorNoSelectedPlayer = prefixError + "Veuillez saisir un joueur !";
+    public final String errorNoSelectedInt = prefixError + "Veuillez saisir un montant !";
+    public final String errorNotInstanceOfPlayer = prefixError + "Cette commande est uniquement exécutable par des joueurs.";
+    public final String errorSamePlayerAsTarget = prefixError + "Vous ne pouvez pas exécuter cette commande sur vous-même !";
+
     /**
      * Permet de nettoyer le chat pour seulement un joueur.
      *
@@ -26,7 +37,7 @@ public class ChatManager {
         for (int x = 0; x <= 100; x++) {
             player.sendMessage(" ");
         }
-        player.sendMessage(main.prefixAnnounce + "Ton chat vient d'être nettoyé  par un Administrateur.");
+        player.sendMessage(prefixAnnounce + "Ton chat vient d'être nettoyé  par un Administrateur.");
     }
 
     /**
@@ -36,7 +47,7 @@ public class ChatManager {
         for (int x = 0; x <= 100; x++) {
             Bukkit.broadcastMessage("");
         }
-        Bukkit.broadcastMessage(main.prefixAnnounce + "Le chat vient d'être nettoyé par un Modérateur.");
+        Bukkit.broadcastMessage(prefixAnnounce + "Le chat vient d'être nettoyé par un Modérateur.");
     }
 
     /**

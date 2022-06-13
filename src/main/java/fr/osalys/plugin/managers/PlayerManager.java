@@ -119,12 +119,12 @@ public class PlayerManager {
             player.getInventory().setItem(1, new ItemBuilder(Material.FEATHER).setName("§aVanish").setLore("§7Clique droit pour", "§7activer/désactiver le vanish").toItemStack());
             player.getInventory().setItem(2, new ItemBuilder(Material.PACKED_ICE).setName("§aFreeze").setLore("§7Clique droit sur un joueur", "§7pour le rendre immobile").toItemStack());
             player.getInventory().setItem(3, new ItemBuilder(Material.BOOK).setName("§aReports").setLore("§7Clique droit sur un joueur", "§7pour voir ses reports").toItemStack());
-            player.sendMessage(main.prefixInfo + "Mode modération §aactivé§7.");
+            player.sendMessage(main.getChatManager().prefixInfo + "Mode modération §aactivé§7.");
         } else {
             main.getModerators().remove(player.getUniqueId());
             player.getInventory().clear();
             GiveInventory(player);
-            player.sendMessage(main.prefixInfo + "Mode modération §cdésactivé§7.");
+            player.sendMessage(main.getChatManager().prefixInfo + "Mode modération §cdésactivé§7.");
         }
     }
 
@@ -153,10 +153,10 @@ public class PlayerManager {
     public void setStaffChat(Player player, boolean staffChat) {
         if (staffChat) {
             main.staffChat.add(player.getUniqueId());
-            player.sendMessage(main.prefixInfo + "StaffChat §aactivé§7.");
+            player.sendMessage(main.getChatManager().prefixInfo + "StaffChat §aactivé§7.");
         } else {
             main.staffChat.remove(player.getUniqueId());
-            player.sendMessage(main.prefixInfo + "StaffChat §cdésactivé§7.");
+            player.sendMessage(main.getChatManager().prefixInfo + "StaffChat §cdésactivé§7.");
         }
     }
 
@@ -169,12 +169,12 @@ public class PlayerManager {
     public void setFreeze(Player target, Player player, boolean freeze) {
         if (freeze) {
             main.frozenPlayers.put(target.getUniqueId(), target.getLocation());
-            target.sendMessage(main.prefixInfo + "Vous avez été §cimmobilisé §7par un modérateur");
-            player.sendMessage(main.prefixInfo + "Vous avez §cimmobilisé §b" + target.getName());
+            target.sendMessage(main.getChatManager().prefixInfo + "Vous avez été §cimmobilisé §7par un modérateur");
+            player.sendMessage(main.getChatManager().prefixInfo + "Vous avez §cimmobilisé §b" + target.getName());
         } else {
             main.frozenPlayers.remove(target.getUniqueId());
-            target.sendMessage(main.prefixInfo + "Vous avez été §adésimmobilisé §7un modérateur");
-            player.sendMessage(main.prefixInfo + "Vous avez §adésimmobilisé §b" + target.getName());
+            target.sendMessage(main.getChatManager().prefixInfo + "Vous avez été §adésimmobilisé §7un modérateur");
+            player.sendMessage(main.getChatManager().prefixInfo + "Vous avez §adésimmobilisé §b" + target.getName());
         }
     }
 
@@ -187,10 +187,10 @@ public class PlayerManager {
     public void setNightVision(Player player, boolean nightVision) {
         if (nightVision) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100000, 2, false, false));
-            player.sendMessage(main.prefixInfo + "Vous avez §aactivé §7la vision nocturne.");
+            player.sendMessage(main.getChatManager().prefixInfo + "Vous avez §aactivé §7la vision nocturne.");
         } else {
             player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-            player.sendMessage(main.prefixInfo + "Vous avez §cdésactivé §7la vision nocturne.");
+            player.sendMessage(main.getChatManager().prefixInfo + "Vous avez §cdésactivé §7la vision nocturne.");
         }
     }
 }

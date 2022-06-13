@@ -1,6 +1,8 @@
 package fr.osalys.plugin.commands;
 
 import fr.osalys.plugin.Main;
+import fr.osalys.plugin.managers.ChatManager;
+import fr.osalys.plugin.managers.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,39 +17,39 @@ import java.util.List;
 public class JMCommand implements CommandExecutor, TabCompleter {
 
     private final Main main;
+    private final ChatManager chatManager;
 
     public JMCommand(Main main) {
         this.main = main;
+        this.chatManager = main.getChatManager();
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if (!(sender instanceof Player player)) {
+        if (sender instanceof Player player) {
+            if (player.hasPermission(main.permissionStaff)) {
+                if(args.length == 1) {
+                    Player target = Bukkit.getPlayer(args[0]);
+                    if (target != null) {
+                        if (target != player) {
+                            chatManager.sendMessageToStaff(player.getName() + " s'occupe de modérer de " + target.getName());
+                            return true;
+                        }
+                        player.sendMessage(chatManager.errorSamePlayerAsTarget);
+                        return false;
+                    }
+                    player.sendMessage(chatManager.errorNotValidPlayer);
+                    return false;
+                }
+                player.sendMessage(chatManager.errorNoSelectedPlayer);
+                return false;
+            }
+            player.sendMessage(chatManager.errorHasNotPermission);
             return false;
         }
-        if (!main.getCommandManager().isPermissed(player, main.permissionStaff)) {
-            return false;
-        }
-
-        if (args.length != 1) {
-            player.sendMessage(main.prefixError + "Veuillez saisir le pseudo d'un joueur !");
-            return false;
-        }
-
-        Player target = Bukkit.getPlayer(args[0]);
-        if (target == null) {
-            player.sendMessage(main.prefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
-            return false;
-        }
-
-        if (target == player) {
-            player.sendMessage(main.prefixError + "Vous ne pouvez pas vous occuper de vous-même !");
-            return false;
-        }
-
-        main.getChatManager().sendMessageToStaff(player.getName() + " s'occupe de modérer de " + target.getName());
-        return true;
+        sender.sendMessage(chatManager.errorNotInstanceOfPlayer);
+        return false;
     }
 
     @Nullable

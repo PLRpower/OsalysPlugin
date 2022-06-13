@@ -4,8 +4,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import fr.osalys.plugin.commands.*;
 import fr.osalys.plugin.database.*;
 import fr.osalys.plugin.gui.ReportGui;
-import fr.osalys.plugin.listeners.OnBlockBreak;
-import fr.osalys.plugin.listeners.OnJoin;
+import fr.osalys.plugin.listeners.*;
 import fr.osalys.plugin.managers.*;
 import fr.osalys.plugin.tablist.TablistManager;
 import fr.osalys.plugin.util.GuiBuilder;
@@ -34,15 +33,11 @@ public class Main extends JavaPlugin implements Listener {
     public ChatManager chatManager;
     public PlayerManager playerManager;
     public GuiManager guiManager;
-    public CommandManager commandManager;
     public ModerationManager moderationManager;
     public Reports reports;
     public Stats stats;
     public Exolions exolions;
     public ChatHistory chatHistory;
-    public final String prefixInfo = "§a§lExolia §8§l➜ §7";
-    public final String prefixError = "§c§lExolia §8§l➜ §c";
-    public final String prefixAnnounce = "§2§lExolia §8§l➜ §a";
     public final String permissionStaff = "exolia.staff";
     public final String permissionHStaff = "exolia.hstaff";
     public final String permissionModerateur = "exolia.moderator";
@@ -58,7 +53,6 @@ public class Main extends JavaPlugin implements Listener {
     /**
      * Fonction apellée lors du démarage.
      */
-
     @Override
     public void onEnable() {
         playerManager = new PlayerManager(this);
@@ -66,13 +60,12 @@ public class Main extends JavaPlugin implements Listener {
         playerStats = new PlayerStats(this);
         tablistManager = new TablistManager(this);
         guiManager = new GuiManager(this);
-        commandManager = new CommandManager(this);
         moderationManager = new ModerationManager(this);
         reports = new Reports(this);
         stats = new Stats(this);
         exolions = new Exolions(this);
         chatHistory = new ChatHistory(this);
-        getLogger().info(prefixInfo + "Activation du plugin en cours ...");
+        getLogger().info(getChatManager().prefixInfo + "Activation du plugin en cours ...");
         registerCommands();
         createFile("mysql");
         fileConfiguration.addDefault("mysql.host", "127.0.0.1");
@@ -103,26 +96,24 @@ public class Main extends JavaPlugin implements Listener {
             Bukkit.getPluginManager().disablePlugin(this);
         }
         if (Bukkit.getPluginManager().isPluginEnabled(this)) {
-            getLogger().info(prefixAnnounce + "Le plugin s'est correctement activé.");
+            getLogger().info(getChatManager().prefixAnnounce + "Le plugin s'est correctement activé.");
         }
     }
 
     /**
      * Fonction apellée lors de l'arêt.
      */
-
     @Override
     public void onDisable() {
-        getLogger().info(prefixInfo + "Désactivation du plugin en cours ...");
+        getLogger().info(getChatManager().prefixInfo + "Désactivation du plugin en cours ...");
         Bukkit.getOnlinePlayers().stream().filter(PlayerManager::isInModerationMod).forEach(p -> this.getPlayerManager().setModerationMod(p, false));
         getStats().setOnlinePlayers(0);
-        getLogger().info(prefixAnnounce + "Le plugin s'est correctement désactivé.");
+        getLogger().info(getChatManager().prefixAnnounce + "Le plugin s'est correctement désactivé.");
     }
 
     /**
      * Permet de connecter le plugin aux différentes bases de données.
      */
-
     private void initConnection() {
         HikariDataSource c1 = new HikariDataSource();
         c1.setDriverClassName("com.mysql.jdbc.Driver");
@@ -149,26 +140,35 @@ public class Main extends JavaPlugin implements Listener {
     /**
      * Permet d'activer tout les listeners.
      */
-
     private void registerEvents() {
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new OnJoin(this), this);
         pm.registerEvents(new OnBlockBreak(), this);
+        pm.registerEvents(new OnBlockPlace(), this);
+        pm.registerEvents(new OnChat(this), this);
+        pm.registerEvents(new OnEntityDamage(), this);
+        pm.registerEvents(new OnEntityDamageByEntity(), this);
+        pm.registerEvents(new OnInteract(this), this);
+        pm.registerEvents(new OnInteractWithEntity(this), this);
+        pm.registerEvents(new OnInventoryClick(), this);
+        pm.registerEvents(new OnItemDrop(), this);
+        pm.registerEvents(new OnItemPickup(), this);
         pm.registerEvents(new OnJoin(this), this);
+        pm.registerEvents(new OnMoveEvent(), this);
+        pm.registerEvents(new OnPlayerDeath(this), this);
+        pm.registerEvents(new OnQuit(this), this);
     }
 
     /**
      * Permet d'activer toutes les commandes.
      */
-
     private void registerCommands() {
-        Objects.requireNonNull(getCommand("discord")).setExecutor(new AliasesCommands());
-        Objects.requireNonNull(getCommand("hub")).setExecutor(new AliasesCommands());
-        Objects.requireNonNull(getCommand("end")).setExecutor(new AliasesCommands());
-        Objects.requireNonNull(getCommand("nether")).setExecutor(new AliasesCommands());
-        Objects.requireNonNull(getCommand("website")).setExecutor(new WebsiteCommand());
-        Objects.requireNonNull(getCommand("vote")).setExecutor(new VoteCommand());
-        Objects.requireNonNull(getCommand("rules")).setExecutor(new RulesCommand());
+        Objects.requireNonNull(getCommand("discord")).setExecutor(new AliasesCommands(this));
+        Objects.requireNonNull(getCommand("hub")).setExecutor(new AliasesCommands(this));
+        Objects.requireNonNull(getCommand("end")).setExecutor(new AliasesCommands(this));
+        Objects.requireNonNull(getCommand("nether")).setExecutor(new AliasesCommands(this));
+        Objects.requireNonNull(getCommand("website")).setExecutor(new WebsiteCommand(this));
+        Objects.requireNonNull(getCommand("vote")).setExecutor(new VoteCommand(this));
+        Objects.requireNonNull(getCommand("rules")).setExecutor(new RulesCommand(this));
         Objects.requireNonNull(getCommand("report")).setExecutor(new ReportCommand(this));
         Objects.requireNonNull(getCommand("moderationmod")).setExecutor(new ModerationModCommand(this));
         Objects.requireNonNull(getCommand("staffchat")).setExecutor(new StaffChatCommand(this));
@@ -183,7 +183,6 @@ public class Main extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("date")).setExecutor(new DateCommand());
 
         Objects.requireNonNull(getCommand("report")).setTabCompleter(new ReportCommand(this));
-        Objects.requireNonNull(getCommand("moderationmod")).setTabCompleter(new ModerationModCommand(this));
         Objects.requireNonNull(getCommand("history")).setTabCompleter(new HistoryCommand(this));
         Objects.requireNonNull(getCommand("jm")).setTabCompleter(new JMCommand(this));
         Objects.requireNonNull(getCommand("clearchat")).setTabCompleter(new ClearChatCommand(this));
@@ -197,7 +196,6 @@ public class Main extends JavaPlugin implements Listener {
     /**
      * Permet d'activer tout les menus.
      */
-
     private void loadGui() {
         getGuiManager().addMenu(new ReportGui(this));
     }
@@ -221,7 +219,6 @@ public class Main extends JavaPlugin implements Listener {
     /**
      * Getters
      */
-
     public File getFile(String fileName) {
         return new File(getDataFolder(), fileName + ".yml");
     }
@@ -248,10 +245,6 @@ public class Main extends JavaPlugin implements Listener {
 
     public PlayerManager getPlayerManager() {
         return playerManager;
-    }
-
-    public CommandManager getCommandManager() {
-        return commandManager;
     }
 
     public Reports getReports() {

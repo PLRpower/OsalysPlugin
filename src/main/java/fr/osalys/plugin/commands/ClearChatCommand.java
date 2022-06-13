@@ -15,50 +15,47 @@ import java.util.List;
 
 public class ClearChatCommand implements CommandExecutor, TabCompleter {
 
+    private final Main main;
     private final ChatManager chatManager;
-    private Main main;
-
-    {
-        assert false;
-        chatManager = main.getChatManager();
-    }
 
     public ClearChatCommand(Main main) {
         this.main = main;
+        this.chatManager = main.getChatManager();
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if (!(sender instanceof Player player)) {
+        if (sender instanceof Player player) {
+            if (player.hasPermission(main.permissionStaff)) {
+                if (args.length == 0) {
+                    chatManager.clearChatForAll();
+                    return true;
+                }
+
+                if (args.length == 1) {
+                    if (args[0].equalsIgnoreCase("player")) {
+                        chatManager.clearChatForPlayersOnly();
+                        return true;
+                    }
+
+                    Player target = Bukkit.getPlayerExact(args[0]);
+                    if (target != null) {
+                        chatManager.clearChatForOnePlayer(target);
+                        return true;
+                    }
+                    player.sendMessage(chatManager.errorNotValidPlayer);
+                    return false;
+                }
+                player.sendMessage(chatManager.prefixInfo + "§b/clearchat §7Clear le chat pour tout le monde"
+                        + "\n§b/clearchat player §7Clear le chat pour les joueurs uniquement"
+                        + "\n§b/clearchat <nom d'un joueur> §7Clear le chat pour un seul joueur");
+                return false;
+            }
+            player.sendMessage(chatManager.errorHasNotPermission);
             return false;
         }
-
-        if(main.getCommandManager().isPermissed(player, main.permissionModerateur)) {
-            if (args.length == 0) {
-                chatManager.clearChatForAll();
-                return true;
-            }
-
-            if (args.length == 1) {
-                if (args[0].equalsIgnoreCase("player")) {
-                    chatManager.clearChatForPlayersOnly();
-                    return true;
-                }
-
-                Player target = Bukkit.getPlayerExact(args[0]);
-                if (!(target == null)) {
-                    chatManager.clearChatForOnePlayer(target);
-                    return true;
-                }
-
-                player.sendMessage(main.prefixError + "Ce joueur n'existe pas ou n'est pas connecté !");
-
-            }
-            player.sendMessage(main.prefixInfo + "§b/clearchat §7Clear le chat pour tout le monde"
-                    + "\n§b/clearchat player §7Clear le chat pour les joueurs uniquement"
-                    + "\n§b/clearchat <nom d'un joueur> §7Clear le chat pour un seul joueur");
-        }
+        sender.sendMessage(chatManager.errorNotInstanceOfPlayer);
         return false;
     }
 

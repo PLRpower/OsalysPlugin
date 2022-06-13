@@ -2,6 +2,9 @@ package fr.osalys.plugin.commands;
 
 import fr.osalys.plugin.Main;
 import fr.osalys.plugin.gui.ReportGui;
+import fr.osalys.plugin.managers.ChatManager;
+import fr.osalys.plugin.managers.CommandManager;
+import fr.osalys.plugin.managers.GuiManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,50 +20,51 @@ import java.util.List;
 public class ReportCommand implements CommandExecutor, TabCompleter {
 
     private final Main main;
+    private final ChatManager chatManager;
+    private final GuiManager guiManager;
 
     public ReportCommand(Main main) {
         this.main = main;
+        this.chatManager = main.getChatManager();
+        this.guiManager = main.getGuiManager();
+
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if (!(sender instanceof Player player)) {
+        if (sender instanceof Player player) {
+            if (args.length == 1) {
+                Player target = Bukkit.getPlayer(args[0]);
+                if (target != null) {
+                    if (target != player) {
+                        if (!target.hasPermission(main.permissionStaff)) {
+                            guiManager.open(player, ReportGui.class);
+                            return true;
+                        }
+                        player.sendMessage(chatManager.prefixError + "Vous ne pouvez pas signaler ce joueur.");
+                        return false;
+                    }
+                    player.sendMessage(chatManager.errorSamePlayerAsTarget);
+                    return false;
+                }
+                player.sendMessage(chatManager.errorNotValidPlayer);
+                return false;
+            }
+            player.sendMessage(chatManager.errorNoSelectedPlayer);
             return false;
         }
-
-        if (args.length != 1) {
-            player.sendMessage(main.prefixError + "Veuillez saisir le pseudo d'un joueur !");
-            return false;
-        }
-
-        Player target = Bukkit.getPlayer(args[0]);
-
-        if (target == null) {
-            player.sendMessage(main.prefixError + "Ce joueur n'est pas connecté ou n'existe pas !");
-            return false;
-        }
-
-        if (target == player) {
-            player.sendMessage(main.prefixError + "Vous ne pouvez pas vous signaler vous-même !");
-            return false;
-        }
-
-        if (target.hasPermission(main.permissionStaff)) {
-            player.sendMessage(main.prefixError + "Vous ne pouvez pas signaler ce joueur.");
-            return false;
-        }
-
-        main.getGuiManager().open(player, ReportGui.class);
-
-        return true;
+        sender.sendMessage(chatManager.errorNotInstanceOfPlayer);
+        return false;
     }
 
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+
+        CommandManager commandManager = new CommandManager((Player) sender, main);
         if (args.length == 1) {
-            return main.getCommandManager().getPlayersOnly(sender.getName());
+            return commandManager.getPlayersOnly();
         }
         return null;
     }
