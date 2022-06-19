@@ -2,7 +2,6 @@ package fr.osalys.plugin.commands;
 
 import fr.osalys.plugin.Main;
 import fr.osalys.plugin.managers.ChatManager;
-import fr.osalys.plugin.managers.CommandManager;
 import fr.osalys.plugin.managers.PlayerManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -13,6 +13,7 @@ import org.bukkit.inventory.EquipmentSlot;
 public class OnInteract implements Listener {
 
     private final Main main;
+
     public OnInteract(Main main) {
         this.main = main;
     }

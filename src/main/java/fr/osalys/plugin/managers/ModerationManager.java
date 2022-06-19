@@ -1,6 +1,5 @@
 package fr.osalys.plugin.managers;
 
-import fr.osalys.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -10,12 +9,7 @@ import static org.bukkit.Bukkit.getServer;
 
 public class ModerationManager {
 
-    private final Main main;
     public boolean chatDisabled = false;
-
-    public ModerationManager(Main main) {
-        this.main = main;
-    }
 
     public void kickPlayer(Player player, String reason) {
         player.kickPlayer(reason);

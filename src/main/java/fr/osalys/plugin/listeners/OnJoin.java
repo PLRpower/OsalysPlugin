@@ -14,6 +14,7 @@ import java.net.http.WebSocket;
 public class OnJoin implements WebSocket.Listener, Listener {
 
     private final Main main;
+
     public OnJoin(Main main) {
         this.main = main;
     }

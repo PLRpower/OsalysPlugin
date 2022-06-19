@@ -2,6 +2,7 @@ package fr.osalys.plugin.commands;
 
 import fr.osalys.plugin.Main;
 import fr.osalys.plugin.managers.ChatManager;
+import fr.osalys.plugin.managers.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClearChatCommand implements CommandExecutor, TabCompleter {
@@ -28,28 +30,27 @@ public class ClearChatCommand implements CommandExecutor, TabCompleter {
 
         if (sender instanceof Player player) {
             if (player.hasPermission(main.permissionStaff)) {
-                if (args.length == 0) {
-                    chatManager.clearChatForAll();
-                    return true;
-                }
+                if (args.length >= 1) {
+                    if (args[0].equalsIgnoreCase("all")) {
+                        chatManager.clearChatForAll();
+                        return true;
+                    }
 
-                if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("player")) {
-                        chatManager.clearChatForPlayersOnly();
-                        return true;
+                        if (args.length == 1) {
+                            chatManager.clearChatForPlayersOnly();
+                            return true;
+                        }
+                        Player target = Bukkit.getPlayerExact(args[1]);
+                        if (target != null) {
+                            chatManager.clearChatForOnePlayer(target);
+                            return true;
+                        }
+                        player.sendMessage(chatManager.errorNotValidPlayer);
+                        return false;
                     }
-
-                    Player target = Bukkit.getPlayerExact(args[0]);
-                    if (target != null) {
-                        chatManager.clearChatForOnePlayer(target);
-                        return true;
-                    }
-                    player.sendMessage(chatManager.errorNotValidPlayer);
-                    return false;
                 }
-                player.sendMessage(chatManager.prefixInfo + "§b/clearchat §7Clear le chat pour tout le monde"
-                        + "\n§b/clearchat player §7Clear le chat pour les joueurs uniquement"
-                        + "\n§b/clearchat <nom d'un joueur> §7Clear le chat pour un seul joueur");
+                player.sendMessage(chatManager.clearchatUtilisation);
                 return false;
             }
             player.sendMessage(chatManager.errorHasNotPermission);
@@ -62,6 +63,21 @@ public class ClearChatCommand implements CommandExecutor, TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        CommandManager commandManager = new CommandManager((Player) sender, main);
+
+        if (args.length == 1) {
+            List<String> arguments = new ArrayList<>();
+            arguments.add("all");
+            arguments.add("player");
+            return arguments;
+        }
+
+        if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("player")) {
+                return commandManager.getPlayersOnly(true);
+            }
+        }
+
         return null;
     }
 }

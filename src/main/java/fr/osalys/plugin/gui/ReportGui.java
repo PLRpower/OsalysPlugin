@@ -47,7 +47,7 @@ public class ReportGui implements GuiBuilder {
                 if (reportCooldown.containsKey(player)) {
                     long time = (System.currentTimeMillis() - reportCooldown.get(player)) / 1000;
                     if (time < 120) {
-                        player.sendMessage(main.prefixError + "Merci de patienter entre chaque signalement !");
+                        player.sendMessage(main.getChatManager().prefixError + "Merci de patienter entre chaque signalement !");
                         player.closeInventory();
                         return;
                     } else {
@@ -57,7 +57,7 @@ public class ReportGui implements GuiBuilder {
 
                 if (target == null) {
                     player.closeInventory();
-                    player.sendMessage(main.prefixError + "Vous ne pouvez pas signaler ce joueur car il s'est déconnecté");
+                    player.sendMessage(main.getChatManager().prefixError + "Vous ne pouvez pas signaler ce joueur car il s'est déconnecté");
                 }
 
                 assert target != null;
@@ -66,7 +66,7 @@ public class ReportGui implements GuiBuilder {
                 reportCooldown.put(player, System.currentTimeMillis());
 
                 player.closeInventory();
-                player.sendMessage(main.prefixInfo + "Vous avez bien signalé ce joueur !");
+                player.sendMessage(main.getChatManager().prefixInfo + "Vous avez bien signalé ce joueur !");
                 break;
             default:
                 break;

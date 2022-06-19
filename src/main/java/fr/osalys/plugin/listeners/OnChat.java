@@ -11,6 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class OnChat implements Listener {
 
     private final Main main;
+
     public OnChat(Main main) {
         this.main = main;
     }

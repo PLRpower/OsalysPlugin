@@ -2,7 +2,6 @@ package fr.osalys.plugin.commands;
 
 import fr.osalys.plugin.Main;
 import fr.osalys.plugin.managers.ChatManager;
-import fr.osalys.plugin.managers.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FakeConnectionCommand implements CommandExecutor, TabCompleter {
@@ -56,6 +56,14 @@ public class FakeConnectionCommand implements CommandExecutor, TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+
+        if (args.length == 1) {
+            List<String> arguments = new ArrayList<>();
+            arguments.add("reco");
+            arguments.add("deco");
+            return arguments;
+        }
+
         return null;
     }
 }

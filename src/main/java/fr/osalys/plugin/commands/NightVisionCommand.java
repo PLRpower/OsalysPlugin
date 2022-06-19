@@ -2,7 +2,6 @@ package fr.osalys.plugin.commands;
 
 import fr.osalys.plugin.Main;
 import fr.osalys.plugin.managers.ChatManager;
-import fr.osalys.plugin.managers.CommandManager;
 import fr.osalys.plugin.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -40,7 +39,7 @@ public class NightVisionCommand implements CommandExecutor, TabCompleter {
                 if (player.hasPermission(main.permissionModerateur)) {
                     if (args.length == 1) {
                         Player target = Bukkit.getPlayer(args[0]);
-                        if (target != null){
+                        if (target != null) {
                             playerManager.setNightVision(target, !PlayerManager.isNightVision(target));
                             return true;
                         }

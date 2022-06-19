@@ -3,9 +3,13 @@ package fr.osalys.plugin;
 import com.zaxxer.hikari.HikariDataSource;
 import fr.osalys.plugin.commands.*;
 import fr.osalys.plugin.database.*;
+import fr.osalys.plugin.discord.Discord;
 import fr.osalys.plugin.gui.ReportGui;
 import fr.osalys.plugin.listeners.*;
-import fr.osalys.plugin.managers.*;
+import fr.osalys.plugin.managers.ChatManager;
+import fr.osalys.plugin.managers.GuiManager;
+import fr.osalys.plugin.managers.ModerationManager;
+import fr.osalys.plugin.managers.PlayerManager;
 import fr.osalys.plugin.tablist.TablistManager;
 import fr.osalys.plugin.util.GuiBuilder;
 import org.bukkit.Bukkit;
@@ -16,28 +20,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
 
-    public Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus = new HashMap<>();
-    public ArrayList<UUID> moderators = new ArrayList<>();
-    public ArrayList<UUID> staffChat = new ArrayList<>();
-    public Map<UUID, Location> frozenPlayers = new HashMap<>();
-    public ArrayList<UUID> vanished = new ArrayList<>();
-    public FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(getFile("mysql"));
-    public TablistManager tablistManager;
-    public PlayerStats playerStats;
-    public ChatManager chatManager;
-    public PlayerManager playerManager;
-    public GuiManager guiManager;
-    public ModerationManager moderationManager;
-    public Reports reports;
-    public Stats stats;
-    public Exolions exolions;
-    public ChatHistory chatHistory;
     public final String permissionStaff = "exolia.staff";
     public final String permissionHStaff = "exolia.hstaff";
     public final String permissionModerateur = "exolia.moderator";
@@ -46,50 +35,55 @@ public class Main extends JavaPlugin implements Listener {
     public final String permissionSeigneur = "exolia.seigneur";
     public final String permissionMaitre = "exolia.maitre";
     public final String permissionChevalier = "exolia.chevalier";
+    private final Map<Class<? extends GuiBuilder>, GuiBuilder> registeredMenus = new HashMap<>();
+    private final ArrayList<UUID> moderators = new ArrayList<>();
+    private final ArrayList<UUID> staffChat = new ArrayList<>();
+    private final Map<UUID, Location> frozenPlayers = new HashMap<>();
+    private final ArrayList<UUID> vanished = new ArrayList<>();
+    private final FileConfiguration fileConfigurationMysql = YamlConfiguration.loadConfiguration(getFile("mysql"));
+    private final FileConfiguration fileConfigurationDiscord = YamlConfiguration.loadConfiguration(getFile("discord"));
     public MySQL mysql;
     public MySQL mysql2;
-
+    private TablistManager tablistManager;
+    private PlayerStats playerStats;
+    private ChatManager chatManager;
+    private PlayerManager playerManager;
+    private GuiManager guiManager;
+    private ModerationManager moderationManager;
+    private Reports reports;
+    private Discord discord;
+    private Stats stats;
+    private Exolions exolions;
+    private ChatHistory chatHistory;
 
     /**
      * Fonction apellée lors du démarage.
      */
     @Override
     public void onEnable() {
-        playerManager = new PlayerManager(this);
+        createFileConfigurations();
         chatManager = new ChatManager(this);
+        playerManager = new PlayerManager(this);
         playerStats = new PlayerStats(this);
         tablistManager = new TablistManager(this);
         guiManager = new GuiManager(this);
-        moderationManager = new ModerationManager(this);
+        moderationManager = new ModerationManager();
         reports = new Reports(this);
         stats = new Stats(this);
         exolions = new Exolions(this);
         chatHistory = new ChatHistory(this);
-        getLogger().info(getChatManager().prefixInfo + "Activation du plugin en cours ...");
-        registerCommands();
-        createFile("mysql");
-        fileConfiguration.addDefault("mysql.host", "127.0.0.1");
-        fileConfiguration.addDefault("mysql.user", "user");
-        fileConfiguration.addDefault("mysql.password", "password");
-        fileConfiguration.addDefault("mysql.dbname", "db");
-        fileConfiguration.addDefault("mysql.port", "3306");
-
-        fileConfiguration.addDefault("mysql2.host", "127.0.0.1");
-        fileConfiguration.addDefault("mysql2.user", "user");
-        fileConfiguration.addDefault("mysql2.password", "password");
-        fileConfiguration.addDefault("mysql2.dbname", "db");
-        fileConfiguration.addDefault("mysql2.port", "3306");
-
-        fileConfiguration.options().copyDefaults(true);
+        discord = new Discord(this);
         try {
-            fileConfiguration.save(getFile("mysql"));
-        } catch (IOException e) {
+            getDiscord().initDiscord();
+        } catch (LoginException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+        getLogger().info(getChatManager().prefixInfo + "Activation du plugin en cours ...");
+        registerCommands();
         registerEvents();
         initConnection();
-        getChatManager().autoBroadcast();
         loadGui();
+        getChatManager().autoBroadcast();
         getStats().setOnlinePlayers(getStats().getOnlinePlayers());
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
             getLogger().warning("Impossible de trouver PlaceholderAPI! Le plugin est requis.");
@@ -117,9 +111,9 @@ public class Main extends JavaPlugin implements Listener {
     private void initConnection() {
         HikariDataSource c1 = new HikariDataSource();
         c1.setDriverClassName("com.mysql.jdbc.Driver");
-        c1.setUsername(fileConfiguration.getString("mysql.user"));
-        c1.setPassword(fileConfiguration.getString("mysql.password"));
-        c1.setJdbcUrl("jdbc:mysql://" + fileConfiguration.getString("mysql.host") + ":" + fileConfiguration.getString("mysql.port") + "/" + fileConfiguration.getString("mysql.dbname") + "?autoReconnect=true");
+        c1.setUsername(fileConfigurationMysql.getString("mysql.user"));
+        c1.setPassword(fileConfigurationMysql.getString("mysql.password"));
+        c1.setJdbcUrl("jdbc:mysql://" + fileConfigurationMysql.getString("mysql.host") + ":" + fileConfigurationMysql.getString("mysql.port") + "/" + fileConfigurationMysql.getString("mysql.dbname") + "?autoReconnect=true");
         c1.setMaxLifetime(600000L);
         c1.setLeakDetectionThreshold(300000L);
         c1.setConnectionTimeout(1000L);
@@ -128,9 +122,9 @@ public class Main extends JavaPlugin implements Listener {
 
         HikariDataSource c2 = new HikariDataSource();
         c2.setDriverClassName("com.mysql.jdbc.Driver");
-        c2.setUsername(fileConfiguration.getString("mysql2.user"));
-        c2.setPassword(fileConfiguration.getString("mysql2.password"));
-        c2.setJdbcUrl("jdbc:mysql://" + fileConfiguration.getString("mysql2.host") + ":" + fileConfiguration.getString("mysql2.port") + "/" + fileConfiguration.getString("mysql2.dbname") + "?autoReconnect=true");
+        c2.setUsername(fileConfigurationMysql.getString("mysql2.user"));
+        c2.setPassword(fileConfigurationMysql.getString("mysql2.password"));
+        c2.setJdbcUrl("jdbc:mysql://" + fileConfigurationMysql.getString("mysql2.host") + ":" + fileConfigurationMysql.getString("mysql2.port") + "/" + fileConfigurationMysql.getString("mysql2.dbname") + "?autoReconnect=true");
         c2.setMaxLifetime(600000L);
         c2.setLeakDetectionThreshold(300000L);
         c2.setConnectionTimeout(1000L);
@@ -198,6 +192,33 @@ public class Main extends JavaPlugin implements Listener {
      */
     private void loadGui() {
         getGuiManager().addMenu(new ReportGui(this));
+    }
+
+    private void createFileConfigurations() {
+        createFile("mysql");
+        createFile("discord");
+
+        fileConfigurationMysql.addDefault("mysql.host", "127.0.0.1");
+        fileConfigurationMysql.addDefault("mysql.user", "user");
+        fileConfigurationMysql.addDefault("mysql.password", "password");
+        fileConfigurationMysql.addDefault("mysql.dbname", "db");
+        fileConfigurationMysql.addDefault("mysql.port", "3306");
+        fileConfigurationMysql.addDefault("mysql2.host", "127.0.0.1");
+        fileConfigurationMysql.addDefault("mysql2.user", "user");
+        fileConfigurationMysql.addDefault("mysql2.password", "password");
+        fileConfigurationMysql.addDefault("mysql2.dbname", "db");
+        fileConfigurationMysql.addDefault("mysql2.port", "3306");
+
+        fileConfigurationDiscord.addDefault("discord.token", "Token ici");
+
+        fileConfigurationMysql.options().copyDefaults(true);
+        fileConfigurationDiscord.options().copyDefaults(true);
+        try {
+            fileConfigurationMysql.save(getFile("mysql"));
+            fileConfigurationDiscord.save(getFile("discord"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void createFile(String fileName) {
@@ -279,8 +300,12 @@ public class Main extends JavaPlugin implements Listener {
         return chatHistory;
     }
 
-    public FileConfiguration getFileConfiguration() {
-        return fileConfiguration;
+    public FileConfiguration getFileConfigurationMysql() {
+        return fileConfigurationMysql;
+    }
+
+    public FileConfiguration getFileConfigurationDiscord() {
+        return fileConfigurationDiscord;
     }
 
     public TablistManager getTablistManager() {
@@ -295,4 +320,11 @@ public class Main extends JavaPlugin implements Listener {
         return moderationManager;
     }
 
+    public PlayerStats getPlayerStats() {
+        return playerStats;
+    }
+
+    public Discord getDiscord() {
+        return discord;
+    }
 }

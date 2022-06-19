@@ -35,7 +35,7 @@ public class ExolionAdminCommand implements CommandExecutor, TabCompleter {
             if (args.length == 3) {
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target != null) {
-                    if ((args[0]).matches("-?\\d+")) {
+                    if ((args[2]).matches("-?\\d+")) {
                         if (args[0].equalsIgnoreCase("give")) {
                             exolions.addCoins(target, Float.parseFloat(args[2]));
                             sender.sendMessage(chatManager.prefixInfo + "Vous avez correctement ajouté §b" + args[2] + " Exolions §7à §b" + target.getName() + "§7.");
@@ -56,7 +56,7 @@ public class ExolionAdminCommand implements CommandExecutor, TabCompleter {
                             target.sendMessage(chatManager.prefixInfo + "Vous avez été débité de §b" + args[2] + " Exolions §7.");
                             return true;
                         }
-                        sender.sendMessage(chatManager.prefixError + "Veuillez saisir un argument correct ! §6(give/remove/set)");
+                        sender.sendMessage(chatManager.exolionAdminUtilisation);
                         return false;
                     }
                     sender.sendMessage(chatManager.errorNotValidInt);
@@ -64,8 +64,9 @@ public class ExolionAdminCommand implements CommandExecutor, TabCompleter {
                 }
                 sender.sendMessage(chatManager.errorNotValidPlayer);
                 return false;
-            } if (args.length == 0) {
-                sender.sendMessage(chatManager.prefixError + "Veuillez saisir un argument §6(give/remove/set)§c !");
+            }
+            if (args.length == 0) {
+                sender.sendMessage(chatManager.exolionAdminUtilisation);
             }
 
             if (args.length == 1) {
@@ -96,7 +97,7 @@ public class ExolionAdminCommand implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 2) {
-            return commandManager.getAllPlayers();
+            return commandManager.getAllPlayers(true);
         }
 
         if (args.length == 3) {

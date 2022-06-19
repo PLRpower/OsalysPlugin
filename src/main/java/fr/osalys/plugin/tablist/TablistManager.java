@@ -15,11 +15,8 @@ public class TablistManager {
     }
 
     public void setPlayerList(Player player) {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
-            @Override
-            public void run() {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
 
-            }
         }, 10, 40);
         player.setPlayerListHeaderFooter("qzdqzdzqdqz \n petit test", "zqdzqd \n coucou");
     }

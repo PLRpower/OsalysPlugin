@@ -15,6 +15,7 @@ import java.util.List;
 public class OnInteractWithEntity implements Listener {
 
     private final Main main;
+
     public OnInteractWithEntity(Main main) {
         this.main = main;
     }
@@ -39,9 +40,9 @@ public class OnInteractWithEntity implements Listener {
                 List<ReportManager> reports = main.getReports().getReports(target.getUniqueId().toString());
 
                 if (reports.isEmpty()) {
-                    player.sendMessage(main.prefixError + "Ce joueur n'a aucun signalement");
+                    player.sendMessage(main.getChatManager().prefixError + "Ce joueur n'a aucun signalement");
                 } else {
-                    player.sendMessage(main.prefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
+                    player.sendMessage(main.getChatManager().prefixInfo + "Voici la liste des signalements de §b" + target.getName() + "§7:");
                     reports.forEach(r -> player.sendMessage("§f" + r.getDate() + "§fSignalé par :" + r.getAuthor() + " §fpour la raison :" + r.getReason()));
                 }
 

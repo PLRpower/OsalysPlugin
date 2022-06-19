@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class OnQuit implements Listener {
 
     private final Main main;
+
     public OnQuit(Main main) {
         this.main = main;
     }

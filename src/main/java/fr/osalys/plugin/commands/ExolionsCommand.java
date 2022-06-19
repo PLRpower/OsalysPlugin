@@ -36,8 +36,8 @@ public class ExolionsCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if(sender instanceof Player player){
-            if(args.length == 0){
+        if (sender instanceof Player player) {
+            if (args.length == 0) {
                 player.sendMessage("\n§7§m---------------------\n" + chatManager.prefixAnnounce + "Acheter des Exolions:\n \n§aTu as §b" + exolions.getCoins(player) + " Exolions\n ");
                 TextComponent weblink = new TextComponent("§2➤ §aObtiens des §2Exolions §aen cliquant sur ce §2lien sécurisé §a:\n§b§lhttps://exolia.site/shop");
                 weblink.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§bObtenir des Exolions")));
@@ -48,11 +48,11 @@ public class ExolionsCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            if(args[0].equalsIgnoreCase("send")){
-                if(args.length == 3){
+            if (args[0].equalsIgnoreCase("send")) {
+                if (args.length == 3) {
                     Player target = Bukkit.getPlayer(args[1]);
-                    if(target != null){
-                        if(target != player){
+                    if (target != null) {
+                        if (target != player) {
                             exolions.removeCoins(target, Integer.parseInt(args[2]));
                             exolions.addCoins(target, Integer.parseInt(args[2]));
                             player.sendMessage(chatManager.prefixInfo + "Vous avez correctement envoyé §b" + args[2] + " Exolions §7à §b" + target.getName() + "§7.");
@@ -66,12 +66,12 @@ public class ExolionsCommand implements CommandExecutor, TabCompleter {
                     return false;
                 }
 
-                if(args.length == 1){
+                if (args.length == 1) {
                     player.sendMessage(chatManager.errorNoSelectedPlayer);
                     return false;
                 }
 
-                if(args.length == 2){
+                if (args.length == 2) {
                     player.sendMessage(chatManager.errorNoSelectedInt);
                     return false;
                 }
@@ -97,7 +97,7 @@ public class ExolionsCommand implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 2) {
-            return commandManager.getAllPlayers();
+            return commandManager.getAllPlayers(false);
         }
         return null;
     }

@@ -9,13 +9,14 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 public class OnPlayerDeath implements Listener {
 
     private final Main main;
+
     public OnPlayerDeath(Main main) {
         this.main = main;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent e) {
-        main.playerStats.addKills(e.getEntity().getKiller());
-        main.playerStats.addDeaths(e.getEntity());
+        main.getPlayerStats().addKills(e.getEntity().getKiller());
+        main.getPlayerStats().addDeaths(e.getEntity());
     }
 }

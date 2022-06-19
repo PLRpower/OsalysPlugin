@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReportCommand implements CommandExecutor, TabCompleter {
@@ -64,7 +63,7 @@ public class ReportCommand implements CommandExecutor, TabCompleter {
 
         CommandManager commandManager = new CommandManager((Player) sender, main);
         if (args.length == 1) {
-            return commandManager.getPlayersOnly();
+            return commandManager.getPlayersOnly(false);
         }
         return null;
     }

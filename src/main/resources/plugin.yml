@@ -27,12 +27,12 @@ commands:
   nether:
     description: Aliase de la commande /warp nether
   moderationmod:
-    aliases: moderation, mod
+    aliases: [ mod, moderation ]
     description: Permet d'activer le mode modérateur
   report:
     description: Permet de signaler un joueur
   staffchat:
-    alisases: sc
+    alisases:
     description: Permet d'activer le Staff-Chat
   history:
     alisases: sanctions

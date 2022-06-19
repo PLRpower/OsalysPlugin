@@ -2,7 +2,6 @@ package fr.osalys.plugin.commands;
 
 import fr.osalys.plugin.Main;
 import fr.osalys.plugin.managers.ChatManager;
-import fr.osalys.plugin.managers.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,7 +28,7 @@ public class JMCommand implements CommandExecutor, TabCompleter {
 
         if (sender instanceof Player player) {
             if (player.hasPermission(main.permissionStaff)) {
-                if(args.length == 1) {
+                if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target != null) {
                         if (target != player) {
