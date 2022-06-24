@@ -24,9 +24,9 @@ public class ChatManager {
             + "\n§b/clearchat player §7Clear le chat pour les joueurs uniquement"
             + "\n§b/clearchat <nom d'un joueur> §7Clear le chat pour un seul joueur";
     public final String exolionAdminUtilisation = prefixError + "Veuillez saisir un argument correct ! §6(give/remove/set)";
-    private final Main main;
     int number = 1;
 
+    private final Main main;
     public ChatManager(Main main) {
         this.main = main;
     }
